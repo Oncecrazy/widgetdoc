@@ -1,0 +1,33 @@
+<% include header.html %>
+<div class="container">
+    <!-- <div id="navbar">
+        <ul class="nav nav-pills nav-stacked">
+            <%  for(var item in components){ %>
+                <li>
+                    <h2 class="page-header"><span class="glyphicon glyphicon-flag"></span><%= components[item].name %> </h2>
+                </li>
+            <% } %>
+        </ul>
+    </div> -->
+    <div class="row">
+        <ul class="widgets-types">
+        	<% for(var item in components){ %>
+            <li>
+                <h2 class="page-header"><span class="glyphicon glyphicon-flag"></span><%= components[item].name %> </h2>
+                <ul class="widget-container pad-left-20">
+                    <% for(var i = 0; i < components[item].list.length; i++){ 
+                        var component =  components[item].list[i];
+                    %>
+                    <li class="widget-items">
+                        <a class="widget-header" href="/components/component/<%= item %>/<%=component.name%>.html" target="_blank"><%=component.name%></a>
+                        <p><%= component.description %></p>
+                    </li>
+                    <%  } %>
+                </ul>
+            </li>
+            <% } %>
+        </ul>
+    </div>
+</div>
+
+<% include footer.html %>

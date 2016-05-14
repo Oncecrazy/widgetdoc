@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html>  
+  <head>  
+    <meta charset="UTF-8">
+    <title>ProgressBar Demo</title>  
+  </head>  
+  <body>    
+    <h1 style="font-size:36px;">ProgressBar Demo</h1>
+    <hr /> 
+    <iframe id="iframe" style="width: 100%; height: 660px;" src="http://wayou.github.io/SlipHover/" frameborder="0"></iframe>
+    <script type="text/javascript" src="./js/sea.js"></script>
+    <script type="text/javascript">
+      seajs.config({
+          base : './js/',
+          alias: {
+              'Base':  'base.js',
+              'jquery': 'jquery-1.9.1.min.js',
+              'progressbar': 'progressbar.js'
+          }
+      });
+
+      //参考网站： http://wayou.github.io/splash-screen-example/
+         
+      define('main', function(require,exprots,module){
+          var ProgressBar = require('progressbar');
+       
+
+          var progress = new ProgressBar({
+              template : ''  //滚动条模板
+          });
+         
+         progress.start();
+
+         progress.done();
+
+         progress.remove();
+
+         progress.set();
+
+         progress.inc();
+
+      });
+
+      seajs.use('main');
+    </script> 
+  </body>  
+</html>  

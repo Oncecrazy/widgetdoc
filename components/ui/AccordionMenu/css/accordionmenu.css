@@ -1,0 +1,32 @@
+/* 主内容左导航样式 [[ */
+ul,ol{list-style:none;}
+.icon_tree_switch_up,.icon_tree_switch_down{
+    background: url(../images/icon.png?) no-repeat;
+    overflow: hidden;
+}
+
+.type_tree * {padding:0; margin:0;}
+.type_tree {color:#333}
+
+.type_tree li > div {height:28px;line-height: 28px;font-size:12px;overflow: hidden;}
+.type_tree li > div > a{color:#333333; width:100%;line-height: 28px;display: inline-block;}
+.type_tree li > div > span{margin-top: 5px;}
+.type_tree li > ul {display:none}
+
+.type_tree span.listdisc{color:#666666;margin-right:5px;}
+
+.type_tree li.level_0 > div{height:40px;line-height: 40px;font-size: 14px;font-weight: bold;border:1px solid #e4e4e4;}
+.type_tree li.level_0 > div > span{margin-top: 10px;}
+.type_tree li.level_1.nolist-style{list-style: none;}
+.type_tree li.level_0 > div{padding:0 0 0 20px;background-color:#f1f1f1}
+.type_tree li.level_1 > div{padding:0 0 0 15px;background-color:#f8f8f8}
+.type_tree li.level_2 > div{padding:0 0 0 40px;background-color:#f8f8f8}
+.type_tree li.level_3 > div{padding:0 0 0 60px;background-color:#f8f8f8}
+
+.type_tree li > div:hover {background-color: #addbdb;}
+.type_tree li > div.on {background-color: #addbdb;}
+
+.icon_tree_switch_down{margin:5px;width: 15px;height: 15px;background-position: -115px -5px;display: inline-block;float:right;}
+.icon_tree_switch_up{margin:5px;width: 10px;height: 15px;background-position: -105px -5px;display: inline-block;float:right;}
+.floatleft{float:left;}
+/* 主内容左导航样式 ]] */

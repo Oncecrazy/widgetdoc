@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Url Demo</title>
+<style>
+    div{
+        margin-bottom: 15px;
+    }
+    #url{
+        width:500px;
+    }
+</style>
+</head>
+<body style="padding:20px;">
+<h1 style="font-size:36px;">Url Demo</h1>
+
+<div>
+    <label for=""> <span>输入URL</span> <input id="url" type="text" /> </label>
+</div>
+<div>
+    <button id="btn">解析</button>
+</div>
+<div>
+    <p>parse: <pre id="parse"></pre></p>
+    <p>parseQuery: <pre id="parseQuery"></pre></p>
+</div>
+<script src="./js/sea.js" type="text/javascript"></script>
+<script type="text/javascript">
+seajs.config({
+    base : './js/',
+    alias: {
+        'jquery': 'jquery-1.9.1.min.js',
+        'Url' : 'Url.js'
+    }
+});
+seajs.use(['jquery', 'Url'], function($, Url){
+    $('#url').val(location.href);
+
+    $("#btn").on('click', function(){
+        var url = new Url($('#url').val());
+        $('#parse').html(JSON.stringify(url.parse()).replace(/,/g, ",\n"));
+        $('#parseQuery').html(JSON.stringify(url.parseQuery()).replace(/,/g, ",\n"));
+    });
+});
+</script>
+</body>
+</html>

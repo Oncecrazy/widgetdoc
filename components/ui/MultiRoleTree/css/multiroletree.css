@@ -1,0 +1,70 @@
+/* 树形表格 [[ */
+*{
+	margin:0;
+	padding:0;
+	list-style:none;
+}
+ul,ol{list-style:none;}
+.icon_tree_switch_up,.icon_tree_switch_down{
+    background: url(../images/icon.png?) no-repeat;
+    overflow: hidden;
+}
+a:link,a:visited{text-decoration:none;}
+a:hover,a:active{text-decoration:none;}
+
+.clearfix{*zoom:1;}
+.clearfix:after{
+    display:block;
+    clear:both;
+    content:"\0020";
+    visibility:hidden;
+    height:0;
+}
+
+.icon_tree_switch_up,
+.icon_tree_switch_down,
+.icon_tree_dir_up,
+.icon_tree_dir_down,
+.icon_tree_dir_move,
+.icon_tree_rename,
+.icon_tree_del{
+    background: url(../images/icon.png?) no-repeat;
+    overflow: hidden;
+}
+
+.type_dirtree{font-size:14px;position: relative;}
+
+.icon_tree_switch_down{margin:5px;width: 15px;height: 15px;background-position: -115px -5px;display: inline-block;float:right;}
+.icon_tree_switch_up{margin:5px;width: 10px;height: 15px;background-position: -105px -5px;display: inline-block;float:right;}
+.floatleft{float:left;}
+
+.type_dirtree .icon_tree_dir_up{position: relative;top:6px;width: 20px;height: 20px;background-position: -120px -23px;display: inline-block;margin-right:5px;}
+.type_dirtree .icon_tree_dir_down{position: relative;top:6px;width: 20px;height: 20px;background-position: -142px -23px;display: inline-block;margin-right:5px;}
+.type_dirtree .icon_tree_dir_move{position: relative;top:6px;width: 20px;height: 20px;background-position: -101px -23px;display: inline-block;margin-right:5px;}
+.type_dirtree .icon_tree_rename{position: relative;top:6px;width: 20px;height: 20px;background-position: -162px -22px;display: inline-block;margin-right:5px;}
+.type_dirtree .icon_tree_del{position: relative;top:6px;width: 20px;height: 18px;background-position: -150px -4px;display: inline-block;margin-right:5px;}
+
+.type_dirtree  span{text-align: center;}
+.type_dirtree  span.first.alignleft{float:left;text-align: left;padding-left: 20px;}
+.type_dirtree  span.first{display:inline-block;width:380px;}
+.type_dirtree  span.second{display:inline-block;width:200px;position:absolute;left:400px;}
+.type_dirtree  span.third{display:inline-block;width:300px;position:absolute;left:600px;}
+.type_dirtree  span.fourth{display:inline-block;width:300px;position:absolute;left:900px;}
+
+.type_dirtree  li a {color: #009999;padding-right: 20px;display: inline-block;}
+
+.type_dirtree .dirtree_title{height:30px;line-height: 30px;background-color: #f1f1f1;border:1px solid #dddddd;}
+
+.type_dirtree li div{height:30px;line-height: 30px;}
+
+.type_dirtree li.level_0 > div{padding:0;}
+.type_dirtree li.level_1 > div{padding:0 0 0 15px;}
+.type_dirtree li.level_2 > div{padding:0 0 0 30px;}
+.type_dirtree li.level_3 > div{padding:0 0 0 45px;}
+.type_dirtree li.level_4 > div{padding:0 0 0 60px;}
+
+.type_dirtree li > div.on {background-color: #addbdb;}
+.type_dirtree li > div:hover {background-color: #addbdb;}
+
+.type_dirtree  .block {width: 15px;height: 15px;padding: 0 5px;}
+/* 树形表格 ]] */

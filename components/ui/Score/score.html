@@ -1,0 +1,161 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8">
+<title>Score Demo</title>
+<style type="text/css">
+.grade_list {
+margin: 22px 0 0 5px;
+}
+ul {
+list-style-type: none;
+display: block;
+}
+.grade_list li {
+margin-bottom: 15px;
+overflow: hidden;
+display: list-item;
+text-align: -webkit-match-parent;
+}
+
+.grade_list li em {
+padding-right: 16px;
+width: 53px;
+float: left;
+font-size: 12px;
+color: #666666;
+text-align: right;
+}
+
+.grade_list li .credit3 {
+float: left;
+margin-top: 3px;
+}
+
+.grade_list li .credit3 i {
+margin: 0 2px;
+display: inline;
+float: left;
+width: 18px;
+height: 13px;
+background: url(./images/xinyong.png) 0 -39px no-repeat;
+}
+.grade_list li .credit3 i.active {
+background-position: 0 -60px;
+}
+i, em {
+font-style: normal;
+}
+.grade_list li .grade_text {
+padding-left: 30px;
+float: left;
+color: #999999;
+}
+
+.grade_list li .grade_text b {
+padding-right: 5px;
+color: #f77f7f;
+font-weight: bold;
+}
+
+</style>
+</head>
+<body>
+
+<h1 style="font-size:36px;">Score Demo</h1>
+<hr />
+<ul class="grade_list">
+        <li>
+            <em>质量</em>
+            <div class="credit3">
+                <i class=""></i>
+                <i class=""></i>
+                <i class=""></i>
+                <i class=""></i>
+                <i class=""></i>
+            </div>
+            <div class="grade_text"><b>4分</b>很好</div>
+            <input type="hidden" name="quality_n" value="">
+        </li>
+        <li>
+            <em>外观</em>
+            <div class="credit3">
+                <i class=""></i>
+                <i class=""></i>
+                <i class=""></i>
+                <i class=""></i>
+                <i class=""></i>
+            </div>
+            <div class="grade_text"><b>3分</b>一般</div>
+            <input type="hidden" name="surface_n" value="">
+        </li>
+        <li>
+            <em>性价比</em>
+            <div class="credit3">
+                <i class=""></i>
+                <i class=""></i>
+                <i class=""></i>
+                <i class=""></i>
+                <i class=""></i>
+            </div>
+            <div class="grade_text"><b>3分</b>一般</div>
+            <input type="hidden" name="cost_performance_n" value="">
+        </li>
+        <li>
+            <em>商家服务</em>
+            <div class="credit3">
+                <i class=""></i>
+                <i class=""></i>
+                <i class=""></i>
+                <i class=""></i>
+                <i class=""></i>
+            </div>
+            <div class="grade_text"><b>2分</b>较差</div>
+            <input type="hidden" name="service_n" value="">
+        </li>
+    </ul>
+
+<script type="text/javascript" src="./js/sea.js"></script>
+<script type="text/javascript">
+seajs.config({
+    base : './js',
+    alias: {
+        'Base':  'Base.js',
+        'Events': 'Events.js',
+        'Score' : 'Score.js',
+        'jquery': 'jquery-1.9.1.min.js'
+    }
+});
+define('main',['Score','jquery'],function(require,exprots,module){
+    var Score = require('Score');
+    var $ = require('jquery');
+
+    $('ul.grade_list > li').each(function(){
+        var elem = $(this).find('div.credit3');
+        var txt = $(this).find('div.grade_text');
+        var children = elem.find('i');
+        /*var s = new Score({target:elem,score:2,activeCl:'active',renderListener:function(score){
+            showScore(txt,score);
+        },comfirmListener:function(score){
+            alert(score);
+        }});*/
+        var s = new Score();
+        s.init({target:elem,score:1,list:children,activeCl:'active',renderListener:function(score){
+            showScore(txt,score);
+        },comfirmListener:function(score){
+            alert(score);
+        }});
+        //s.setScore(1);
+    });
+
+    function showScore(obj,score){
+          var comment = ['','非常差','较差','一般','很好','非常好']
+          obj.html('<b>'+ score+'分</b>'+comment[score]);
+    }
+});
+
+seajs.use( 'main');
+</script>
+
+</body>
+</html>

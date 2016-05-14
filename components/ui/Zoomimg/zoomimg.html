@@ -1,0 +1,93 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8">
+<title>ZoomImg demo</title>
+<style type="text/css">
+/* 公共样式 */
+ul, ol, dl {list-style: none;}
+body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, dl, dt, dd, ul, ol, li, pre, form, fieldset, legend, button, input,textarea, th, td {
+  margin: 0;
+  padding: 0;
+}
+body, button, input, select, textarea {
+font: 12px/1.5 "Microsoft YaHei", 微软雅黑,\9ed1\4f53,\5b8b\4f53, "Microsoft JhengHei", 华文细黑, STHeiti, MingLiu;color: #666;
+}
+a { text-decoration: none !important; outline: none ;font-family:"Microsoft YaHei", 微软雅黑,\9ed1\4f53,\5b8b\4f53, "Microsoft JhengHei", 华文细黑, STHeiti, MingLiu;cursor: pointer;}
+
+.mall_sec1 {background: #fff;padding: 20px 0px 0 20px;}
+.mall_sec1 .col_l {width: 414px;position: relative;z-index: 60;}
+.mall_big_view {position: absolute;left: 424px;top: 0;z-index: 999;width: 414px;height: 414px;overflow: hidden;display: none;}
+.mall_big_view img {position: absolute;left: 0;top: 0;}
+.mall_sec1 .mall_big_img {position: relative;font-size: 0px;display: block;width: 414px;height: 414px;}
+.mall_sec1 .mall_big_img img {border: 1px solid #eee;}
+.mall_sec1 .mall_img_filter {background: #000;opacity: .4;filter: alpha(opacity=40);width: 207px;height: 207px;position: absolute;left: 0;top: 0;cursor: move;display: none;}
+
+ul.carousel_diagram {margin-left: 27px;font-size: 0;}
+.carousel_diagram {overflow: hidden;position: relative;margin-top: 10px;padding-bottom: 20px;}
+.carousel_diagram li {float: left;margin-right: 10px;}
+ul.carousel_diagram li a.focus {border: 2px solid #ec4444;width: 60px;height: 60px;}
+ul.carousel_diagram li a {display: block;width: 64px;height: 64px;}
+ul.carousel_diagram li a.focus img {height: 60px;width: 60px;}
+
+</style>
+</head>
+<body>
+
+<h1 style="font-size:36px;">ZoomImg demo</h1>
+<hr />
+
+<div class="mall_sec1 clear"> 
+    <div class="col_l"> 
+        <div class="mall_big_view" style="display: none;">
+            <img style="position: absolute;" width="828" height="828" /> 
+        </div> 
+        <span class="mall_big_img"> 
+            <img src="http://pic.to8to.com/tumall/2015/05/04/ce4b1fc052cecbec332b9578750229d6.jpg" width="414" height="414" />
+            <span class="mall_img_filter" style="width: 207px; height: 207px; display: none; left: 207px; top: 0px;"></span> 
+        </span> 
+        <ul class="carousel_diagram clear" id="share_imgs"> 
+            <li> 
+                <a href="javascript:;" class="focus"><img bsrc="http://pic.to8to.com/tumall/2015/05/04/ce4b1fc052cecbec332b9578750229d6.jpg" src="http://pic.to8to.com/tumall/2015/05/04/ce4b1fc052cecbec332b9578750229d6_64x64M.jpg" width="64" height="64" alt="" /></a>
+            </li> 
+            <li> 
+                <a href="javascript:;" class="focus"><img bsrc="http://pic.to8to.com/tumall/2015/05/04/ce4b1fc052cecbec332b9578750229d6.jpg" src="http://pic.to8to.com/tumall/2015/05/04/ce4b1fc052cecbec332b9578750229d6_64x64M.jpg" width="64" height="64" alt="" /></a>
+            </li> 
+            <li> 
+                <a href="javascript:;" class="focus"><img bsrc="http://pic.to8to.com/tumall/2015/05/04/ce4b1fc052cecbec332b9578750229d6.jpg" src="http://pic.to8to.com/tumall/2015/05/04/ce4b1fc052cecbec332b9578750229d6_64x64M.jpg" width="64" height="64" alt="" /></a>
+            </li> 
+            <li> 
+                <a href="javascript:;" class="focus"><img bsrc="http://pic.to8to.com/tumall/2015/05/04/ce4b1fc052cecbec332b9578750229d6.jpg" src="http://pic.to8to.com/tumall/2015/05/04/ce4b1fc052cecbec332b9578750229d6_64x64M.jpg" width="64" height="64" alt="" /></a>
+            </li>
+            <li> 
+                <a href="javascript:;" class="focus"><img bsrc="http://pic.to8to.com/tumall/2015/05/04/ce4b1fc052cecbec332b9578750229d6.jpg" src="http://pic.to8to.com/tumall/2015/05/04/ce4b1fc052cecbec332b9578750229d6_64x64M.jpg" width="64" height="64" alt="" /></a>
+            </li>  
+        </ul> 
+    </div> 
+</div>
+<script type="text/javascript" src="./js/sea.js"></script>
+<script type="text/javascript">
+seajs.config({
+    base : './js/',
+    alias: {
+        'Base':  'base.js',
+        'jquery': 'jquery-1.9.1.min.js',
+        'zoomimg': 'Zoomimg.js'
+    }
+});
+
+define('main',['zoomimg','jquery'],function(require,exprots,module){
+    var $ = require('jquery');
+    var ZoomImg = require('zoomimg');
+    var zoomimg = new ZoomImg({
+        originImg: '.mall_big_img',    //原始图片
+        slider: '.mall_img_filter',    //选择器
+        bigImg: '.mall_big_view',      //放大图片
+        imgSrc: 'http://pic.to8to.com/tumall/2015/05/04/ce4b1fc052cecbec332b9578750229d6.jpg' //图片（可选）
+    });
+});
+
+seajs.use( 'main');
+</script>
+</body>
+</html>

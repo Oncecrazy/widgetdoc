@@ -1,0 +1,617 @@
+<% include ../header.html %>
+<!--  prettify css  -->
+<link rel="stylesheet" type="text/css" href="/components/static/css/lib/prettify/prettify-cmd.css">
+
+    <div class="guide-main container">
+        <div class="page-header">
+            <h1>HTML/CSS编码规范V1.0</h1>
+        </div>
+        <div class="guide-group">
+            <h2>公共规范</h2>
+            <div class="guide-item">
+                <h3>命名</h3>
+                <ul>
+                    <li>全部使用小写命名：
+                        HTML元素的标签名，属性和属性值（text/CDATA例外，作为内容时例外）；
+                        CSS选择器，属性和属性值（字体名称以及特殊的 CSS 属性/值（translateX等）不要求强制小写）。
+                        <pre>&lt;!-- 不推荐 --&gt;
+&lt;IMG SRC="google.png" ALT="Google"&gt;
+&lt;!-- 推荐 --&gt;
+&lt;img src="google.png" alt="Google"&gt;
+
+/* 不推荐 */
+color: #E5E5E5;
+/* 推荐 */
+color: #e5e5e5;</pre>
+                    </li>
+                    <li>命名尽量用英文单词，避免过度简写。.ico足够表示这是一个图标，而.i不代表任何意思。</li>
+                    <li>使用有意义的名称；使用结构化或者作用目标相关的，而不是抽象的名称。</li>
+                    <li>
+                        命名时使用最近的父节点或者父class作为前缀，以中划线(-)分隔。
+                        <pre>&lt;div class="mod-yeltip"&gt;
+    &lt;div class="mod-yeltip-hd"&gt;新消息&lt;/div&gt;
+    &lt;div class="mod-yeltip-bd"&gt;内容&lt;/div&gt;
+&lt;/div&gt;</pre>
+                    </li>
+                </ul>
+            </div>
+            <div class="guide-item">
+                <h3>编码格式</h3>
+                <ul>
+                    <li>
+                        统一在HTML文件中，以及CSS文件头部加上对应的编码格式。避免 HTML 和 CSS 文件编码
+                        不同时造成中文解析乱码。
+                        <pre>&lt;!-- html head --&gt;
+&lt;meta charset="utf-8"&gt;
+
+/* css */
+@charset "utf-8";</pre>
+                    </li>
+                </ul>
+            </div>
+            <div class="guide-item">
+                <h3>资源的协议头</h3>
+                <ul>
+                    <li>
+                     省略嵌入资源的协议头，对于图像、媒体文件、样式表等，除非该资源请求无法对http和https同时可用，否则省略协议部分。
+                     省略协议声明，使URL成相对地址，防止内容混淆问题和导致小文件重复下载。
+                        <pre>/* 不推荐 */
+ .example{background:url(http://www.google.com/images/example);}
+
+ /* 推荐 */.example{background:url(//www.google.com/images/example);}</pre>
+                    </li>
+                </ul>
+            </div>   
+            <div class="guide-item">
+                <h3>缩进</h3>
+                <ul>
+                    <li>
+                        使用4个空格做为缩进，保证在各种环境下显示一致。
+                    </li>
+                </ul>
+            </div>        
+        </div>
+
+        <div class="guide-group">
+            <h2>HTML规范</h2>
+            <div class="guide-item">
+                <h3>语义化标签</h3>
+                <ul>
+                    <li>
+                        符合本义地使用元素（标签），比如在头部区域使用heading元素，使用p元素表示段落，使用a元素表示链接等；语义化地使用HTML有助于网页的可访问性，复用性，和优化代码效率。
+                        <pre>&lt;!-- 不推荐 --&gt;
+&lt;div onclick="goToRecommendations();"&gt;All recommendations&lt;/div&gt;
+
+&lt;!-- 推荐 --&gt;
+&lt;a href="recommendations/"&gt;All recommendations&lt;/a&gt;</pre>
+                    </li>
+                    <li>元素
+                        <ul>
+                            <li>结构性元素
+                                <ul>
+                                    <li>p 表示段落. 只能包含内联元素, 不能包含块级元素;</li>
+                                    <li>div 本身无特殊含义, 可用于布局. 几乎可以包含任何元素;</li>
+                                    <li>br 表示换行符;</li>
+                                    <li>hr 表示水平分割线;</li>
+                                    <li>h1-h6 表示标题. 其中 h1 用于表示当前页面最重要的内容的标题;</li>
+                                    <li>blockquote 表示引用, 可以包含多个段落. 请勿纯粹为了缩进而使用 blockquote, 大部分浏览器默认将 blockquote 渲染为带有左右缩进;</li>
+                                    <li>pre 表示一段格式化好的文本;</li>
+                                </ul>
+                            </li>
+                            <li>文本元素
+                                <ul>
+                                    <li>a a 存在 href 属性时表示链接, 无 href 属性但有 name 属性表示锚点;</li>
+                                    <li>em,strong em 表示句意强调, 加与不加会引起语义变化, 可用于表示不同的心情或语调; strong 表示重要性强调, 可用于局部或全局, strong强调的是重要性, 不会改变句意;</li>
+                                    <li>abbr 表示缩写;</li>
+                                    <li>sub,sup 主要用于数学和化学公式, sup还可用于脚注;</li>
+                                    <li>span 本身无特殊含义;</li>
+                                    <li>ins,del 分别表示从文档中增加(插入)和删除</li>
+                                </ul>
+                            </li>
+                            <li>媒体元素
+                                <ul>
+                                    <li>img 请勿将img元素作为定位布局的工具, 不要用他显示空白图片; 给img元素增加alt属性;
+                                        <pre>&lt;!-- 不推荐 --&gt;
+&lt;img src="spreadsheet.png"&gt;
+
+&lt;!-- 推荐 --&gt;
+&lt;img src="spreadsheet.png" alt="Spreadsheet screenshot."&gt;</pre>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>列表元素
+                                <ul>
+                                    <li>dl 表示关联列表, dd是对dt的解释; dt和dd的对应关系比较随意：</li> 
+                                    <li>一个dt对应多个dd、多个dt对应一个dd、多个dt对应多个dd, 都合法; 可用于名词/单词解释、日程列表、站点目录;</li>
+                                    <li>ul 表示无序列表;</li>
+                                    <li>ol 表示有序列表, 可用于排行榜等;</li>
+                                    <li>li 表示列表项, 必须是ul/ol的子元素;</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="guide-item">
+                <h3>属性值引号</h3>
+                <ul>
+                    <li>
+                        元素的属性值统一使用双引号，而非单引号。
+                        <pre>&lt;!-- 不推荐 --&gt;
+&lt;a class='maia-button maia-button-secondary'&gt;Sign in&lt;/a&gt;
+
+&lt;!-- 推荐 --&gt;
+&lt;a class="maia-button maia-button-secondary"&gt;Sign in&lt;/a&gt;</pre>
+                    </li>
+                </ul>
+            </div>
+            <div class="guide-item">
+                <h3>标签自定义属性</h3>
+                <ul>
+                    <li>
+                        需要为html元素添加自定义属性的时候, 使用须以”data-”为前缀来添加自定义属性，避免使用”data:”等其他命名方式;
+                    </li>
+                </ul>
+            </div>
+             <div class="guide-item">
+                <h3>属性书写顺序</h3>
+                <ul>
+                    <li>
+                        属性应该按照特定的顺序出现以保证易读性：
+                        <ul>
+                            <li>class</li>
+                            <li>id</li>
+                            <li>name</li>
+                            <li>data-*</li>
+                            <li>src, for, type, href, value , max-length, max, min, pattern</li>
+                            <li>placeholder, title, alt</li>
+                            <li>aria-*, role</li>
+                            <li>required, readonly, disabled</li>
+                        </ul>
+                        class是为高可复用组件设计的，所以应处在第一位；
+                        id更加具体且应该尽量少使用，所以将它放在第二位。
+                    </li>
+                </ul>
+            </div>
+            <div class="guide-item">
+                <h3>多媒体备选内容</h3>
+                <ul>
+                    <li>
+                        为多媒体元素（图像、视频音频、cavas创建的动态对象）提供替代内容，对图像来说可以在alt中加上有意义的文本内容，对视频音频来说可以加上描述性的元素。提供多媒体的替代内容在网页可访问性上是重要的：一个盲人用户可以通过alt线索得知关于这个图像的信息，或者其他用户在无法理解图像内容的时候有用。
+                        <pre>&lt;!-- 不推荐 --&gt;
+&lt;img src="spreadsheet.png"&gt;
+
+&lt;!-- 推荐 --&gt;
+&lt;img src="spreadsheet.png" alt="Spreadsheet screenshot."&gt;</pre>
+                    </li>
+                </ul>
+            </div>
+            <div class="guide-item">
+                <h3>常用命名</h3>
+                <ul>
+                    <li>常用HTML文件命名：
+                        <pre>default/index.html    首页
+404.html              404错误页
+print.html            打印页
+header.html           页头
+footer.html           页脚
+sitemap.html          网站地图
+passport.html         通行证
+rank.html             排行榜
+roll.html             滚动新闻
+
+solution.html         解决方案
+joinus.html           加入我们
+partner.html          合作伙伴
+service.html          服务
+aboutus.html          关于我们
+contact.html          联系我们
+company.html          公司介绍
+organization.html     组织结构
+culture.html          企业文化
+strategy.html         发展策略
+honor.html            公司荣誉
+aptitudes.html        企业资质
+events.html           大事记
+business.html         商务合作
+contract.html         服务条款
+privacy.html          隐私声明
+CSR.html              企业社会责任
+
+news-开头.html         新闻相关
+article-开头.html      资讯相关
+picture-开头.html      图片相关
+photo-开头.html        相册相关
+product-开头.html      产品相关
+goods-开头.html        商品相关
+system-开头.html       系统相关
+tag-开头.html          tag相关
+brand-开头.html        品牌相关
+help-开头.html         帮助相关
+member-开头.html       会员相关
+search-开头.html       搜索相关</pre>
+                    </li>
+                </ul>
+            </div>
+            <div class="guide-item">
+                <h3>注释</h3>
+                <ul>
+                    <li>书写注释，方便程序开发嵌套。允许只有开始注释。
+                        <ul>
+                            <li> 开始注释：<pre>&lt;!-- 注释 --&gt;</pre></li>
+                            <li> 结束注释：<pre>&lt;!-- /注释文案 --&gt;</pre></li>
+                        </ul>
+                        <pre>&lt;!-- 新闻列表模块 --&gt;  
+&lt;div class="news"&gt; 
+...  
+&lt;/div&gt;
+&lt;!-- /新闻列表模块 --&gt;</pre>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="guide-group">
+            <h2>CSS规范</h2>
+            <div class="guide-item">
+                <h3>选择器</h3>
+                <ul>
+                    <li>使用class定义样式。id应该按需使用，而不能滥用。id在JS是唯一的，不能多次使用，而使用class类选择器却可以重复使用，另外id的优先级优先于class。</li>
+                </ul>
+            </div>
+            <div class="guide-item">
+                <h3>禁止使用内联样式</h3>
+                <ul>
+                    <li>禁止使用内联样式，除非为配合js而设置的display。</li>
+                </ul>
+            </div>
+            <div class="guide-item">
+                <h3>十六进制值</h3>
+                <ul>
+                    <li>所有十六进制的值都采用小写字母。十六进制的值能简写时，请简写。
+                        <pre>/* 不推荐 */
+color: #eebbcc;
+
+/* 推荐 */
+color: #ebc;</pre>
+                    </li>
+                </ul>
+            </div>
+            <div class="guide-item">
+                <h3>0 和单位</h3>
+                <ul>
+                    <li>不要为0值增加单位，如margin : 0; 而不是 margin : 0px。</li>
+                </ul>
+            </div>
+            <div class="guide-item">
+                <h3>0 前缀</h3>
+                <ul>
+                    <li>省略0开头小数点前面的0。值或长度在-1与1之间的小数，小数前的 0 可以忽略不写。
+                        <pre>font-size: .8em;</pre>
+                    </li>
+                </ul>
+            </div>
+            <div class="guide-item">
+                <h3> 空格、空行</h3>
+                <ul>
+                    <li>统一在属性名冒号结束后加一个空格符。
+                        <pre>/* 不推荐 */
+h3 {
+  font-weight:bold;
+}
+
+/* 推荐 */
+h3 {
+  font-weight: bold;
+}</pre>
+                    </li>
+                        以下几种情况不需要换行：
+                        <ul>
+                            <li> '{'前 </li>
+                        </ul>
+                        以下几种情况需要换行：
+                        <ul>
+                            <li>'{'后和'}'前</li>
+                            <li>每个属性独占一行</li>
+                            <li>多个规则的分隔符','后</li>
+                            <li>在两条规则之间间</li>
+                        </ul>
+                    <li>
+                        <pre>/* 不推荐 */
+.element
+{color: red; background-color: black;}
+
+/* 推荐 */
+.element {
+    color: red;
+    background-color: black;
+}
+
+/* 不推荐 */
+.element, .dialog {
+    ...
+}
+
+/* 推荐 */
+.element,
+.dialog {
+    ...
+}
+
+/* 不推荐 */
+html {
+  background: #fff;
+}
+body {
+  margin: auto;
+  width: 50%;
+}
+
+/* 推荐 */
+html {
+  background: #fff;
+}
+
+body {
+  margin: auto;
+  width: 50%;
+}</pre>
+                    </li>
+                </ul>
+            </div>
+            <div class="guide-item">
+                <h3>分隔符</h3>
+                <ul>
+                    <li>用“-”作为样式名间的分隔符。不建议使用“_”下划线来命名CSS选择器，为什么呢？
+                        <ol>
+                            <li>输入的时候少按一个shift键；</li>
+                            <li>浏览器兼容问题 （比如使用_tips的选择器命名，在IE6是无效的）</li>
+                            <li>能良好区分JavaScript变量命名（JS变量命名是用“_”）</li>
+                        </ol>
+                        输入的时候少按一个shift键；
+                        浏览器兼容问题 （比如使用_tips的选择器命名，在IE6是无效的）
+                        能良好区分JavaScript变量命名（JS变量命名是用“_”）
+                        <pre>/* 不推荐 */
+.demoimage {}
+
+/* 不推荐 */
+
+.demo_image {}
+
+/* 推荐 */
+.demo-image {}</pre>
+                    </li>
+                </ul>
+            </div>
+            <div class="guide-item">
+                <h3>引号</h3>
+                <ul>
+                    <li>CSS属性值引号，统一使用单引号（@charset除外）。在URI值时，则不要使用引号。
+                        <pre>/* 不推荐 */
+.member {
+    background-image: url("//gw.alicdn.com//i4/T1KxCMXeNjXXXXXXXX-14-14.gif");
+    background-repeat: no-repeat
+}
+
+html {
+  font-family: "open sans", arial, sans-serif;
+}
+
+/* 推荐 */
+.member {
+    background-image: url(//gw.alicdn.com//i4/T1KxCMXeNjXXXXXXXX-14-14.gif);
+    background-repeat: no-repeat
+}
+
+html {
+  font-family: 'open sans', arial, sans-serif;
+}</pre>
+                    </li>
+                </ul>
+            </div>
+            <div class="guide-item">
+                <h3>分号</h3>
+                <ul>
+                    <li>所有声明都要用“;”结尾。考虑到一致性和拓展性，请在每个声明尾部都加上分号。
+                        <pre>/* 不推荐 */
+.test {
+  display: block;
+  height: 100px
+}
+/* 推荐 */
+.test {
+  display: block;
+  height: 100px;
+}</pre>
+                    </li>
+                </ul>
+            </div>
+            <div class="guide-item">
+                <h3>书写顺序</h3>
+                <ul>
+                    <li>统一按照如下顺序书写：
+                        <ul>
+                            <li>影响文档流的属性（比如：display, position, float, clear, visibility, table-layout等）</li>
+                            <li>自身盒模型的属性（比如：width, height, margin, padding, border等）</li>
+                            <li>排版相关属性（比如：font, line-height, text-align, text-indent, vertical-align等等）</li>
+                            <li>装饰性属性（比如：color, background, opacity, cursor等）</li>
+                            <li>生成内容的属性（比如：content, list-style, quotes等）</li>
+                        </ul>
+                    </li>
+                    <li>:link :visited :hover :active书写顺序 L-V-H-A，速记：LoVe（喜欢）HAte（讨厌）。</li>
+                </ul>
+            </div>
+             <div class="guide-item">
+                <h3>媒体查询</h3>
+                <ul>
+                    <li>尽量将媒体查询的规则靠近与他们相关的规则，不要将他们一起放到一个独立的样式文件中，或者丢在文档的最底部，这样做只会让大家以后更容易忘记他们。
+                        <pre>.element {
+    ...
+}
+
+.element-avatar{
+    ...
+}
+
+@media (min-width: 480px) {
+    .element {
+        ...
+    }
+
+    .element-avatar {
+        ...
+    }
+}</pre>
+                    </li>
+                </ul>
+            </div>
+            <div class="guide-item">
+                <h3>常用命名</h3>
+                <ul>
+                    <li>
+                        页面结构
+                        <pre>容器: container
+页头：header
+内容：content/container
+页面主体：main
+页尾：footer
+导航：nav
+侧栏：sidebar
+栏目：column
+页面外围控制整体佈局宽度：wrapper
+左右中：left right center</pre>
+                    </li>
+                    <li>
+                        导航
+                        <pre>导航：nav
+主导航：mainnav
+子导航：subnav
+顶导航：topnav
+边导航：sidebar
+左导航：leftsidebar
+右导航：rightsidebar
+菜单：menu
+子菜单：submenu
+标题: title
+摘要: summary</pre>
+                    </li>
+                    <li>
+                        功能
+                        <pre>标志：logo
+广告：banner
+登陆：login
+登录条：loginbar
+注册：register
+搜索：search
+功能区：shop
+标题：title
+加入：joinus
+状态：status
+按钮：btn
+滚动：scroll
+标籤页：tab
+文章列表：list
+提示信息：msg
+当前的: current
+小技巧：tips
+图标: icon
+注释：note
+指南：guild
+服务：service
+热点：hot
+新闻：news
+下载：download
+投票：vote
+合作伙伴：partner
+友情链接：link
+版权：copyright</pre>
+                    </li> 
+                </ul>
+            </div>
+
+        <div class="guide-item">
+            <h3>class架构</h3>
+            <ul>
+                <li>
+                    全站公用的样式，使用“AA-BB”命名。AA为样式关键字，如icon（图标）、btn（按钮）、mod（模块）等。BB为自定义。如：
+                    <div>全站公用图标以“icon-”开头，如“icon-ok”、“icon-qq”、“icon-weibo”等</div>
+                    <div>全站公用按钮以“btn-”开头，如“btn-white”等</div>
+                    <div>全站公用模块以“mod-”开头，如“mod-footer”、“mod-header”等</div>
+                </li>
+                <li>
+                    属于同一模块下的样式选择器都应该以该模块的class名开头。如:
+                    <pre>&lt;div&gt;&lt;img src="../img/code_guide1.png" alt=""&gt;&lt;/div&gt;</pre>
+                </li>
+                <li>栏目级公用样式，以“栏目名-样式关键字-自定义”命名。如“zxgl-ico-xxx”、“zxgl-mod-xxx”等。</li>
+                <li>
+                    对公有样式的私有定义，css选择器应以对应模块的class名开始。如：
+                    <pre>/* 公共 */
+.mod-tab{width:100px;}
+
+/* 问答版块私有定义 */
+.ask .mod-tab{width:200px;}</pre>
+                </li>
+            </ul>
+        </div>
+
+        <div class="guide-item">
+            <h3>样式文件引用</h3>
+            <ul>
+                <li>整站文件均需引用“global.css”文件</li>
+                <li>对具体栏目引用对应栏目的公共样式文件,如zxgl.css</li>
+                <li>具体页面引用该页面的私有样式文件,如zxgl_index.css</li>
+                <li>
+                    <p>一般情况下，页面最多就只能有这3个样式文件的引用。</p>
+                    <p>页面私有样式较少的情况下，可将私有样式合并到该栏目的公用样式文件</p>
+                    <pre>&lt;link rel="stylesheet" type="text/css" href="http://www.to8to.com/css/new_global.css"&gt;
+&lt;link rel="stylesheet" type="text/css" href="http://www.to8to.com/css/start/zxgl.css"&gt;</pre>
+                </li>
+            </ul>
+        </div>
+         <div class="guide-item">
+            <h3>图片文件</h3>
+            <ul>
+                <li>半透明图片全部导出png24的格式</li>
+                <li>
+                    IE6下半透明图片导出为gif格式
+                    <div>如用工具https://tinypng.com/压缩后的图片可支持IE6半透明，大多数情况下不用再导出gif图片，仍需测试。</div>
+                </li>
+            </ul>
+        </div>
+        <div class="guide-item">
+            <h3>注释</h3>
+            <ul>
+                <li>普通注释，注释文字左右各留一个空格。
+                    <pre>/* 普通注释 */</pre>
+                </li>
+                <li>模块注释，需要包含模块名及模块说明：
+                    <pre>/* ==========================================================================
+表单基类
+用于表单填写
+========================================================================== */
+.mod-form .form-hd{padding-left: 20px;color: #999;margin-bottom: 16px;}</pre>
+                </li>
+                <li>扩展模块注释，需要包含模块说明：
+                    <pre>/* ==========================================================================
+表单扩展 【右侧发标表单】
+给.mod-form添加扩展类.mod-form-wide
+========================================================================== */
+.mod-form-wide .text{width: auto;display: block;}</pre></li>
+            </ul>
+        </div>
+    </div> 
+    </div>
+<script  type="text/javascript" src="/components/static/js/lib/jquery-1.11.1.min.js"></script>
+<!--  prettify  -->
+<script  type="text/javascript" src="/components/static/js/lib/prettify/prettify.js"></script>
+
+<script>
+    $(function(){
+        $("pre").each(function(index, element){
+            $(element).addClass('prettyprint linenums');
+        });
+        prettyPrint(null, document);
+    });
+</script>
+
+<% include ../footer.html %>

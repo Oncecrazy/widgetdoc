@@ -1,0 +1,81 @@
+<!Doctype html>
+<html>
+<head>
+</head>
+<body>
+<h1 style="font-size:36px;">Aop demo</h1>
+<hr />
+<script type ="text/javascript" src="./js/sea.js"></script>
+<script>
+seajs.config({
+	base: './js/',
+	alias: {
+		'Aop':'Aop.js'
+	}
+});
+
+define('main', ['Aop'], function(require, exports, module) {
+	var Aop = require('Aop');
+	window.a = function(name) {
+		console.log("hello " + name);
+		return 'return hello';
+	}
+
+	window.b = function() {
+		console.log('B');
+	}
+
+	window.m = function() {
+		console.log("start1");
+	}
+
+	window.m2 = function () {
+		console.log("start2");
+		return false;
+	}
+
+	window.n = function () {
+		console.log("finish1");
+	}
+
+	window.n2 = function() {
+		console.log("finish2");
+	}
+
+	var aop = new Aop();
+
+
+	window.a0 = Aop.inject({
+		context: window,
+		origin: 'a',
+		before: m,
+		after: n
+	});
+	window.a1 = Aop.inject({
+		context: window,
+		origin: 'a0',
+		before: m2,
+		after: n2
+	});
+	//a('cat');
+	a1('dog');
+
+	// aop.addMethod({before:m,after:n});
+	// aop.addMethod({before:m2,after:n2});
+	// aop.inject({context:window,origin:'a'});
+
+	// aop.removeMethod({before:m2,after:n2});
+	// aop.removeMethod({before:m,after:n});
+	// aop.inject({context:window,origin:'a'});
+
+	// a('A');
+	// var rs = aop.originRun({context:window,origin:'a'},'A');
+	//console.log(rs);
+
+});
+
+seajs.use('main');
+
+</script>
+</body>
+</html>

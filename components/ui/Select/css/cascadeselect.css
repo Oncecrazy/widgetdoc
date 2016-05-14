@@ -1,0 +1,10 @@
+
+.cascadeselect {display:inline-block; position: relative;margin: 0 5px;}
+.cascadeselect .cascadeselect_input {min-width: 70px;height: 30px;line-height: 30px;position: relative; font-size: 12px;color: #666666;border: 1px solid #dddddd;border-radius: 3px;padding:0 25px 0 8px;}
+.cascadeselect .cascadeselect_input:after{display:inline-block;content:'';text-indent:0;position:absolute;right:10px;margin-right: -5px;top:13px;border:5px solid transparent;border-top:5px solid #666666;}
+.cascadeselect .cascadeselect_content{position: absolute;  z-index: 1000;}
+.cascadeselect .cascadeselect_content .cascadeselect_options{border: 1px solid #dddddd;}
+.cascadeselect .cascadeselect_content .cascadeselect_son_options{position:absolute;top:0;left:100%;border: 1px solid #dddddd;display:none;}
+.cascadeselect .cascadeselect_content .cascadeselect_option{height:28px;line-height: 28px;padding:0 8px;background: #fff;cursor:default;white-space: nowrap;}
+.cascadeselect .cascadeselect_content .cascadeselect_option:hover{background-color: #009999;}
+.cascadeselect .cascadeselect_content .cascadeselect_option:hover > ul{display:block;}

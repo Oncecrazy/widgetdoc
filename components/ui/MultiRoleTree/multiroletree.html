@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en" class="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="renderer" content="webkit">
+	<title>MultiRoleTree demo</title>
+	<link rel="stylesheet" type="text/css" href="./css/multiroletree.css" />
+	<style type="text/css" media="screen">
+		body {
+		  background-color: #FFF;
+		  font-family: 'Microsoft Yahei', 微软雅黑, Arial, verdana, 宋体, 宋体, simsun, sans-serif;
+		}
+	</style>
+</head>
+
+<body style="margin: 100px;">
+
+<h1 style="font-size:36px;">MultiRoleTree demo</h1>
+<hr />
+
+	<div class="content" style="margin:10px;"> 
+		<div class="type_dirtree">
+			<div class="dirtree_title">
+				<span class="first alignleft">目录</span>
+                <span class="second">报表数</span>
+                <span class="third">移动</span>
+                <span class="fourth">操作</span>
+            </div>  
+			<ul class="level_0">
+				<li class="level_0">
+					<div class="clearfix" pid="1">
+						<span class="first alignleft">
+							<span name="switch" class="icon_tree_switch_down floatleft"></span>
+							<a href="javascript:;" class="node">项目统计</a>
+						</span>
+						<span class="second">19</span>
+						<span class="third">
+							<a href="javascript:;" class="dir_up">
+								<span class="icon_tree_dir_up floatleft"></span>
+								<span>上移</span>
+							</a>　
+							<a href="javascript:;" class="dir_down">
+								<span class="icon_tree_dir_down floatleft"></span>
+								<span>下移</span>
+							</a>　
+							<a href="javascript:;" class="dir_move">
+								<span class="icon_tree_dir_move floatleft"></span>
+								<span>移动至</span>
+							</a>　
+						</span>
+						<span class="fourth">
+							<a href="#" class="dir_rename" >
+								<span class="icon_tree_rename floatleft"></span>
+								<span>重命名</span>
+							</a>
+							<a href="javascript:;" class="dir_del" >
+								<span class="icon_tree_del floatleft"></span>
+								<span>删除</span>
+							</a>　
+						</span>
+					</div>
+				</li>
+				<li class="level_0">
+					<div class="clearfix" pid="2">
+								<span class="first alignleft">
+										<span name="switch" class="icon_tree_switch_down floatleft"></span>
+										项目总况
+								</span>
+								<span class="second">0</span>
+								<span class="third">
+									<a href="javascript:;" class="dir_up">
+										<span class="icon_tree_dir_up floatleft"></span>
+										<span>上移</span>
+									</a>　
+									<a href="javascript:;" class="dir_down" >
+										<span class="icon_tree_dir_down floatleft"></span>
+										<span>下移</span>
+									</a>　
+									<a href="javascript:;" class="dir_move" >
+										<span class="icon_tree_dir_move floatleft"></span>
+										<span>移动至</span>
+									</a>　
+								</span>
+								<span class="fourth">
+									<a href="#" class="dir_rename" >
+										<span class="icon_tree_rename floatleft"></span>
+										<span>重命名</span>
+									</a>
+									<a href="javascript:;" class="dir_del" >
+										<span class="icon_tree_del floatleft"></span>
+										<span>删除</span>
+									</a>　
+								</span>
+					</div>
+					<ul class="level_1">
+						<li class="level_1">
+							<div class="clearfix" pid="3">
+								<span class="first alignleft">
+										<span name="switch" class="icon_tree_switch_down floatleft"></span>
+										项目周报
+								</span>
+								<span class="second">0</span>
+								<span class="third">
+									<a href="javascript:;" class="dir_up">
+										<span class="icon_tree_dir_up floatleft"></span>
+										<span>上移</span>
+									</a>　
+									<a href="javascript:;" class="dir_down" >
+										<span class="icon_tree_dir_down floatleft"></span>
+										<span>下移</span>
+									</a>　
+									<a href="javascript:;" class="dir_move" >
+										<span class="icon_tree_dir_move floatleft"></span>
+										<span>移动至</span>
+									</a>　
+								</span>
+								<span class="fourth">
+									<a href="#" class="dir_rename" >
+										<span class="icon_tree_rename floatleft"></span>
+										<span>重命名</span>
+									</a>
+									<a href="javascript:;" class="dir_del" >
+										<span class="icon_tree_del floatleft"></span>
+										<span>删除</span>
+									</a>　
+								</span>
+							</div>
+							<ul class="level_2">
+								<li class="level_2">
+									<div class="clearfix" pid="4">
+										<span class="first alignleft">
+												<span name="switch" class="block floatleft"></span>
+												项目日报
+										</span>
+										<span class="second">0</span>
+										<span class="third">
+											<a href="javascript:;" class="dir_up">
+												<span class="icon_tree_dir_up floatleft"></span>
+												<span>上移</span>
+											</a>　
+											<a href="javascript:;" class="dir_down" >
+												<span class="icon_tree_dir_down floatleft"></span>
+												<span>下移</span>
+											</a>　
+											<a href="javascript:;" class="dir_move" >
+												<span class="icon_tree_dir_move floatleft"></span>
+												<span>移动至</span>
+											</a>　
+										</span>
+										<span class="fourth">
+											<a href="#" class="dir_rename" >
+												<span class="icon_tree_rename floatleft"></span>
+												<span>重命名</span>
+											</a>
+											<a href="javascript:;" class="dir_del" >
+												<span class="icon_tree_del floatleft"></span>
+												<span>删除</span>
+											</a>　
+										</span>
+									</div>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</li>
+			</ul>	
+		</div>
+	</div>
+
+
+<script type="text/javascript" src="./js/sea.js"></script>
+<script type="text/javascript">
+seajs.config({
+    base : './js/',
+    alias: {
+        'Base':  'base.js',
+        'AccordionMenu' : 'accordionmenu.js',
+        'MultiRoleTree' : 'multiRoleTree.js',
+        'jquery': 'jquery-1.9.1.min.js'
+    }
+});
+
+var tree , $;
+define('main',['MultiRoleTree','jquery'],function(require,exprots,module){
+    var MultiRoleTree = require('MultiRoleTree');
+    $ = require('jquery');
+    tree = new MultiRoleTree({element:'.type_dirtree'});
+    tree.init();
+    tree.on('moveup',function(node){
+    	tree.moveUp(node);
+    });
+});
+
+seajs.use('main');
+
+</script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+{
+  "name": "application-name",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "~4.9.0",
+    "body-parser": "^1.14.1",
+    "compression": "1.6.0",
+    "ejs": "^2.3.4",
+    "express-session": "1.9.1",
+    "morgan":"~1.6.1"
+  }
+}

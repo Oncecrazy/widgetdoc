@@ -1,0 +1,382 @@
+<% include ../header.html %>
+<!--  prettify css  -->
+<link rel="stylesheet" type="text/css" href="/components/static/css/lib/prettify/prettify-cmd.css">
+
+<div class="guide-main container">
+    <div class="page-header">
+        <h1>Javascript编码规范V1.0</h1>
+    </div>
+    <div class="guide-item">
+         <h2>命名</h2>
+            <ul>
+                <li>常量全大写,多个字母用‘\_’分隔
+                    <pre>var UPPERCASE_WORD = {}; </pre>
+                </li>
+                <li>变量和函数采用驼峰命名,函数名使用使用动宾短语。
+                    <pre>var camelName = 1;
+
+function getStyle(element){
+}</pre>
+                </li>
+                <li>私有属性、变量和方法以下划线 _ 开头 
+                    <pre>var _privateMethod = {};</pre>
+                </li>
+                <li>类名驼峰，并且首字母要大写, 并使用名称
+                    <pre>var Engine = function(){}</pre>
+                </li>
+                <li>boolean 类型的变量使用 is 或 has 开头。
+                    <pre>var isReady = false;
+var hasMoreCommands = false;</pre>
+                </li>
+                <li>Promise 对象用动宾短语的进行时表达。
+                    <pre>var loadingData = ajax.get('url');
+loadingData.then(callback);</pre>
+                </li>
+                <li>
+                    存放jQuery 对象的变量以 $ 开头。
+                    <pre>var $myDiv = $("#myDiv");</pre>
+                </li>
+                <li>jQuery链式写法
+                    尽量使用链式写法而不是用变量缓存或者多次调用选择器方法；
+                    当链式写法超过三次或者因为事件绑定变得复杂后，使用换行和缩进保持代码可读性；
+                    <pre>$("#myDiv").addClass("error").show();
+                        
+$("#myLink")
+  .addClass("bold")
+  .on("click", myClickHandler)
+  .on("mouseover", myMouseOverHandler)
+  .show();</pre>
+                </li>
+                <li>事件名为驼峰，对事件使用自定义的 namespace，这样容易解绑特定的事件，
+                    而不会影响到此 DOM 元素的其他事件监听。
+                    <pre>event.emit('someEvent');
+
+$("#myBtn").on("click.mySpecialClick", myEventHandler);
+$("#myBtn").unbind("click.mySpecialClick");</pre>
+                </li>
+                <li>data api 命名为小写并用连字符
+                    <pre> data-trigger-type </pre>
+                </li>
+                <li>专有词写法：
+                    <ul>
+                         <li>'ID'在变量名中全大写</li>
+                         <li>'URL'在变量名中全大写</li>
+                         <li>'Android'在变量名中大写第一个字母</li>
+                         <li>'iOS'在变量名中小写第一个，大写后两个字母</li>
+                    </ul>
+                    <pre>var goodID;
+
+var pageURL;
+
+var AndroidVersion;
+
+var iOSVersion;</pre>
+                </li>
+            </ul>
+    </div>
+    <div class="guide-item">
+        <h2>编码风格</h2>
+        <ul>
+            <li>需要通过 JSLint。<a href="http://www.jslint.com/" target="_blank">了解更多</a></li>
+        </ul>
+    </div>
+    <div class="guide-item">
+        <h2>编码格式</h2>
+        <ul>
+            <li>统一用 utf-8 格式开发。</li>
+        </ul>
+    </div>
+
+    <div class="guide-item">
+        <h2>资源的协议头</h2>
+        <ul>
+            <li>
+                省略嵌入资源的协议头，对于脚本文件除非该资源请求无法对http和https同时可用，否则省略协议部分。URL地址变成相对地址，也节省了文件字节数。
+                <pre>&lt;!-- 不推荐 --&gt;
+&lt;script src="http://static.google.com/js/autotrack.js"&gt;&lt;/script&gt;
+&lt;!-- 推荐 --&gt;
+&lt;script src="//static.google.com/js/autotrack.js"&gt;&lt;/script&gt;</pre>
+            </li>
+        </ul>
+    </div>
+    
+    <div class="guide-item">
+        <h2>引入文件</h2>
+        <ul>
+            <li>
+                引入JS库文件, 文件名须包含库名称及版本号及是否为压缩版, 比如jquery-1.4.1.min.js；
+                引入插件, 文件名格式为库名称+插件名称, 比如jQuery.cookie.js;
+            </li>
+        </ul>
+    </div>
+
+    <div class="guide-item">
+        <h2>行宽</h2>
+        <ul>
+            <li>每行代码长度不超过 80 个字符，保证可读性。它会使代码变的清晰。</li>
+        </ul>
+    </div>
+
+    <div class="guide-item">
+        <h2>缩进</h2>
+        <ul>
+            <li>统一使用4个空格。</li>
+        </ul>
+    </div>
+
+    <div class="guide-item">
+        <h2>花括号</h2>
+        <ul>
+            <li>花括号不换行。</li>
+            <li>
+                <pre>if(foo){
+
+}</pre>
+            </li>
+            <li>不允许一行判断，一律换行。</li>
+            <li>
+                <pre>//不推荐
+if (foo) return;
+
+//推荐
+if(foo){
+    return;
+}</pre>
+            </li>
+        </ul>
+    </div>
+    <div class="guide-item">
+        <h2>空格、空行</h2>
+        <ul>
+            <li>操作符之间需要空格。</li>
+            <li>
+                <pre>//不推荐
+var x=y+z;
+
+//推荐
+var x = y + z;</pre>
+            </li>
+            <li>逻辑块之间加空行，增加可读性。</li>
+            <li>
+                <pre>setTimeout(function(){
+},1000);
+
+// 这是逻辑块，和上一个代码块之间加空行
+if (uid = 4655) {
+
+}</pre>
+            </li>
+            <li>方法之间加空行。</li>
+            <li>
+                <pre>function func1(){
+    //方法体
+}
+ 
+// 方法之间加空行
+function func2(){
+    //方法体
+}</pre>
+            </li>
+        </ul>
+    </div>
+    <div class="guide-item">
+        <h2>分隔符</h2>
+        <ul>
+            <li>一律使用分号“ ; ”作为语句之间的分隔符，哪怕一行只有一个语句，也不要省略分号。</li>
+        </ul>
+    </div>
+    <div class="guide-item">
+        <h2>引号</h2>
+        <ul>
+            <li>JavaScript中单引号 “ ' ” 和双引号 “ " ” 没有任何语义区别，两者都是可用的。
+                我们建议一律统一为单引号，因为JSON、XML都规定了必须是双引号，这样便于无转义地直接引用。
+            </li>
+            <li>
+                <pre>//不推荐
+console.log("Hello world.");
+
+//推荐
+console.log('Hello world.');</pre>
+            </li>
+        </ul>
+    </div>
+    <div class="guide-item">
+        <h2>等号</h2>
+        <ul>
+            <li>尽量使用 === 而不是 == 来判断相等，因为 == 包含了隐式类型转换，很多时候可能与你的预期不同，
+                例如下面错误的例子，num == literal的值是true。同样，使用'!=='代替 '!='。
+            </li>
+            <li>
+                <pre>//不推荐
+var num = 9;
+var literal = '9';
+if (num == literal) {
+    console.log('Should not be here!!!');
+}
+
+//推荐
+var num = 9;
+var literal = '9';
+if (num === literal) {
+    console.log('Should not be here!!!');
+}</pre>
+            </li>
+        </ul>
+    </div>
+    <div class="guide-item">
+        <h2>变量声明</h2>
+        <ul>
+            <li>首先，变量在使用前必须声明。</li>
+            <li>永远使用 var 定义变量，而不要通过赋值隐式定义变量。因为通过赋值隐式定义的变
+                量总是全局变量，会造成命名空间污染。</li>
+            <li>书写风格：
+                <ul>
+                    <li>如果是纯声明，或非常简短的赋值，可以写成一行。</li>
+                    <li>
+                        <pre>var list, i, len, arr = [];</pre>
+                    </li>
+                    <li>如果赋值语句较长，目前有一种写法是用逗号换行：</li>
+                    <li>
+                        <pre>var $ = require('jquery'),
+position = require('position'),
+useIframe = $.browser.msie && Number($.browser.version) < 7;</pre>
+                    </li>
+                    <li>还有一种写法是直接用 var 风格：</li>
+                    <li>
+                        <pre>var $ = require('jquery');
+var position = require('position');
+var useIframe = $.browser.msie && Number($.browser.version) < 7;</pre>
+                    </li>
+                    <li>建议直接用 var 风格，这样无论写起来还是修改都更方便，用 closure compiler 等压缩后，
+                        会自动变成上面那种逗号分隔的形式。</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <div class="guide-item">
+        <h2>常见命名</h2>
+        <ul>
+            <li>命名需要可读性强，见名知义。
+                <pre>options 表示配置，与 jQuery 社区保持一致，不要用 config, opts 等
+active  表示当前，不要用 current 等
+index   表示索引，不要用 idx 等
+trigger 触点元素
+triggerType 触发类型、方式
+context 表示传入的 this 对象
+object  推荐写全，不推荐简写为 o, obj 等
+element 推荐写全，不推荐简写为 el, elem 等
+length  不要写成 len, l
+prev    previous 的缩写
+constructor 不能写成 ctor
+easing  表示动画平滑函数
+min minimize 的缩写
+max maximize 的缩写
+DOM 不要写成 dom, Dom
+.tpl    使用 tpl 后缀表示模版
+btn button 的缩写</pre>
+            </li>
+        </ul>
+    </div>
+    <div class="guide-item">
+        <h2>原型</h2>
+        <ul>
+            <li>不要在内置对象的原型上添加方法，如Array, Date；</li>
+            <pre>// 不推荐
+Array.prototype.count = function(value) {
+    return 4;
+};
+            </pre>
+        </ul>
+    </div>
+    <div class="guide-item">
+        <h2>注释</h2>
+        <ul>
+            <li>总原则:
+                <ol>
+                    <li>As short as possible（如无必要，勿增注释）。尽量提高代码本身的清晰性、可读性。
+                    </li>
+                    <li>As long as necessary（如有必要，尽量详尽）。合理的注释、空行排版等，可以让代码更易阅读、更具美感。</li>
+                </ol>
+                总之，注释的目的是：提高代码的可读性，从而提高代码的可维护性。
+            </li>
+            <li>什么时候需要添加注释？
+                <ol>
+                    <li>某段代码的写法，需要注释说明 why 时：
+                        <pre>// Using loop is more efficient than `rest = slice.call(arguments, 1)`.
+for (i = 1, len = arguments.length; i < len; i++) {
+    rest[i - 1] = arguments[i];
+}</pre>
+                    </li>
+                    <li>有借鉴第三方代码，需要说明时
+                        <pre>// Inspired by https://github.com/jquery/jquery/blob/master/src/core.js
+function ready() {
+    ...
+}</pre>
+                    </li>
+                </ol>
+            </li>
+            <li>注释书写规范
+                <ul>
+                    <li>单行注释： 双斜线后，必须跟注释内容间保留一个空格：
+                        <pre>if (condition) {
+    // 双斜线后始终保留一个空格
+    func();
+}
+
+var name = "danny"; // 双斜线距离分号四个空格，双斜线后始终保留一个空格</pre>
+                    </li>
+                    <li>多行注释： 最少三行，前边留空一行:
+                <pre>/*
+ * 注释内容与星标前保留一个空格
+ */
+function func(){
+}</pre>
+                    </li>
+                    <li>文档注释： 使用JSdoc风格。各类标签@param, @method等请参考
+                        <a href="http://usejsdoc.org/" target="_blank">usejsdoc</a>和
+                        <a href="http://yuri4ever.github.io/jsdoc/" target="_blank">JSDoc Guide</a>；
+                        建议在以下情况下使用：
+                        <ul>
+                            <li>所有常量</li>
+                            <li>所有函数</li>
+                            <li>所有类</li>
+                        </ul>
+                        <pre>/**
+ * @method get
+ * @description 获取cookie值
+ * @param name  cookie名
+ * @param options
+ * @returns {*|same}
+ */
+Cookie.get = function (name, options) {
+    validateCookieName(name);
+    if (typeof options === "function") {
+        options = {
+            converter: options
+        };
+    } else {
+        options = options || {};
+    }
+    var cookies = parseCookieString(document.cookie, !options["raw"]);
+    return (options.converter || same)(cookies[name]);
+};</pre>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+<script  type="text/javascript" src="/components/static/js/lib/jquery-1.11.1.min.js"></script>
+<!--  prettify  -->
+<script  type="text/javascript" src="/components/static/js/lib/prettify/prettify.js"></script>
+
+<script>
+    $(function(){
+        $("pre").each(function(index, element){
+            $(element).addClass('prettyprint linenums');
+        });
+        prettyPrint(null, document);
+    });
+</script>
+
+<% include ../footer.html %>

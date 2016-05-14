@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style type="text/css">
+ul{list-style:none;margin:0;padding:0;}
+ul li{vertical-align:bottom;}
+.img_box { width:900px; margin:0px auto;}
+.img_box li{ width:200px; float:left; height:200px; border:1px solid #eee;margin-left:10px;}
+.tip{font-size:12px;font-family: "Microsoft Yahei","微软雅黑",Arial,verdana,"宋体",\5b8b\4f53,simsun,sans-serif;}
+</style>
+</head>
+<body>
+<h1 style="font-size:36px;">Shake demo</h1>
+<hr />
+<p class='tip'>鼠标滑过图片时开始震动，点击图片后停止。</p>
+<div class="img_box">
+    <ul id="ul">
+        <li><img id ='img1' src="./images/shake.jpg" ></li>
+        <li><img id ='img2' src="./images/shake.jpg" ></li>
+        <li><img id ='img3' src="./images/shake.jpg" ></li>
+        <li><img id ='img4' src="./images/shake.jpg" ></li>
+    </ul>
+</div>
+
+
+<script type="text/javascript" src="./js/sea.js"></script>
+<script type="text/javascript">
+
+seajs.config({
+    base : './js/',
+    alias: {
+        'jquery': 'jquery-1.9.1.min.js',
+        'shake': 'Shake'
+    }
+});
+
+define("main", [ "shake" ,"jquery"], function(require) {
+	var jq = require('jquery');
+	var Shake = require("shake");
+
+    var shake = new Shake({target:'#img1',style:{x:5,y:0,rotation:0},speed:20});
+    shake.active();
+    jq('#img1').bind('click',function(){
+    	shake.stopShake();
+    	//shake.deactive();
+    });
+
+    var shake2 = new Shake({target:'#img2',style:{x:0,y:5,rotation:0},speed:20});
+    shake2.active();
+    jq('#img2').bind('click',function(){
+        shake2.stopShake();
+        //shake2.deactive();
+    });
+
+    var shake3 = new Shake({target:'#img3',style:{x:0,y:0,rotation:5},speed:20});
+    shake3.active();
+    jq('#img3').bind('click',function(){
+        shake3.stopShake();
+        //shake3.deactive();
+    });
+
+    var shake4 = new Shake({target:'#img4',style:{x:5,y:5,rotation:5},speed:20});
+    shake4.active();
+    jq('#img4').bind('click',function(){
+        shake4.stopShake();
+        //shake4.deactive();
+    });
+});
+
+seajs.use(['main']);
+
+</script>
+</body>
+</html>

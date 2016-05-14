@@ -1,0 +1,188 @@
+<!DOCTYPE HTML>
+<html>  
+  <head>  
+    <meta charset="UTF-8">
+    <title>Check Demo</title>  
+    <style type="text/css">  
+        table{margin:20px 80px;}
+        .wrapper{ width:300px; padding:10px; margin:20px auto 0; }
+        input:text{ border:1px solid #ddd; padding:3px; height:16px; width:180px;}  
+    </style>  
+  </head>  
+  <body>    
+    <h1 style="font-size:36px;">Check Demo</h1>
+    <hr /> 
+  <div id="form_con">  
+        <form class="cmxform" id="myform" method="post" action="">  
+            <table cellspacing="0" cellpadding="0">  
+                <tbody>  
+                    <tr>  
+                        <td>用户名</td>  
+                        <td class="wrapper"><input disable name="username" type="text" /></td>  
+                    </tr>  
+                    <tr>  
+                        <td>密码</td>  
+                        <td class="wrapper"><input name="password" type="password" /></td>
+                    </tr>  
+                    <tr>  
+                        <td>重复密码</td>  
+                        <td class="wrapper"><input name="confirm_password" type="password" /></td>  
+                    </tr>  
+                    <tr>  
+                        <td>性别</td>  
+                        <td class="wrapper">
+                            <input type="radio" name="sex" value="1"/>男
+                            <input type="radio" name="sex" value="0"/>女
+                        </td>  
+                    </tr> 
+                    <tr>  
+                        <td>职业</td>  
+                        <td class="wrapper">
+                            <input type="checkbox" name="occupation" />学生
+                            <input type="checkbox" name="occupation" value="职员"/>职员
+                        </td>  
+                    </tr>   
+                    <tr>  
+                        <td>年龄段</td>  
+                        <td class="wrapper"><select name="age">
+                                <option value>请选择</option>
+                                <option value="1">0~10</option>
+                                <option value="2">11~18</option>
+                                <option value="3">19~30</option>
+                                <option value="4"> >30</option>
+                            </select>
+                        </td>  
+                    </tr>  
+                    <tr>  
+                        <td>邮箱</td>  
+                        <td class="wrapper"><input type="text" name="email" /></td>  
+                    </tr>  
+                    <tr>  
+                        <td>个人网页</td>  
+                        <td class="wrapper"><input type="text" name="url"/></td>  
+                    </tr>  
+                    <tr>  
+                        <td>电话</td>  
+                        <td class="wrapper"><input type="text" name="telephone"/></td>  
+                    </tr>  
+                    <tr>  
+                        <td>验证码</td>  
+                        <td class="wrapper">
+                            <input type="text" name="vcode"/>
+                            <input type="button" value="点击获取验证码">
+                        </td>  
+                    </tr>  
+                    <tr><td colspan="2" >
+                        <input type="submit" value="提交" />
+                        <input type="reset"  value="重置"></td>
+                    </tr>  
+                </tbody>             
+            </table>  
+        </form>  
+  </div>   
+  <script type="text/javascript" src="./js/sea.js"></script>
+
+  <script type="text/javascript" src="./js/jquery-1.9.1.min.js"></script>
+  <script type="text/javascript" src="jquery.validate.js"></script>
+  <script type="text/javascript">
+seajs.config({
+    base : './js/',
+    alias: {
+        'Base':  'base.js',
+        'jquery': 'jquery-1.9.1.min.js',
+        'CheckForm': 'CheckForm',
+        'CheckRule' : 'CheckRule'
+    }
+});
+   
+define('main', function(require,exprots,module){
+    var CheckForm = require('CheckForm');
+    var checkRuleSet = require('checkRuleSet');
+
+    var username = checkRuleSet.get("email").or(checkRuleSet.get("mobile"), "username"); 
+    checkRuleSet.add(username);
+
+    var checkform = new CheckForm({
+        form: '#myform',
+        ruleset: checkRuleSet,
+        checkbreak: true,
+        //skipHidden: false,
+        sort: false,
+        showError: function(elem, msg){
+            elem.parents('tr').append('<span class="form_error">' + msg + '</span>');
+        },
+        hideError: function(elem){
+            elem.parents('tr').find('.form_error').remove();
+        }
+    });
+
+    checkform.add({
+        elem : 'input[name="username"]',
+        rule : ['required ', 'username'],
+        msg : ['用户名不能为空！',"用户名必须是邮箱或者手机号！"],
+        triggerType: 'blur'
+    })/*.add({
+        elem : 'input[name="password"]',
+        rule : ['required', 'rangelen:6,12'],
+        msg : ['密码不能为空！', '密码必须为6~12位！']
+    }).add({
+        elem: 'input[name="confirm_password"]',
+        rule: ['required', 'equalTo:input[name="password"]'],
+        msg: ['密码不能为空！', '两次输入密码不一致！']
+    }).add({
+        elem: 'input[name="sex"]',
+        rule: 'required',
+        msg : ['性别不能为空！']
+    }).add({
+        elem: 'input[name="occupation"]',
+        rule: 'required',
+        msg : ['职业不能为空！']
+    }).add({
+        elem: 'select[name="age"]',
+        rule: 'required',
+        msg : ['年龄段不能为空！'],
+        triggerType : 'change'
+    }).add({
+        elem: 'input[name="email"]',
+        rule: ['required', 'email'],
+        msg : ['邮箱不能为空！','邮箱格式不正确！']
+    }).add({
+        elem:'input[name="url"]',
+        rule:'url',
+        msg:['个人网页格式不正确!']
+    }).add({
+        elem:'input[name="telephone"]',
+        rule: 'tel',
+        msg:['电话号码不正确！']
+    }).add({
+        elem : 'input[name="vcode"]',
+        rule: ["required", function(value, elem, callback){
+                                // $.ajax({
+                                //     url: '',
+                                //     type: 'GET',
+                                //     data: {},
+                                //     cache: false,
+                                //     success:function(res){
+                                //         callback(res);
+                                //     }
+                                // });
+                                setTimeout(function(){
+                                    var res = Math.random()>0.5;
+                                    console.log(res);
+                                    callback(res);
+                                },5000)}
+            ],
+        msg : ["验证码不能为空",'验证码不正确！'],
+        triggerType : 'blur'
+    });*/
+
+    checkform.on('submit', function(){
+        console.log('提交成功!');
+    });
+});
+
+seajs.use('main');
+
+</script> 
+  </body>  
+</html>  

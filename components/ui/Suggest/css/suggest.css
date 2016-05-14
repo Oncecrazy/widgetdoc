@@ -1,0 +1,7 @@
+
+.suggest{ position:absolute; background:#fff; border:1px solid #ddd; padding:5px 0; box-shadow:0 2px 5px rgba(0, 0, 0, 0.2); }
+.suggest *{margin:0;padding:0;left:0;top:0;}
+.suggest ul{ margin:0; padding:0;  overflow-y: auto;}
+.suggest li{ height:28px; line-height:28px; padding:0 10px; overflow:hidden; cursor:pointer; font-size:12px; }
+.suggest .tip{ color:#999; }
+.suggest .current{ color:#fff; background:#2d89ef; }

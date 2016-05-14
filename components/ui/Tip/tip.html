@@ -1,0 +1,76 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8">
+<title>Tip demo</title>
+<link rel="stylesheet" href="./css/tip.css" />
+</head>
+<body style="margin: 10px;padding:10px;">
+
+<h1 style="font-size:36px;">Tip demo</h1>
+<hr />
+
+<div style="margin-left:300px;"><button id="btn" title="Tooltips hello world.">click</button></div>
+<p><button id="destory">destory</button></p>
+
+<div id="hover" style="display:none">tip hover test.</div>
+
+<script type="text/javascript" src="./js/sea.js"></script>
+<script type="text/javascript">
+seajs.config({
+    base : './js/',
+    alias: {
+        'Base':  'base.js',
+        'Tip' : 'Tip',
+        'jquery': 'jquery-1.9.1.min.js'
+    }
+});
+
+define('main',['Tip','jquery'],function(require,exprots,module){
+    var Tip = require('Tip');
+    var $ = require('jquery');
+
+
+    //1. 自带显示层
+    var clickTip = new Tip({
+        target:'#btn',
+        title: '通知',
+        content: '<div>23通知通知通知通知通知通知通知通知通知通知通知通知</div><div style="float:right" >数据部</div>',
+        close:'&times',
+        trigger : 'click',
+        effects  : 'normal',
+        direction : 'bottom'
+    });
+    clickTip.setBgColor('#f99ea3');
+    clickTip.on('close',function(){
+        console.log("点击了关闭")
+    });
+    // //2.1 页面对象
+    // var clickTip = new Tip({
+    //     target:'#btn',
+    //     content: $('#hover'),
+    //     trigger : 'click',
+    //     autoClose: false,
+    //     position : 'bottom'
+    // });
+    //2.1 页面对象
+  /*  var divObj = $("<div>自定义</div>");
+    var clickTip = new Tip({
+        target:'#btn',
+        content: divObj,
+        trigger : 'mouseover',
+        autoClose: false,
+        position : 'bottom'
+    });*/
+
+    $( '#destory' ).one( 'click', function(){
+        clickTip.destroy();
+    });
+
+});
+
+seajs.use( 'main');
+
+</script>
+</body>
+</html>

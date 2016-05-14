@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+
+<script src="./js/sea.js" type="text/javascript"></script>
+</head>
+
+<body>
+<script type="text/javascript">
+seajs.config({
+    base : './js/',
+    alias: {
+        'Events' : 'events.js'
+    }
+});
+define('main','Events',function(require,exports,module){
+    var Event = require('Events');
+    var e = new Event();
+    var fn1 = function(n,m){
+        console.log("fn1 " + n + " " + m );
+    }
+    var fn2 = function(n,m){
+        console.log("fn2 "+ n + " " + m );
+    }
+    e.on('hh mm',fn1);
+    e.on('hh',fn2);
+
+    //e.emit('hh',fn1,9, 0);
+    //e.emit('hh',9 ,0);
+    //e.off('hh');
+    e.emitAll(1,1,1);
+    
+
+   /* e.one('gg',fn1);
+    e.emit('gg',1,2);
+    e.emit('gg',1,2);*/
+
+    /* e.on('xx',function(n){
+        console.log('no ' + n);
+    });
+    e.on('xx',function(m){
+        console.log('no2 '+ m);
+    });
+    e.emit('xx',66);*/
+
+});
+seajs.use('main');
+
+</script>
+</body>
+</html>

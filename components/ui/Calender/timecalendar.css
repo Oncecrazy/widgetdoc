@@ -1,0 +1,28 @@
+.oa_calendar_box{width:298px;zoom:1;position:absolute;background:#f8f8f8;display:none;z-index:9999}
+.oa_calendar_box input[type="button"]{display:block;border:none;width:16px;height:16px;line-height:16px;font-size:12px;margin-top:3px;color:#999;text-align:center;background:#f8f8f8;cursor:pointer}
+.oa_calendar_box:after{display:table;content:' ';visibility:hidden;clear:both}
+.oa_year_content,
+.oa_month_content{width:75px;height:40px;position:absolute;left:10px}
+.oa_year_content{top:94px}
+.oa_year_content
+.oa_year_elem{width:50px;height:100%;line-height:40px;font-size:20px;color:#999;float:left}
+.oa_year_content
+.oa_year_btns{float:right}
+.oa_month_content{top:35px}
+.oa_month_content
+.oa_month_elem{width:50px;height:100%;font-size:40px;line-height:40px;font-weight:bold;color:#999;float:left;text-align:center}
+.oa_month_content .oa_month_btns{float:right}
+.oa_date_content{width:196px;height:175px;float:right;margin:10px}
+.oa_date_content th,.oa_date_content td{vertical-align:middle;width:25px;height:25px;font-size:12px;color:#999;text-align:center;background:#f8f8f8}
+.oa_date_content td.hasdate{cursor:pointer}
+.oa_date_content td.oa_isweekend{color:#f33}
+.oa_date_content td.over_date{background:#dedede}
+.oa_date_content td.oa_date_selected{background:#0cc;color:#fff}
+
+.oa_time_content{width:200px;height:25px;line-height:25px;float:right;margin:-10px 0 5px 0;}
+.oa_time_content span.title{position:relative;top:2px;margin-right:10px;font-size: 12px;font-weight: bold;color: #999; text-align: center;background: #f8f8f8;}
+.oa_time_content span.separator{margin:0 5px;color: #999;}
+.oa_time_content input{width:25px;height:20px;  font-size: 12px; color: #999; text-align: center;background: #f8f8f8;}
+.oa_time_btns{display: inline-block;position:relative;top:5px;}
+.oa_time_btns input[type="button"]{margin:0 0;border: none;width: 10px; height: 10px;line-height: 10px;font-size: 10px; color: #999;text-align: center;background: #f8f8f8;cursor: pointer;}
+.oa_time_content .submit{display: inline-block;width:35px;height:20px;line-height: 20px;color:#fff;background-color:#009999;margin-left: 10px;  font-size: 12px;text-align: center;cursor: pointer;border-radius: 3px;}

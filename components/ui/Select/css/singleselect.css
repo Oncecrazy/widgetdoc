@@ -1,0 +1,7 @@
+
+.singleselect {display:inline-block; position: relative;margin: 0 5px;}
+.singleselect .singleselect_input {height: 30px;line-height: 30px;position: relative; font-size: 12px;color: #666666;border: 1px solid #dddddd;border-radius: 3px;padding:0 25px 0 8px;}
+.singleselect .singleselect_input:after{display:inline-block;content:'';text-indent:0;position:absolute;right:10px;margin-right: -5px;top:13px;border:5px solid transparent;border-top:5px solid #666666;}
+.singleselect .singleselect_content{position: absolute;border: 1px solid #dddddd;  z-index: 1000;}
+.singleselect .singleselect_content .singleselect_option{height:28px;line-height: 28px;padding:0 8px;background: #fff;cursor:default;white-space: nowrap;}
+.singleselect .singleselect_content .singleselect_option:hover{background-color: #009999;}

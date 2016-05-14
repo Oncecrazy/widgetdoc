@@ -1,0 +1,174 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8">
+<title>Select demo</title>
+<style type="text/css">
+/*===== 重置样式 =====*/
+html,body{height:100%;}
+*{
+    margin:0;
+    padding:0;
+    border:0 none;
+    background:transparent;
+    font-size:100%;
+    vertical-align:baseline;
+}
+ul,ol{list-style:none;}
+.wrapper{ width:500px; padding:20px; margin:50px auto 0; }
+
+body, input, button, select, textarea, table {
+  font: 12px/1.5 Tahoma,Helvetica,Arial,sans-serif;
+}
+hr {
+  font-size: 36px;
+  display: block;
+  border-style: inset;
+  border-width: 1px;
+}
+</style>
+<link rel="stylesheet" href="./css/singleselect.css" />
+<link rel="stylesheet" href="./css/multiselect.css" />
+<link rel="stylesheet" href="./css/cascadeselect.css" />
+</head>
+<body style="margin: 100px;padding:20px;">
+
+<h1 style="font-size:36px;">Select demo</h1>
+<hr />
+
+
+<div id="linechart_select" class="multiselect" style="margin-top: 20px;">
+    <div class="multiselect_input"></div>
+    <div class="multiselect_content" style="display:none">
+       <table>
+            <tr>
+             <td>
+              <ul class="multiselect_options">
+               <li class="multiselect_option" value="0"><input name="line" type="checkbox" value="" />请选择饼图字段</li>
+               <li class="multiselect_option" value="1"><input name="line" type="checkbox" value="" />新增_项目</li>
+               <li class="multiselect_option" value="2"><input name="line" type="checkbox" value="" />有效_项目</li>
+               <li class="multiselect_option" value="3"><input name="line" type="checkbox" value="" />可售_项目</li>
+               <li class="multiselect_option" value="4"><input name="line" type="checkbox" value="" />可售_价值</li>
+               <li class="multiselect_option" value="5"><input name="line" type="checkbox" value="" />已轮_项目</li>
+               <li class="multiselect_option" value="6"><input name="line" type="checkbox" value="" />已扣_项目</li>
+               <li class="multiselect_option" value="7"><input name="line" type="checkbox" value="" />已扣_价值</li>
+               <li class="multiselect_option" value="8"><input name="line" type="checkbox" value="" />已扣_金额</li>
+               <li class="multiselect_option" value="9"><input name="line" type="checkbox" value="" />中标_项目</li>
+              </ul></td>
+             <td>
+              <ul class="multiselect_options">
+               <li class="multiselect_option" value="10"><input name="line" type="checkbox" value="" />落地装修保_项目</li>
+               <li class="multiselect_option" value="11"><input name="line" type="checkbox" value="" />非落地装修保_项目</li>
+
+               <li class="multiselect_option" value="12"><input name="line" type="checkbox" value="" />新增_项目2</li>
+               <li class="multiselect_option" value="13"><input name="line" type="checkbox" value="" />有效_项目2</li>
+               <li class="multiselect_option" value="14"><input name="line" type="checkbox" value="" />可售_项目2</li>
+               <li class="multiselect_option" value="15"><input name="line" type="checkbox" value="" />可售_价值2</li>
+               <li class="multiselect_option" value="16"><input name="line" type="checkbox" value="" />已轮_项目2</li>
+               <li class="multiselect_option" value="17"><input name="line" type="checkbox" value="" />已扣_项目2</li>
+               <li class="multiselect_option" value="18"><input name="line" type="checkbox" value="" />已扣_价值2</li>
+              </ul></td>
+             <td>
+              <ul class="multiselect_options">
+               <li class="multiselect_option" value="19"><input name="line" type="checkbox" value="" />已扣_金额2</li>
+               <li class="multiselect_option" value="20"><input name="line" type="checkbox" value="" />中标_项目2</li>
+               <li class="multiselect_option" value="21"><input name="line" type="checkbox" value="" />落地装修保_项目2</li>
+               <li class="multiselect_option" value="22"><input name="line" type="checkbox" value="" />非落地装修保_项目2</li>
+              </ul></td>
+             <td>
+              <div class="multiselect_action">
+               <input type="button" value="确定" class="multiselect_button" />
+               <div class="multiselect_leftoption">
+                还可以选中24项
+               </div>
+              </div></td>
+            </tr>
+      </table>
+    </div>
+</div>
+<div id="piechart_select" class="singleselect" style="margin-top: 20px;">
+    <div class="singleselect_input"></div>
+    <div class="singleselect_content" style="display:none">
+        <ul class="singleselect_options">
+           <li class="singleselect_option" value="0">请选择饼图字段</li>
+           <li class="singleselect_option" value="1">新增_项目</li>
+           <li class="singleselect_option" value="2">有效_项目</li>
+           <li class="singleselect_option" value="3">可售_项目</li>
+        </ul>
+    </div>
+</div>
+
+<div id="cascade" class="cascadeselect" >
+    <div class="cascadeselect_input">菜单1</div>
+    <div class="cascadeselect_content" style="display:none">
+        <ul class="cascadeselect_options">
+            <li class="cascadeselect_option" value="1" selected="true">
+                <span>菜单1-&gt;子菜单1</span>
+                <ul class="cascadeselect_son_options">
+                    <li class="cascadeselect_option"  value="2"><span>子菜单1-&gt;子菜单01</span></li>
+                    <li class="cascadeselect_option" value="3" selected="true"><span>子菜单1-&gt;子菜单02</span></li>
+                    <li class="cascadeselect_option" value="4"><span>子菜单1-&gt;子菜单03</span></li>
+                </ul>
+            </li>
+            <li class="cascadeselect_option"  value="5"><span>菜单1-&gt;子菜单2</span></li>
+            <li class="cascadeselect_option" value="6"><span>菜单1-&gt;子菜单3</span></li>
+        </ul>
+    </div>
+</div>
+
+
+<script type="text/javascript" src="./js/sea.js"></script>
+<script type="text/javascript">
+seajs.config({
+    base : './js/',
+    alias: {
+        'Base':  'base.js',
+        'singleselect' : 'SingleSelect',
+        'multiselect' : 'MultiSelect',
+        'cascadeselect' : 'CascadeSelect',
+        'jquery': 'jquery-1.9.1.min.js'
+    }
+});
+var pieChartSelect,lineChartSelect,cascadeSelect;
+   
+define('main',function(require,exprots,module){
+    var SingleSelect = require('singleselect'),
+        MultiSelect = require('multiselect'),
+        CascadeSelect = require('cascadeselect');
+
+    pieChartSelect  = new SingleSelect({
+        element : '#piechart_select > div.singleselect_input',
+        selectElem : '#piechart_select > div.singleselect_content'
+    });
+    pieChartSelect.init();
+    //选择饼状图表数据项
+    pieChartSelect.on("select",handler);
+
+
+    lineChartSelect  = new MultiSelect({
+        element : '#linechart_select > div.multiselect_input',
+        selectElem : '#linechart_select > div.multiselect_content'
+    });
+    lineChartSelect.init();
+    //选择线性图表数据项
+    lineChartSelect.on("select",handler);
+    
+    function handler(selectedOptions){
+        console.log(selectedOptions);
+        
+    }
+
+    cascadeSelect = new CascadeSelect({
+        element : '#cascade > div.cascadeselect_input',
+        selectElem : '#cascade > div.cascadeselect_content'
+    });
+    cascadeSelect.init();
+    cascadeSelect.on("select",function(data){console.log(data)});
+
+});
+
+seajs.use( 'main');
+</script>
+
+</body>
+</html>

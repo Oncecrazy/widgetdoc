@@ -1,0 +1,122 @@
+<% include header.html %>
+<!--  prettify css  -->
+<link rel="stylesheet" type="text/css" href="/components/static/css/lib/prettify/prettify-cmd.css">
+
+<div class="container">
+    <ol class="breadcrumb mgn-bt-0">
+        <li><a href="/components/">主页</a></li>
+        <li class="active"><%= name %></li>
+    </ol>
+    <div id="pageHeader" class="page-header">
+        <h1><%= name %></h1>
+        <p>
+            <%= description %>  <a href= "/components/src/<%= category.id %>/<%= name %>" target="_blank">源代码</a>
+        </p>
+        <p>
+            作者：<i><%= author %></i> <%- see %>
+        </p>
+    </div>
+    <article id="pageArticle">
+        <ul class="p10-list">
+            <li>
+                <h2><span class="glyphicon glyphicon-flag"></span>使用说明</h2>
+
+                <p><%= description %></p>
+                <pre><%= example %></pre>
+            </li>
+
+            <li>
+                <h2><span class="glyphicon glyphicon-flag"></span>继承关系</h2>
+
+                <ul class="p10-list">
+                    <li>
+                        <p>继承: <a href=""><%= ext %></a></p>
+                        <p>实现: <a href=""><%= impl %></a></p>
+                    </li>
+                </ul>
+            </li>
+
+            <li>
+                <h2><span class="glyphicon glyphicon-flag"></span>API</h2>
+
+                <h3>属性</h3>
+                <table class="table table-hover table-bordered table-striped">
+                    <tr>
+                        <td>属性名</td>
+                        <td>类型</td>
+                        <td>说明</td>
+                    </tr>
+                    <% for(var i=0; i<attributes.length; i++){ %>
+                    <tr>
+                        <td><code><%= attributes[i].name %></code></td>
+                        <td><code><%= attributes[i].type %></code></td>
+                        <td><%= attributes[i].description %></td>
+                    </tr>
+                    <% } %>
+                </table>
+                <h3>方法</h3>
+                <ul class="pad-left-20">
+                    <% for(var i=0;i< methods.length;i++){ %>
+                    <li>
+                        <h4>
+                            <strong> <%= methods[i].name %> ( </strong>
+                            <span >
+                                 <% var param = methods[i].parameters;
+                                    for(var j=0;j < param.length; j++){ %>   
+                                        <code><%= param[j].name %></code> 
+                                        <% if(j < param.length-1){ %> , <% } %>
+                                <% } %>  
+                            </span>
+                            <strong> )  </strong>
+                            <span class="desc"><%= methods[i].description %></span>
+                        </h4>
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <p><strong>参数</strong></p>
+                                <ul class="p10-list">
+                                    <%  var param = methods[i].parameters;
+                                        for(var j=0;j < param.length; j++){ %>   
+                                    <li>
+                                        <p><code><%= param[j].name %></code> : <%= param[j].description %></p>
+                                    </li>
+                                    <% } %>
+                                </ul>
+
+                                <p><strong>返回值</strong></p>
+                                <p class="pad-left-10"><code><%= methods[i].res.type %></code>  <%= methods[i].res.description %></p>
+                            </div>
+                        </div>
+                    </li>
+                    <% } %>
+                </ul>
+            </li>
+            <% if(usecases &&　usecases.length>0){ %>
+                <li>
+                    <h2><span class="glyphicon glyphicon-flag"></span>示例</h2>
+                    <ol>
+                        <% for(var i = 0;i< usecases.length;i++){ %>
+                        <li>
+                            <a href="/components/demos/<%= category.id %>/<%= name %>/<%= usecases[i] %>.html" target="_blank"><%= usecases[i] %></a>
+                        </li>
+                        <% } %>
+                    </ol>
+                </li>
+            <% } %>
+        </ul>
+    </article>
+</div>
+
+<script  type="text/javascript" src="/components/static/js/lib/jquery-1.11.1.min.js"></script>
+<!--  prettify  -->
+<script  type="text/javascript" src="/components/static/js/lib/prettify/prettify.js"></script>
+
+<script>
+    $(function(){
+        $("pre").each(function(index, element){
+            $(element).addClass('prettyprint linenums');
+        });
+        prettyPrint(null, document);
+    });
+</script>
+
+<% include footer.html %>

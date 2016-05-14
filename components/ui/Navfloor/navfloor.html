@@ -1,0 +1,110 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8">
+<title>Navfloor demo</title>
+<style type="text/css">
+/* 公共样式 */
+ul, ol, dl {list-style: none;}
+body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, dl, dt, dd, ul, ol, li, pre, form, fieldset, legend, button, input,textarea, th, td {
+  margin: 0;
+  padding: 0;
+}
+body, button, input, select, textarea {
+font: 12px/1.5 "Microsoft YaHei", 微软雅黑,\9ed1\4f53,\5b8b\4f53, "Microsoft JhengHei", 华文细黑, STHeiti, MingLiu;color: #666;
+}
+a { text-decoration: none !important; outline: none ;font-family:"Microsoft YaHei", 微软雅黑,\9ed1\4f53,\5b8b\4f53, "Microsoft JhengHei", 华文细黑, STHeiti, MingLiu;cursor: pointer;}
+
+div.floor {padding:10px;margin:0 auto;width:800px;height:500px;border:2px solid #000;}
+ul.nav{position:fixed;left:50px;top:50%}
+ul.nav li {width:100px;height:25px;text-align: center;}
+ul.nav li:hover{background-color: #009999;}
+
+div.content{margin:50px auto;width:1000px;height:800px;overflow: auto;}
+div.content div{padding:10px;width:800px;height:500px;border:2px solid #000;}
+div.content ul{position: fixed;top:50%;right:0;}
+div.content ul li {width:100px;height:25px;text-align: center;}
+div.content ul li:hover{background-color: #009999;}
+</style>
+</head>
+<body>
+<h1 style="font-size:36px;">Navfloor demo</h1>
+<hr />
+
+<ul class="nav">
+    <li>1L</li>
+    <li>2L</li>
+    <li>3L</li>
+    <li>4L</li>
+    <li>5L</li>
+</ul>
+<div class="floor">一楼内容</div>
+<div class="floor">二楼内容</div>
+<div class="floor">三楼内容</div>
+<div class="floor">四楼内容</div>
+<div class="floor">五楼内容</div>
+
+
+<div class='content'> 
+    <div>一楼内容</div>
+    <div>二楼内容</div>
+    <div>三楼内容</div>
+    <div>四楼内容</div>
+    <div>五楼内容</div>
+    <ul>
+        <li>1L</li>
+        <li>2L</li>
+        <li>3L</li>
+        <li>4L</li>
+        <li>5L</li>
+    </ul>
+</div>
+
+
+<script type="text/javascript" src="./js/sea.js"></script>
+<script type="text/javascript">
+seajs.config({
+    base : './js/',
+    alias: {
+        'Base':  'base.js',
+        'jquery': 'jquery-1.9.1.min.js',
+        'navfloor': 'navfloor.js'
+    }
+});
+
+define('main',['navfloor','jquery'],function(require,exprots,module){
+    var $ = require('jquery');
+    var Navfloor = require('navfloor');
+
+    var navfloor = new Navfloor({
+        nav: '.nav li',
+        floor: 'div.floor',
+        effect: 'smooth'
+    });
+    navfloor.on('goto',function(no){
+        $('.nav li').css('background-color','#fff').eq(no).css('background-color','#009999');
+        console.log("goto: " + no);
+    });
+
+    var innerNavfloor = new Navfloor({
+        container:'div.content',
+        nav: 'div.content li',
+        floor: 'div.content div'
+    });
+    innerNavfloor.on('goto',function(no){
+        $('div.content li').css('background-color','#fff').eq(no).css('background-color','#009999');
+         console.log("inner goto: " + no);
+    });
+
+    /*
+    改进：
+    添加refresh方法（动态改变dom结构时使用，比如删除节点）
+    navfloor.refresh();
+    */
+
+});
+
+seajs.use( 'main');
+</script>
+</body>
+</html>

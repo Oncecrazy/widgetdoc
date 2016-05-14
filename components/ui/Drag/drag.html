@@ -1,0 +1,53 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8">
+<title>Drag demo</title>
+<style type="text/css">
+.box1{ width:500px; height:320px; border:1px solid #ddd; margin:50px auto 0; position:relative; overflow: auto;}
+.box2{ width:400px; height:600px; border:1px solid #06c; margin:30px; padding:20px; }
+.box3{ background:#333; width:100px; height:100px;  }
+</style>
+</head>
+<body>
+<h1 style="font-size:36px;">Drag demo</h1>
+<hr />
+
+<div class="box1" id="box1">
+	<div class="box2" id="box2">
+		<div class="box3" id="box3"></div>
+	</div>
+</div>
+
+<button id="destroy">destroy</button>
+
+<p style="height:1000px;"></p>
+
+<script type="text/javascript" src="./js/sea.js"></script>
+<script type="text/javascript">
+seajs.config({
+    base:'./js/',
+    alias:{
+        'Base':  'base.js',
+        'jquery': 'jquery-1.9.1.min.js',
+        'drag': 'Drag.js'
+    }
+});
+
+var drag;
+define('main',function(require,exports,module){
+    var $ = require('jquery'),
+        Drag = require('drag');
+    drag = new Drag({
+        //container: '#box2',
+        target: '#box3'
+    });
+    
+    $('#destroy').on('click',function(){
+        drag.destroy();
+    });
+});
+seajs.use('main');
+</script>    
+</body>
+</html>

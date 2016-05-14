@@ -1,0 +1,121 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8">
+<title>Suggest demo</title>
+<style type="text/css">
+/**{margin:20px;position: relative;top:50px;}*/
+.wrapper{ width:500px; padding:20px; margin:50px auto 0; }
+input{ border:1px solid #ddd; padding:3px; height:16px; width:180px;}
+
+</style>
+<link rel="stylesheet" href="./css/suggest.css" />
+</head>
+<body>
+
+<h1 style="font-size:36px;">Suggest demo</h1>
+<hr />
+<table>
+    <tr><td class="wrapper">
+        <label for="email">预置字：</label><span id="words"></span>
+    </td></tr>
+    <tr><td class="wrapper">
+		<label for="email">关键字：</label><input type="text" id="email" autocomplete="false"/>
+    </td></tr>
+</table>
+
+<script type="text/javascript" src="./js/sea.js"></script>
+<script type="text/javascript">
+seajs.config({
+    base : './js/',
+    alias: {
+        'Base':  'base.js',
+        'Suggest' : 'Suggest.js',
+        'jquery': 'jquery-1.9.1.min.js',
+        'convertpinyin': 'convertpinyin'
+    }
+});
+define('main',['Suggest','jquery','convertpinyin'],function(require,exprots,module){
+    var Suggest = require('Suggest');
+    var $ = require('jquery');
+    var convertPinYin = require('convertpinyin');
+    /*var arr = [{key:'tobatu',value:"土巴兔"},
+                {key:'tengxun',value:"腾讯"},
+                {key:'baidu',value:"百度"},
+                {key:'taobao',value:"淘宝"},
+                {key:'xiaomi',value:"小米"},
+                {key:'xinlang',value:"新浪"}];*/
+
+    var arr1 = [
+            {key:['to','ba','tu'],value:['土','巴','兔']},
+            {key:['teng','xun'],value:['腾','讯']},
+            {key:['bai','du'],value:['百','度']},
+            {key:['tao','bao'],value:['淘','宝"']},
+            {key:['xiao','mi'],value:['小','米"']},
+            {key:['xin','lang'],value:['新','浪"']},
+            {key:['wang','yi'],value:['网','易"']},
+            {key:['sou','hu'],value:['搜','狐']} ];            
+
+    var arr = ["土巴兔","腾讯","百度","淘宝","小米","新浪"];
+    $('#words').html(arr.join(','));
+
+    function matchString(str, arr){
+        var len = arr.length, leftstr, leftarr;
+        if(str == ''){return false;}
+        if($.inArray(str, arr) == 0 ){
+            return true;
+        }else{
+            leftstr = str.substr(str.length-1, 1);
+            str = str.substr(0, str.length-1);
+            
+            leftarr = [arr[len-1]];
+            arr = arr.slice(0,len-1);
+            
+            return matchString(str, arr) && matchString(leftstr, leftarr)
+        }
+    }
+
+    function matchString(str, arr){
+        var len = arr.length, 
+            leftstr = '', 
+            leftarr = arr,
+            idx ;
+        while(str!==''){
+            if($.inArray(str, arr) == 0 && $.inArray(leftstr, leftarr) == 0){
+                return true;
+            }else{
+                leftstr = str.substr(str.length-1, 1);
+                str = str.substr(0, str.length-1);
+                
+                leftarr = [arr[len-1]];
+                arr = arr.slice(0,len-1); 
+            }
+        }
+        return false;
+    }
+    var arr2= ['to','ba','tu'];
+    var res = matchString('tob', arr2);
+    console.log(res)
+
+  /*  var arr_ddpinyin = [];
+    for(var i = 0,len = arr.length; i< len;i++){
+        arr_ddpinyin.push({key:convertPinYin(arr[i]),value:arr[i]});
+    }
+
+    var suggest = new Suggest({
+        target: '#email',
+        data: arr_ddpinyin,
+        showDefault: true,
+        //reqUrl: '12',
+        confirmCb:function(data){
+            console.log(data);
+        }
+    });*/
+ 
+});
+
+seajs.use( 'main');
+</script>
+
+</body>
+</html>

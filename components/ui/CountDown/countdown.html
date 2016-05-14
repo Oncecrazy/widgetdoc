@@ -1,0 +1,88 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8">
+<title>CountDown demo</title>
+<style type="text/css">
+body{font: 12px/1.5 "Microsoft YaHei", 微软雅黑,\9ed1\4f53,\5b8b\4f53, "Microsoft JhengHei", 华文细黑, STHeiti, MingLiu;}
+.time_offer_cutdown span {
+    background: #ec4444;
+    height: 22px;
+    line-height: 22px;
+    color: #fff;
+    padding: 0 8px;
+    display: inline-block;
+    border-radius: 10px;
+}
+.icn_time_grey_s {
+    background: url(./images/new_mall.png) no-repeat;
+    display: inline-block;
+    background-position: -260px -704px;
+    width: 14px;
+    height: 14px;
+    margin: -4px 4px 0 0;
+}
+</style>
+</head>
+<body>
+
+<h1 style="font-size:36px;">CountDown demo</h1>
+<hr />
+<div class="time_offer_cutdown ">
+    <span> <em class="icn_time_grey_s"></em>剩余 2天 5 小时 26 分 30 秒</span>
+</div>
+
+<script type="text/javascript" src="./js/sea.js"></script>
+<script type="text/javascript">
+seajs.config({
+    base : './js/',
+    alias: {
+        'countdown' : 'CountDown',
+        'jquery': 'jquery-1.9.1.min.js'
+    }
+});
+define('main',['countdown','jquery'],function(require,exprots,module){
+    var CountDown = require('countdown');
+    var $ = require('jquery');
+  
+    var countdown = new CountDown(20,100);
+    countdown.count(function(times, finish){
+        var html = '<span> <em class="icn_time_grey_s"></em>剩余 ' +
+            times[0] + ' 天 ' + times[1] + ' 小时 ' + times[2] + ' 分 ' + times[3] + '.' +  times[4] + ' 秒</span>';
+        $('div.time_offer_cutdown').html(html);
+        if(finish){
+            alert('倒计时结束！');
+        }
+    });
+/*
+    改进：
+    当页面含有多个倒计时，需要new 多个countdown，对性能消耗过大。
+    现在页面所有倒计时回调函数加入一个倒计时对象中并行进行， 修改后的countdown如下：
+    var countdown = new CountDown();
+    //var countdown = new CountDown( 
+    //         time                 //执行事件， 默认为调用add添加回调函数的最大执行时间（time）
+    //        ,space                //执行间隔，默认为调用add添加回调函数的最小执行间隔（space）
+    //    );
+    countdown.add(function(){}      //回调函数
+        ,time                       //执行时间
+        ,space                      //执行间隔
+        ,start                      //开始时间（多少秒后执行,不同回调函数可以指定时间后运行）
+        );
+    ...
+    countdown.run();
+
+    当页面多个倒计中个别回调函数执行时间过长时，以上方法便不能保证其他计时器回调函数及时运行。
+    对于以上场景，需要将耗时久的回调函数单独创建计时器对象:
+    var special = new CountDown(function(){}  //特别耗时的回调函数
+        ,time                                 //执行事件
+        ,space                                //执行间隔
+    );
+    special.run();
+    */
+});
+
+seajs.use( 'main');
+</script>
+
+</body>
+</html>

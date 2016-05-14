@@ -1,0 +1,83 @@
+<!Doctype html>
+<!--[if IE 6]><html lang="en" class="ielt7  ielt8  ielt9 ielt10 en"><![endif]-->
+<!--[if IE 7]><html lang="en" class="ie7  ielt8  ielt9 ielt10 en"><![endif]-->
+<!--[if IE 8 ]><html lang="en" class="ie8 ielt9 ielt10 en"><![endif]-->
+<!--[if IE 9 ]><html lang="en" class="ie9 ielt10 en"><![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!-->
+<html lang="en" class=" en">
+<!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit">
+<title>WindowBox test</title>
+<link rel="stylesheet" type="text/css" href="./css/windowbox.css" />
+</head>
+<body>
+<h1 style="font-size:36px;">WindowBox Demo</h1>
+<hr />
+	<div style="width:2000px;height:1000px;">
+		<input type="button" value="alert" id="alert" />
+		<input type="button" value="prompt" id="prompt" />
+		<input type="button" value="confirm" id="confirm" />
+		<div style="margin-top:20px;">
+			<input type="button" value="showbox" id="showbox" />
+		</div>
+	</div>
+
+<script type="text/javascript" src="./js/sea.js"></script>
+<script type="text/javascript">
+seajs.config({
+    base : './js/',
+    alias: {
+        'Base':  'base.js',
+        'Events': 'events.js',
+        'WindowBox' : 'WindowBox',
+        'jquery': 'jquery-1.9.1.min.js'
+    }
+});
+
+var obj;
+var WindowBox;
+define('main',['WindowBox','jquery'],function(require,exprots,module){
+    WindowBox = require('WindowBox');
+    var $ = require('jquery');
+    /*$('#showbox').click(function(){
+    	obj = new WindowBox({
+			title : '加个标题 ',
+			content : '<div style="width:500px;height:200px;">来点料来点点料来点料来点料来点料</div>',
+			//hasMask: false,
+			requires : ['title' , 'cancel' , 'confirm' , 'close' ]
+		});
+		obj.on('confirm',function(flag){console.log('你点击了', flag ? '确定' : '取消');})
+		obj.show();
+    });*/
+	obj = new WindowBox({
+		target: '#showbox',
+		title : '加个标题 ',
+		content : '<div style="width:500px;height:200px;">来点料来点点料来点料来点料来点料</div>',
+		//hasMask: false,
+		requires : ['title' , 'cancel' , 'confirm' , 'close' ]
+	});
+	obj.on('confirm',function(flag){console.log('你点击了', flag ? '确定' : '取消');});
+
+	$('#alert').click(function(){
+		WindowBox.alert('这是alert!');
+	});
+
+	$('#prompt').click(function(){
+		WindowBox.prompt('这是prompt!' , '写点什么?' , function(flag){
+			console.log('你点击了', flag ? '确定' : '取消');
+		});
+	});
+
+	$('#confirm').click(function(){
+		WindowBox.confirm('这是confirm!' , function(flag){
+			console.log('你点击了', flag ? '确定' : '取消');
+		});
+	});
+});
+
+seajs.use('main');
+</script>
+</body>
+</html>

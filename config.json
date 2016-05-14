@@ -1,0 +1,58 @@
+{
+	"base":{
+		"name": "基础组件",
+		"list": [{
+				"name":"Base",
+				"usecases": []
+			},{
+				"name":"Events",
+				"usecases": []
+			}]
+		},
+	"util":{
+		"name":"工具类",
+		"list":[{
+					"name":"cookie",
+					"usecases":["cookie"]
+				},{
+				"name":"Url",
+				"usecases":["url"]
+				},{
+					"name":"ua",
+					"usecases":["ua"]
+				},{
+					"name":"Aop",
+					"usecase":["aop"]
+				},{
+					"name":"Storage",
+					"usecase":["storage"]
+				}]
+		},
+	"ui":{
+		"name":"UI组件",
+		"list":[{
+				"name":"Score",
+				"usecases":["score"]
+			},{
+				"name":"Navfloor",
+				"usecases":["navfloor"]
+			},{
+				"name":"CountDown",
+				"usecases":["countdown"]
+			},{
+				"name":"Banner",
+				"usecases":["banner"]
+			},{
+				"name":"Page",
+				"usecases":["page"]
+				}
+			,{
+				"name":"WindowBox",
+				"usecases":["windowbox"]
+				}]
+		},
+	"business":{
+		"name":"业务组件",
+		"list":[]
+		}
+}

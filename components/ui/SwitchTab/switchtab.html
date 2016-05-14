@@ -1,0 +1,67 @@
+<!Doctype html>
+<html>
+<head>
+<style rel="stylesheet" type="text/css">
+*{margin:0;padding:0;}
+body, input, button, select, textarea, table {
+font: 12px/1.5 Tahoma,Helvetica,Arial,sans-serif,\5b8b\4f53;
+}
+ul, ol, dl {list-style: none;}
+a {text-decoration: none !important;outline: none;cursor: pointer;}
+.clear{*zoom:1;}
+.clear:after{display:block;clear:both;content:"\0020";visibility:hidden;height:0;}
+.mod_tab button{margin:8px;}
+.mod_tab a.bLeft,.mod_tab a.bRight{height:30px;line-height:30px;width:100px;display: inline-block;border:1px solid #000000;text-align: center;margin:10px;border-radius: 5px;}
+.mod_tab_hd ul li{float:left;border-right: 1px solid #e8e8e8;}
+
+.mod_tab .mod_tab_hd li a {display: block;padding: 0 23px;height: 43px;line-height: 43px;font-size: 14px;color: #333;}
+.mod_tab .mod_tab_hd li.on a {background-color: #fff;border-top: 2px solid #01af63;margin-top: -1px;color: #01af63;}
+.mod_tab_bd {position: relative;}
+.mod_tab_bditem{height:200px;width:800px;padding:10px;overflow: hidden;border:1px solid #eeeeee;position:absolute;display:none;}
+</style>
+</head>
+<body style="padding:20px;">
+<h1 style="font-size:36px;">TabToggle demo</h1>
+<hr />
+<div class="mod_tab ask_classtab" style="padding:10px">
+    <a class="bLeft" >&lt</a>
+    <a class="bRight" >&gt</a>
+    <div class="mod_tab_hd">
+        <ul class="clear">
+            <li class="on"><a href="javascript:void(0)">家装设计</a></li>
+            <li><a href="javascript:void(0)">家装设计1</a></li>
+            <li><a href="javascript:void(0)">家装设计2</a></li>
+        </ul>
+    </div>
+    <div class="mod_tab_bd">
+        <div class="mod_tab_bditem active" >
+            <img src="./images/banner_2_1.jpg" alt="" width="235" height="235">
+        </div>
+        <div class="mod_tab_bditem">
+            <img src="./images/banner_2_2.jpg" alt="" width="235" height="235">
+        </div>
+          <div class="mod_tab_bditem">
+            <img src="./images/banner_2_3.jpg" alt="" width="235" height="235">
+        </div>
+    </div>
+</div>
+<script type ="text/javascript" src="./js/jquery-1.9.1.min.js"></script>
+<script type ="text/javascript" src="./js/SwitchTab.js"></script>
+<script>
+    var show = function(selectIdx){
+         this.animate({height:"30px"},1000).show();
+         this.eq(selectIdx).animate({height:"300px"},1000).show();
+    }
+	$("div.mod_tab").SwitchTab({
+        target:'li',
+        togClass:'on',
+        togDiv: 'div.mod_tab_bditem',
+        togDivClass:'active',
+        btnEvent:'click',
+        showType:'fade',
+        prevBtn:'.bLeft',
+        nextBtn:'.bRight'
+    });
+</script>
+</body>
+</html>

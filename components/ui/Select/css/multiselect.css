@@ -1,0 +1,12 @@
+
+.multiselect {display:inline-block; position: relative;margin: 0 5px;}
+.multiselect .multiselect_input {height: 30px;line-height: 30px;position: relative; font-size: 12px;color: #666666;border: 1px solid #dddddd;border-radius: 3px;padding:0 25px 0 8px;}
+.multiselect .multiselect_input:after{display:inline-block;content:'';text-indent:0;position:absolute;right:10px;margin-right: -5px;top:13px;border:5px solid transparent;border-top:5px solid #666666;}
+.multiselect .multiselect_content{position: absolute;border: 1px solid #dddddd;background: #fff;  z-index: 1000;}
+.multiselect .multiselect_content table{margin:6px;}
+.multiselect .multiselect_content .multiselect_options{padding:0 5px;}
+.multiselect .multiselect_content .multiselect_option{height:28px;line-height: 28px;padding:0 8px;background: #fff;cursor:default;white-space: nowrap;}
+.multiselect .multiselect_content .multiselect_option:hover{background-color: #009999;}
+.multiselect .multiselect_content .multiselect_action{position:relative;top:5px;}
+.multiselect .multiselect_content .multiselect_action .multiselect_button{ height: 32px;  line-height: 32px;width: 100px;text-align: center; background-color: #009999;cursor: pointer;border-radius: 3px;display: inline-block;}
+.multiselect .multiselect_content .multiselect_action .multiselect_leftoption{margin: 5px;text-align: center;font-size: 12px;color:#009999;}

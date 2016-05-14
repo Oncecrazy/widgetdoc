@@ -1,0 +1,104 @@
+<!doctype html>
+<!--[if IE 6]><html lang="en" class="ielt7  ielt8  ielt9 ielt10 en"><![endif]-->
+<!--[if IE 7]><html lang="en" class="ie7  ielt8  ielt9 ielt10 en"><![endif]-->
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8">
+<title>AccordionMenu demo</title>
+<link rel="stylesheet" href="./css/accordionmenu.css" />
+</head>
+<body style="margin: 100px;">
+
+<h1 style="font-size:36px;">AccordionMenu demo</h1>
+<hr />
+	<div class="content" style="width:300px;">
+		<div class="type_tree">
+			<ul class="level_0">
+				<li class="level_0">
+					<div>
+						<a>推广统计
+						<span name="switch" class="icon_tree_switch_up"></span>
+						</a>
+					</div>
+					<ul class="level_1">
+						<li class="level_1">
+							<div>
+								<a><span class="listdisc">●</span>
+									线上推广
+									<span name="switch" class="icon_tree_switch_up"></span>
+								</a>
+							</div>
+							<ul class="level_2">
+								<li class="level_2">
+									<div>
+										<a>提成统计</a>
+									</div>
+								</li>
+								<li class="level_2">
+									<div>
+										<a>项目统计</a>
+									</div>
+								</li>
+								<li class="level_2">
+									<div>
+										<a>楼盘统计</a>
+									</div>
+								</li>
+							</ul>
+						</li>
+						<li class="level_1">
+							<div>
+								<a><span class="listdisc">●</span>
+									线下推广
+									<span name="switch" class="icon_tree_switch_up"></span>
+								</a>
+							</div>
+							<ul class="level_2">
+								<li class="level_2">
+									<div>
+										<a>提成统计</a>
+									</div>
+								</li>
+								<li class="level_2">
+									<div>
+										<a>项目统计</a>
+									</div>
+								</li>
+								<li class="level_2">
+									<div>
+										<a>楼盘统计</a>
+									</div>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</div>
+
+<script type="text/javascript" src="./js/sea.js"></script>
+<script type="text/javascript">
+seajs.config({
+    base : './js/',
+    alias: {
+        'Base':  'base.js',
+        'AccordionMenu' : 'AccordionMenu',
+        'jquery': 'jquery-1.9.1.min.js'
+    }
+});
+
+var menu ,$;
+define('main',['AccordionMenu','jquery'],function(require,exprots,module){
+    var AccordionMenu = require('AccordionMenu');
+    $ = require('jquery');
+    menu = new AccordionMenu('.type_tree');
+    menu.init();
+});
+
+seajs.use( 'main');
+
+</script>
+</body>
+</html>

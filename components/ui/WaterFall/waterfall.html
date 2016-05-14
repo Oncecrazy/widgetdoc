@@ -1,0 +1,77 @@
+<!Doctype html>
+<!--[if IE 6]><html lang="en" class="ielt7  ielt8  ielt9 ielt10 en"><![endif]-->
+<!--[if IE 7]><html lang="en" class="ie7  ielt8  ielt9 ielt10 en"><![endif]-->
+<!--[if IE 8 ]><html lang="en" class="ie8 ielt9 ielt10 en"><![endif]-->
+<!--[if IE 9 ]><html lang="en" class="ie9 ielt10 en"><![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!-->
+<html lang="en">
+<!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>waterfall test</title>
+<meta name="description" content="overview &amp; stats" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<style type="text/css">
+*{margin:0;padding:0;}
+div{float:left;margin:3px;}
+</style>
+
+<script type="text/javascript" src="./js/sea.js"></script>
+</head>
+<body>
+
+
+<script type="text/javascript">
+
+var obj , t = new Date();
+
+function getRandom( arr ){
+	return arr[ Math.floor( Math.random() * arr.length ) ];
+}
+
+function moreDiv( size ){
+	
+	var colors = [ '#963' , '#339' , '#393' , '#336' , '#363' , '#369' , '#396'];
+	var sizes = [ 58 , 128 , 158 , 68 , 88 , 90 , 68 , 144 , 256];
+	var len = Math.round( Math.random() * 20 + size );
+	var div , last = getRandom( colors ) , now;
+	var data = [] , temp = [];
+	var width = getRandom(sizes);
+	for(var i=0;i<len;i++){
+		div = document.createElement( 'div' );
+		document.body.appendChild( div );
+		while( ( now = getRandom( colors ) ) === last );
+		last = now;
+		div.style.background = now;
+		temp = [ getRandom( sizes ) , getRandom( sizes ) ];
+		data.push( temp );
+		div.style.width = /*temp[ 0 ]*/ width + 'px';
+		div.style.height = temp[ 1 ] + 'px';
+	}
+
+	console.log('一共有' , len , '个div在瀑布流中...')
+}
+
+define('index' , function( require ){
+
+	var $ = require( 'jquery' );
+
+	var Waterfall = require( 'waterfall' );
+
+	moreDiv( 50 );
+
+	obj = new Waterfall({
+		data : $('div')
+	});
+
+	// alert( new Date() - t)
+});
+
+seajs.use('index');
+
+
+</script>
+
+</body>
+</html>

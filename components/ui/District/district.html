@@ -1,0 +1,60 @@
+<!Doctype html>
+<!--[if IE 6]><html lang="en" class="ielt7  ielt8  ielt9 ielt10 en"><![endif]-->
+<!--[if IE 7]><html lang="en" class="ie7  ielt8  ielt9 ielt10 en"><![endif]-->
+<!--[if IE 8 ]><html lang="en" class="ie8 ielt9 ielt10 en"><![endif]-->
+<!--[if IE 9 ]><html lang="en" class="ie9 ielt10 en"><![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!-->
+<html lang="en" class=" en">
+<!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit">
+<title>district test</title>
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<link rel="shortcut icon" href="/favicon.ico" />
+<style type="text/css">
+*{margin:0;padding:0;}
+</style>
+<script type="text/javascript" src="../sea.js"></script>
+<script type="text/javascript" src="../main.js"></script>
+</head>
+<body>
+
+
+
+	<div>
+
+		<select id="province"></select>
+		<select id="city"></select>
+		<select id="area"></select>
+
+
+	</div>
+
+
+<script type="text/javascript">
+
+define('index' , function( require ){
+
+	var district = require('district');
+
+	district({
+
+		elems : ['#province' , '#city' , '#area'] ,
+
+		values : ['安徽' , '滁州' , '天长市'] ,
+
+		onchange : function(values){
+			alert(typeof values + '   *********   ' + values)
+		}
+
+	});
+
+});
+
+seajs.use('index');
+
+</script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<style type="text/css">
+.boll {width: 50px;height: 50px;background-color: #ff3333;position: absolute;top: 380px;left: 100px;border-radius: 50px;}
+.target {width: 50px;height: 50px;background-color: #CDCDCD;position: absolute;top: 180px;left: 400px;border-radius: 50px;}
+</style>
+</head>
+<body>
+<h1 style="font-size:36px;">Parabola demo</h1>
+<hr />
+
+<div class="btns" style="margin-top:20px">
+    <a href="#" id="run" >开始</a>
+    <a href="#" id="stop">停止</a>
+    <a href="#" id="reset">重置</a>
+</div>
+<div id="boll" class="boll"></div>
+<div id="target" class="target"></div>
+
+<script type="text/javascript" src="./js/sea.js"></script>
+<script type="text/javascript">
+    seajs.config({
+        base : './js/',
+        alias: {
+            'parabola' : 'parabola.js',
+            'jquery': 'jquery-1.9.1.min.js'
+        }
+    });
+    define('main',['parabola','jquery'],function(require,exprots,module){
+        var Parabola = require('parabola');
+        var $ = require('jquery');
+        var bool = new Parabola({
+            el: "#boll",
+            //offset: [500, 100],
+            targetEl: $('#target'),
+            curvature: 0.005,
+            duration: 3000,
+            callback:function(){
+                alert("运动完成后回调！")
+            },
+            stepCallback:function(x,y){
+                console.log(x,y);
+                $("<div>").appendTo("body").css({
+                    "position": "absolute",
+                    "top": this.elOriginalTop + y,
+                    "left":this.elOriginalLeft + x,
+                    "background-color":"#CDCDCD",
+                    "width":"5px",
+                    "height":"5px",
+                    "border-radius": "5px"
+                });
+            }
+        });
+        $("#reset").click(function (event) {
+            event.preventDefault();
+            bool.reset()
+        });
+        $("#run").click(function (event) {
+            event.preventDefault();
+            bool.start();
+        });
+        $("#stop").click(function (event) {
+            event.preventDefault();
+            bool.stop();
+        });
+    });
+    seajs.use( 'main');
+</script>
+</body>
+</html>

@@ -1,0 +1,298 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit">
+<title>Scrollbar Demo</title>
+<link href="./css/scrollbar.css" rel="stylesheet" type="text/css" /> 
+<style type="text/css">
+/*.custom_scroll {
+  position: absolute;
+  top: 0;
+  right: -25px;
+  _right: 0;
+  width: 5px;
+  height: 100%;
+  background: #fff;
+  border-radius: 5px;
+}
+.custom_scroll_bar {
+  position: absolute;
+  left: 0;
+  cursor: pointer;
+  width: 100%;
+  background: #666;
+  border-radius: 5px;
+  opacity: .6;
+  filter: alpha(opacity=60);
+  -webkit-transition: .3s opacity linear;
+  -moz-transition: .3s opacity linear;
+  transition: .3s opacity linear;
+}*/
+</style>
+</head>
+<body>
+<h1 style="font-size:36px;">Scrollbar Demo</h1>
+<hr />
+<div class="container">
+    <div class="every_look">
+        <strong class="right_title">大家都在看</strong>
+        <ul class="look_list">
+            <li>
+                <div class="intro"><em class="cur_num  bgyellow ">1</em><a class="this_title " href="javascript:void(0)">家装设计室内玄关效果图效果图效果图欣赏大全</a></div>
+            </li>
+            <li>
+                <div class="intro"><em class="cur_num  bgyellow ">2</em><a class="this_title " href="javascript:void(0)">美欧家装设计客厅效果图效果图效果图大全</a></div>
+            </li>
+            <li>
+                <div class="intro"><em class="cur_num  bgyellow ">3</em><a class="this_title " href="javascript:void(0)">家装设计厨房效果图效果图效果图欣赏大全</a></div>
+            </li>
+            <li>
+                <div class="intro"><em class="cur_num gray_1">4</em><a class="this_title " href="javascript:void(0)">家装设计书房效果图效果图效果图大全欣赏</a></div>
+            </li>
+            <li>
+                <div class="intro"><em class="cur_num gray_1">5</em><a class="this_title " href="javascript:void(0)">萧氏设计作品-家装设计卧室效果图欣赏</a></div>
+            </li>
+           <li>
+                <div class="intro"><em class="cur_num gray_1">6</em><a class="this_title " href="javascript:void(0)">美式家装设计厨房效果图效果图效果图欣赏大全</a></div>
+            </li>
+           <li>
+                <div class="intro"><em class="cur_num gray_1">7</em><a class="this_title " href="javascript:void(0)">简欧家装设计卧室效果图效果图效果图</a></div>
+            </li>
+           <li>
+                <div class="intro"><em class="cur_num gray_1">8</em><a class="this_title " href="javascript:void(0)">家装设计卧室效果图效果图效果图欣赏大全2014</a></div>
+            </li>
+           <li>
+                <div class="intro"><em class="cur_num gray_1">9</em><a class="this_title " href="javascript:void(0)">家装设计室内卫生间效果图效果图效果图大全2014欣赏</a></div>
+            </li>
+           <li>
+                <div class="intro"><em class="cur_num gray_1">10</em><a class="this_title " href="javascript:void(0)">简欧家装设计餐厅吊顶图片顶图片顶图片顶图片大全</a></div>
+            </li>
+            <li>
+                <div class="intro"><em class="cur_num gray_1">11</em><a class="this_title " href="javascript:void(0)">家装设计室内卫生间效果图效果图效果图效果图大全2014欣赏</a></div>
+            </li>
+            <li>
+                <div class="intro"><em class="cur_num gray_1">12</em><a class="this_title " href="javascript:void(0)">简欧家装设计餐厅吊顶图片顶图片顶图片顶图片大全</a></div>
+            </li>
+            <li>
+                <div class="intro"><em class="cur_num gray_1">13</em><a class="this_title " href="javascript:void(0)">家装设计室内卫生间效果图效果图效果图效果图大全2014欣赏</a></div>
+            </li>
+            <li>
+                <div class="intro"><em class="cur_num gray_1">14</em><a class="this_title " href="javascript:void(0)">简欧家装设计餐厅吊顶图片大全</a></div>
+            </li>
+            <li>
+                <div class="intro"><em class="cur_num gray_1">15</em><a class="this_title " href="javascript:void(0)">家装设计室内卫生间效果图效果图效果图效果图大全2014欣赏</a></div>
+            </li>
+            <li>
+                <div class="intro"><em class="cur_num gray_1">16</em><a class="this_title " href="javascript:void(0)">简欧家装设计餐厅吊顶图片大全</a></div>
+            </li>
+             <li>
+                <div class="intro"><em class="cur_num gray_1">17</em><a class="this_title " href="javascript:void(0)">家装设计室内卫生间效果图效果图效果图效果图大全2014欣赏</a></div>
+            </li>
+            <li>
+                <div class="intro"><em class="cur_num gray_1">18</em><a class="this_title " href="javascript:void(0)">简欧家装设计餐厅吊顶图片大全</a></div>
+            </li>
+            <li>
+                <div class="intro"><em class="cur_num gray_1">19</em><a class="this_title " href="javascript:void(0)">家装设计室内卫生间效果图效果图效果图效果图大全2014欣赏</a></div>
+            </li>
+            <li>
+                <div class="intro"><em class="cur_num gray_1">20</em><a class="this_title " href="javascript:void(0)">简欧家装设计餐厅吊顶图片大全</a></div>
+            </li>
+        </ul>
+    </div> 
+    <div class="custom_yscroll" ><div class="custom_yscroll_bar"></div></div>
+    <div class="custom_xscroll" ><div class="custom_xscroll_bar"></div></div>
+</div>   
+
+<script type="text/javascript" src="./js/sea.js"></script>
+<script type="text/javascript" src="./js/jquery-1.9.1.min.js"></script>
+<script type="text/javascript">
+seajs.config({
+    base : './js/',
+    alias: {
+        'scrollbar' : 'ScrollBar.js',
+        'jquery': 'jquery-1.9.1.min.js'
+    }
+});
+
+var jq = jQuery;
+
+var scrollbar;
+define('main',['scrollbar','jquery'],function(require,exprots,module){
+    var ScrollBar = require('scrollbar');
+    var $ = require('jquery');
+    scrollbar = new ScrollBar({
+        container: 'div.container',       //容器
+        content: '.every_look',           //滚动内容
+        yTrack: 'div.custom_yscroll',     //纵向滚动滑道
+        yBar: 'div.custom_yscroll_bar',   //纵向滚动条
+        xTrack: 'div.custom_xscroll',     //横向滚动滑道
+        xBar: 'div.custom_xscroll_bar'    //横向滚动条
+    });
+});
+
+seajs.use( 'main');
+
+/*
+var com = {};
+//冒泡阻止
+com.prevent = function (e) {
+    e && e.stopPropagation ? e.stopPropagation() : win.event.cancelBubble = true;
+};
+//阻止浏览器的默认行为 
+com.stopDefault = function (e) {
+    e && e.preventDefault ? e.preventDefault() : win.event.returnValue = false;
+    return false;
+};
+com.mouseEvent = function (obj, Fn) {//鼠标滚轮事件
+    if (obj.addEventListener) {
+        obj.onmousewheel === undefined ? obj.addEventListener('DOMMouseScroll', Fn, false) : obj.addEventListener('mousewheel', Fn, false);
+    }
+    else {
+        obj.attachEvent('onmousewheel', Fn);
+    }
+};
+function Drag(opt) { return new Drag.prototype.init(opt); };  //拖动的函数
+Drag.prototype = {
+    init: function (opt) {
+        this.downEle = opt.downEle || opt.obj;
+        this.moveEle = opt.moveEle || opt.downEle;
+        this.type = opt.type || false;
+        this.down();
+    },
+    down: function () {
+        var _this = this;
+        this.downEle.onmousedown = function (e) {
+            var e = e || event;
+            com.prevent(e);
+            _this.x = e.clientX - _this.moveEle.offsetLeft, _this.y = e.clientY - _this.moveEle.offsetTop;
+            if (this.setCapture) {
+                this.onmousemove = function (e) {
+                    _this.move(e);
+                };
+                this.setCapture();
+                this.onmouseup = _this.up;
+            }
+            else {
+                document.onmousemove = function (e) {
+                    _this.move(e);
+                };
+                document.onmouseup = _this.up;
+            }
+            return false;
+        };
+    },
+    move: function (e) {
+        var e = e || event, l = e.clientX - this.x, t = e.clientY - this.y;
+        if (this.type) {
+            var w = document.documentElement.clientWidth, h = document.documentElement.clientHeight;
+            l = l < 0 ? 0 : l > w - this.moveEle.offsetWidth ? w - this.moveEle.offsetWidth : l;
+            t = t < 0 ? 0 : t > h - this.moveEle.offsetHeight ? h - this.moveEle.offsetHeight : t;
+        }
+        this.moveEle.style.left = l + 'px';
+        this.moveEle.style.top = t + 'px';
+    },
+    up: function () {
+        this.onmouseup = null;
+        this.onmousemove = null;
+        if (this.releaseCapture) {
+            this.releaseCapture();
+        }
+    }
+};
+Drag.prototype.init.prototype = Drag.prototype;
+
+function ScrollBar(opt) { return new ScrollBar.prototype.init(opt) };
+ScrollBar.prototype = {
+    init: function (opt) {
+        this.container = opt.container;
+        this.target = opt.target;
+        this.gap = opt.gap || 20;
+        this.ifNewScrollBar();
+    },
+    createScrollBar: function () {//创建滚动条
+        this.scroll_outer = document.createElement('div');
+        this.scroll_bar = document.createElement('div');
+        this.scroll_outer.className = 'custom_scroll';
+        this.scroll_bar.className = 'custom_scroll_bar';
+        jq(".container")[0].appendChild(this.scroll_outer);
+        this.scroll_outer.appendChild(this.scroll_bar);
+        //this.container.appendChild(this.scroll_outer);
+        //this.scroll_outer.appendChild(this.scroll_bar);
+    },
+    scrollDrag: function () {//添加滚动条拖拽
+        var _this = this;
+        function barDrag() { };
+        barDrag.prototype = new Drag({ downEle: this.scroll_bar });
+        barDrag.prototype.move = function (e) {
+            var e = e || event;
+            var t = e.clientY - this.y;
+            _this.setTop(t);
+        };
+    },
+    setTop: function (t) {//移动的位置
+        var h = this.scroll_outer.offsetHeight - this.scroll_bar.offsetHeight;
+        t = t < 0 ? 0 : t > h ? h : t;
+        var scale = t / h;
+        this.scroll_bar.style.top = t + 'px';
+        this.scroll_bar.style.bottom = 'auto';
+        this.target.style.bottom = 'auto';
+        this.target.style.top = (this.scroll_outer.offsetHeight - this.target.offsetHeight) * scale + 'px';
+    },
+    mouseEvent: function (obj, Fn) {//鼠标滚轮事件
+        if (obj.addEventListener) {
+            obj.onmousewheel === undefined ? obj.addEventListener('DOMMouseScroll', Fn, false) : obj.addEventListener('mousewheel', Fn, false);
+        }
+        else {
+            obj.attachEvent('onmousewheel', Fn);
+        }
+        //DOMMouseScroll 火狐
+        //mousewheel     谷歌 
+        //onmousewheel   IE
+    },
+    mouseScroll: function () {//鼠标滚轮功能
+        var _this = this;
+        var t = 100;
+        this.mouseEvent(this.container, function (e) {
+            com.stopDefault(e);
+            var val = e.wheelDelta || e.detail;//e.detail只有火狐识别,  e.wheelDelta除了火狐都能识别
+            if (val == 120 || val == -3) {//向上
+                _this.setTop(_this.scroll_bar.offsetTop - _this.gap);
+            }
+            else {//向下
+                _this.setTop(_this.scroll_bar.offsetTop + _this.gap);
+            }
+        });
+    },
+    clickScroll: function () {
+        var _this = this;
+        this.scroll_outer.onmousedown = function (e) {
+            var e = e || event, gap = _this.container.offsetTop - (document.body.scrollTop || document.documentElement.scrollTop), t = e.clientY - (gap < 0 ? 0 : gap);
+            _this.setTop(t);
+            com.prevent(e);
+        };
+    },
+    ifNewScrollBar: function () {//是否需要创建滚动条
+        var ch = this.container.offsetHeight;
+        var sh = this.target.offsetHeight;
+        if (sh > ch) {
+            this.createScrollBar();
+            this.scrollDrag();
+            this.mouseScroll();
+            this.clickScroll();
+            this.target.style.top = "0";
+            this.scroll_bar.style.cssText = "top:0;height:" + ch / sh * 100 + "%";
+        }
+    }
+};
+ScrollBar.prototype.init.prototype = ScrollBar.prototype;
+
+ScrollBar({
+            container: $("div.container")[0],
+            target: $("div.every_look")[0],
+            gap: 50
+        });*/
+</script>
+</body>
+</html>
+  
