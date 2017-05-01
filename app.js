@@ -31,14 +31,14 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 
 var oneYear = 86400000*365;
-app.use('/components/static', express.static(path.join(__dirname, 'public'),{maxAge: oneYear}));
+app.use('/static', express.static(path.join(__dirname, 'public'),{maxAge: oneYear}));
 
-app.use('/components/demos', express.static(path.join(__dirname, 'components')));
+app.use('/demos', express.static(path.join(__dirname, 'components')));
 
-app.use('/components/', index);
-app.use('/components/component', component);
-app.use('/components/src', src);
-app.use('/components/standard', standard);
+app.use('/', index);
+app.use('/component', component);
+app.use('/src', src);
+app.use('/standard', standard);
 
 app.use(function(req, res, next) {
   res.status(404).render('404');

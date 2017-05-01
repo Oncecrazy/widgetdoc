@@ -1,0 +1,21 @@
+.clearfix{*zoom:1;}
+.clearfix:after{
+    display:block;
+    clear:both;
+    content:"\0020";
+    visibility:hidden;
+    height:0;
+}
+
+.tip{ position:absolute;display:none;border:1px solid #dddddd;border-radius: 3px;min-width: 80px;}
+
+.tip .tip_arrow_icon{ position:absolute; border:6px solid transparent; width:0px; height:0px; line-height:0px; display:block;}
+.tip .tip_arrow_bottom{ border-bottom-color:#dddddd; top:-12px; left:50%; margin-left:-6px; }
+.tip .tip_arrow_top{ border-top-color:#dddddd; bottom:-12px; left:50%; margin-left:-6px; }
+.tip .tip_arrow_right{ border-right-color:#dddddd; top:50%; left:-12px; margin-top:-6px; }
+.tip .tip_arrow_left{ border-left-color:#dddddd; top:50%; right:-12px; margin-top:-6px; }
+
+.tip .tip_head{position: relative;}
+.tip .tip_head .tip_title{font-size:14px;font-weight:bold;line-height: 30px;margin-left: 6px;}
+.tip .tip_head .tip_close{ position: absolute;top: 2px; right: 4px; width:18px; height:18px; display:block; cursor: pointer;}
+.tip .tip_content{color:#000000; font-size:12px;line-height: 25px;margin: 10px;text-align: center;}

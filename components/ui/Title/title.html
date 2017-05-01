@@ -1,0 +1,38 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8">
+<title>Title demo</title>
+<link rel="stylesheet" href="./css/tip.css" />
+</head>
+<body style="margin: 10px;padding:10px;">
+
+<h1 style="font-size:36px;">Title demo</h1>
+<hr />
+
+<div id="titleWrap" data-title="this is tip!" style="margin:80px;text-align:center;">tip hover test.tip hover test.tip hover test.</div>
+
+<p><span data-title="this is tip!">hover here.</span></p>
+
+<script type="text/javascript" src="./js/sea.js"></script>
+<script type="text/javascript">
+seajs.config({
+    base : './js/',
+    alias: {
+        'Base':  'base.js',
+        'Tip' : 'Tip',
+        'Title': 'Title',
+        'jquery': 'jquery-1.9.1.min.js'
+    }
+});
+
+define('main',['Title','jquery'],function(require,exprots,module){
+    var Title = require('Title');
+    new Title();
+});
+
+seajs.use( 'main');
+
+</script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset=utf-8 />
+    <meta name="author" content="http://weibo.com/zswang" />
+    <title>Demo</title>
+    <script>
+(function(e,t,n,a,o,i,m){
+e.alogObjectName=o,e[o]=e[o]||function(){(e[o].q=e[o].q||[]).push(arguments)},e[o].l=e[o].l||+new Date,i=t.createElement(n),i.asyn=1,i.src=a,m=t.getElementsByTagName(n)[0],m.parentNode.insertBefore(i,m)
+})(window,document,"script","../../alog.min.js","alog");
+    </script>
+</head>
+<body>
+    <script>
+alog('set', 'alias', { tongji: 'tongji.js' });
+alog('tongji.set', 'id', '117db99758bc30d29de3e7b52a5d4b92');
+    </script>
+    <button id="button1">button1</button>
+    <script>
+document.getElementById('button1').onclick = function() {
+	alog('tongji.send', 'event', 'Button', 'Click', '#' + this.id);
+};
+alog('require', 'tongji');
+    </script>
+</body>
+</html>

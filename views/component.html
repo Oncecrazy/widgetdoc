@@ -1,16 +1,16 @@
 <% include header.html %>
 <!--  prettify css  -->
-<link rel="stylesheet" type="text/css" href="/components/static/css/lib/prettify/prettify-cmd.css">
+<link rel="stylesheet" type="text/css" href="/static/css/lib/prettify/prettify-cmd.css">
 
 <div class="container">
     <ol class="breadcrumb mgn-bt-0">
-        <li><a href="/components/">主页</a></li>
+        <li><a href="/">主页</a></li>
         <li class="active"><%= name %></li>
     </ol>
     <div id="pageHeader" class="page-header">
         <h1><%= name %></h1>
         <p>
-            <%= description %>  <a href= "/components/src/<%= category.id %>/<%= name %>" target="_blank">源代码</a>
+            <%= description %>  <a href= "/src/<%= category.id %>/<%= name %>" target="_blank">源代码</a>
         </p>
         <p>
             作者：<i><%= author %></i> <%- see %>
@@ -96,7 +96,7 @@
                     <ol>
                         <% for(var i = 0;i< usecases.length;i++){ %>
                         <li>
-                            <a href="/components/demos/<%= category.id %>/<%= name %>/<%= usecases[i] %>.html" target="_blank"><%= usecases[i] %></a>
+                            <a href="/demos/<%= category.id %>/<%= name %>/<%= usecases[i] %>.html" target="_blank"><%= usecases[i] %></a>
                         </li>
                         <% } %>
                     </ol>
@@ -106,9 +106,9 @@
     </article>
 </div>
 
-<script  type="text/javascript" src="/components/static/js/lib/jquery-1.11.1.min.js"></script>
+<script  type="text/javascript" src="/static/js/lib/jquery-1.11.1.min.js"></script>
 <!--  prettify  -->
-<script  type="text/javascript" src="/components/static/js/lib/prettify/prettify.js"></script>
+<script  type="text/javascript" src="/static/js/lib/prettify/prettify.js"></script>
 
 <script>
     $(function(){

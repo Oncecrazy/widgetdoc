@@ -1,0 +1,186 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Dom Ready研究</title>
+</head>
+<body>
+    <p>熟悉jQuery的人, 都知道DomReady事件. window.onload事件是在页面所有的资源都加载完毕后触发的. 如果页面上有大图片等资源响应缓慢, 会导致window.onload事件迟迟无法触发.所以出现了DOM Ready事件. 此事件在DOM文档结构准备完毕后触发, 即在资源加载前触发.</p>
+    <p>对于FF, Chrome, Safari, IE9等浏览器:
+        DOMContentLoaded 事件在许多Webkit浏览器以及IE9上都可以使用, 此事件会在DOM文档准备好以后触发, 包含在HTML5标准中. 对于支持此事件的浏览器, 直接使用DOMContentLoaded事件是最简单最好的选择.</p>
+    <p>对于IE6,7,8:
+        不幸的是, IE6,7,8都不支持DOMContentLoaded事件.所以目前所有的hack方法都是为了让IE6,7,8支持DOM Ready事件.</p>
+    <hr>
+    <p>目前IE下的DOM Ready方法：</p>
+    <p>setTimeout设置的函数, 会在readyState为complete时触发, 但是触发时间点是在图片资源加载完毕后.</p>
+    <p>readyState为interactive时, DOM结构并没有稳定, 此时依然会有脚本修改DOM元素.
+    readyState为complete时, 图片已经加载完毕, 实验中对图片加载设置了延时.
+    所以complete虽然在window.onload前执行, 但是还是太晚.</p>
+    <p>外部script:如果将此script放在页面上方, 则无法稳定触发. 并且触发时DOM结构依然可能发生变化.内部script:与外部script同样的问题, 触发的时间过早.</p>
+    <p>doScroll: doScroll通过时readyState可能为interactive, 也可能为complete. 
+    但是一定会在DOM结构稳定后, 图片加载完毕前执行.
+    所以可以看出, 目前的setTimeout方法, 外部script和内部script方法, 都是存在错误的.
+    应该说这些方法不能安全可靠的实现DomReady事件.
+    而单纯使用readyState属性是无法判断出Dom Ready事件的. 
+    interactive状态过早(DOM没有稳定), complete状态过晚(图片加载完毕).
+    jQuery实现中使用的doScroll方法是目前唯一可用的方法.
+    </p>
+    <hr>
+    <div id="divMsg"></div>
+    <img src="http://pic.to8to.com/tumall/2015/09/25/d947bbc450f87a30687fbdcdbddb3ab8.jpg">
+</body>
+    <script>
+    //1)setTimeout : 在setTimeout中触发的函数, 一定会在DOM准备完毕后触发.
+    var setTimeoutReady = function() {
+        document.getElementById("divMsg").innerHTML += "<br/>"+(+new Date)+" setTimeout , readyState:" + document.readyState;
+    };
+    var setTimeoutBindReady = function() {
+        ///in/.test(document.readyState) ? setTimeout(arguments.callee, 1) : setTimeoutReady();
+        /interactive|complete/.test(document.readyState) ? setTimeoutReady():setTimeout(arguments.callee, 1);
+    };
+    setTimeoutBindReady();
+
+
+    //2) readyState: 判断readyState的状态是否为Complete, interactive等触发
+    document.onreadystatechange = function(e) {
+        document.getElementById("divMsg").innerHTML += "<br/>"+(+new Date)+" onreadystatechange, readyState:" + document.readyState;
+
+    };
+
+    //4)内部script: 外部script的改进版本. 外部script需要页面引用额外的js文件. 内部script方法可以避免此问题.
+    document.write("<script id=__ie_onload defer src=javascript:void(0)><\/script>");
+    var script = document.getElementById("__ie_onload");
+    script.onreadystatechange = function() {
+        if (this.readyState == "complete") {
+            document.getElementById("divMsg").innerHTML += "<br/>"+(+new Date)+"internal script defer, readyState:" + document.readyState;
+        }
+    };
+
+    //5)doScroll : 微软的文档只出doScroll必须在DOM主文档准备完毕时才可以正常触发. 所以通过doScroll判断DOM是否准备完毕.
+    var doScrollMoniterId = null;
+    var doScrollMoniter = function() {
+     try{
+            document.documentElement.doScroll("left");
+            document.getElementById("divMsg").innerHTML += "<br/>"+(+new Date)+"doScroll, readyState:" + document.readyState;
+            if (doScrollMoniterId) {
+                clearInterval(doScrollMoniterId);
+            }
+        } catch (ex) {}
+    }
+    doScrollMoniterId = setInterval(doScrollMoniter, 1);
+
+    var U = {
+         ready: function(callback, delay, win) {
+             win = win || this.win || window;
+             var doc = win.document;
+             delay = delay || 0;
+             this.domReadyMonitorRunTimes = 0;
+
+             //将时间函数放入数组, 在DomReady时一起执行.
+             this.readyFuncArray = this.readyFuncArray || [];
+             this.readyFuncArray.push({
+                 func: callback,
+                 delay: delay,
+                 done: false
+             });
+
+             //domReadyMonitor为监控进程的事件处理函数
+             var domReadyMonitor = (function() {
+                 var isReady = false;
+                 this.domReadyMonitorRunTimes++;
+
+                 //对于非iframe嵌套的ie6,7,8浏览器, 使用doScroll判断Dom Ready.
+                 if (this.browser.ie && this.browser.ie < 9 && !win.frameElement) {
+                     try {
+                         doc.documentElement.doScroll("left");
+                         isReady = true;
+                     } catch (e) {}
+                 }
+                 //非ie浏览器
+                 //如果window.onload和DOMContentLoaded事件都绑定失败, 则使用定时器函数判断readyState.                
+                 else if (doc.readyState === "complete" || this.domContentLoaded) {
+                     isReady = true;
+                 }
+                 //对于某些特殊页面, 如果readyState永远不能为complete, 设置了一个最大运行时间5分钟. 超过了最大运行时间则销毁定时器.
+                 //定时器销毁不影响window.onload和DOMContentLoaded事件的触发.
+                 else {
+                     if (this.domReadyMonitorRunTimes > 300000) {
+                         if (this.domReadyMonitorId) {
+                             win.clearInterval(this.domReadyMonitorId);
+                             this.domReadyMonitorId = null;
+                         }
+                         return;
+                     }
+                 }
+
+
+                 //执行ready集合中的所有函数
+                 if (isReady) {
+                     try {
+                         if (this.readyFuncArray && this.readyFuncArray.length) {
+                             for (var i = 0, count = this.readyFuncArray.length; i < count; i++) {
+                                 var item = this.readyFuncArray[i];
+                                 if (!item || !item.func || item.done) {
+                                     continue;
+                                 }
+                                 if (!item.delay) {
+                                     item.done = true;
+                                     item.func();
+                                 } else {
+                                     item.done = true;
+                                     win.setTimeout(item.func, item.delay);
+                                 }
+                             }
+                         }
+                     } catch (ex) {
+                         throw ex;
+                     } finally {
+                         if (this.domReadyMonitorId) {
+                             win.clearInterval(this.domReadyMonitorId);
+                             this.domReadyMonitorId = null;
+                         }
+                     }
+                 }
+             }).__proxy(this);
+
+             /**
+             domContentLoadedHandler直接执行所有ready函数.
+             没使用传参的形式是因为ff中的定时器函数会传递一个时间参数.
+             */
+             var domContentLoadedHandler = (function() {
+                 this.domContentLoaded = true;
+                 domReadyMonitor();
+             }).__proxy(this);
+
+             //启动DomReady监控进程
+             if (!this.domReadyMonitorStarted) {
+                 this.domReadyMonitorStarted = true;
+                 this.domReadyMonitorId = win.setInterval(domReadyMonitor, 50);
+                 // Mozilla, Opera and webkit nightlies currently support this event
+                 if (doc.addEventListener) {
+                     // Use the handy event callback
+                     doc.addEventListener("DOMContentLoaded", domContentLoadedHandler, false);
+                     // A fallback to window.onload, that will always work
+                     win.addEventListener("load", domContentLoadedHandler, false);
+                 } else if (doc.attachEvent) {
+                     // A fallback to window.onload, that will always work
+                     win.attachEvent("onload", domContentLoadedHandler, false);
+                 }
+             }
+         }
+    }
+
+    //扩展function函数原型。为所有的function对象添加proxy函数，用于修改函数的上下文。
+    Function.prototype.__proxy = function(context) {
+        var method = this;
+        return function() {
+            return method.apply(context || {}, arguments);
+        };
+    };
+    </script>
+    <!-- 3)外部script: 通过设置了script块的defer属性实现. -->
+    <script type="text/javascript" src="ext-1.js" defer> </script>
+</html>
+
+
+
+ 

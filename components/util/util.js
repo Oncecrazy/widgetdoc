@@ -23,6 +23,7 @@
 
     }
 })(window, function (require, exports, module) {
+    
     var util = {
     	version: 0.1
     };
@@ -321,6 +322,165 @@
 	// }
 
 
+
+    /*
+     * 指定数字获取日期
+     */
+    util.changeDate=function(val) {
+        var currdate = "";
+        var date = new Date();
+        if (val == 0) {
+            var month=date.getMonth() + 1;
+            month=month<10 ? ("0"+month):month;
+            var day=date.getDate();
+            day=day<10 ? ("0"+day):day;
+            currdate = date.getFullYear() + "-" + month + "-" + day;
+        } else {
+            if (util._chkdate(currdate)) {
+                var dates = currdate.split("-");
+                dates[1] = dates[1].replace(/^0/g, '');
+                dates[2] = dates[2].replace(/^0/g, '');
+                var currdate = util._dayAddDiff(parseInt(dates[0]), parseInt(dates[1]), parseInt(dates[2]), val);
+            } else {
+                var currdate = util._dayAddDiff(parseInt(date.getFullYear()), parseInt(date.getMonth() + 1), parseInt(date.getDate()), val);
+            }
+
+        }
+        return currdate;
+    };
+
+    util._dayAddDiff=function(year, month, day, diff) {
+        var numDays = new Array(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31);
+        var isLeap = false;
+        var newyear = year;
+        var newmonth = month - 1;
+        var n = numDays[newmonth];
+        var newday = day;
+        var newdiff = diff;
+        var ln;
+        if (newmonth == 0) ln = 31;
+        else if (newmonth == 11) ln = 31;
+        else ln = numDays[newmonth + 1];
+        if (diff != 0) {
+            // 判断是否润年
+            if (year % 4 == 0) {
+                if (year % 100 != 0) isLeap = true;
+                else {
+                    if (year % 400 == 0) isLeap = true;
+                }
+            }
+            if (newmonth == 1 && isLeap)++n;
+
+            if (newmonth == 0 && isLeap)++ln;
+            // 加值
+            var newday = day + newdiff;
+            if (newday > 0) {
+                if (newday > n) {
+                    newday = newday - n;
+                    if (newmonth == 11) {
+                        newmonth = 0;
+                        newyear += 1;
+                        newdiff = newday - 1;
+                        return util._dayAddDiff(newyear, newmonth + 1, 1, newdiff);
+                    } else {
+                        newmonth += 1;
+                        newdiff = newday - 1;
+                        return util._dayAddDiff(newyear, newmonth + 1, 1, newdiff);
+                    }
+                }
+            } else if (newday == 0) {
+                if (newmonth == 0) {
+                    newmonth = 11;
+                    newyear += -1;
+                    newday = 31;
+                } else {
+                    newmonth += -1;
+                    newday = numDays[newmonth];
+                }
+            } else {
+                if (newmonth == 0) {
+                    newmonth = 11;
+                    newyear += -1;
+                    newdiff = newday;
+                    newday = 31;
+                    return util._dayAddDiff(newyear, newmonth + 1, newday, newdiff);
+                } else {
+                    newmonth += -1;
+                    newdiff = newday;
+                    newday = ln;
+                    return util._dayAddDiff(newyear, newmonth + 1, newday, newdiff);
+                }
+            }
+        }
+        // 输出字符串
+        var daystring = "";
+        daystring += year;
+        newmonth += 1;
+        if (newmonth < 10) daystring += "-0" + newmonth;
+        else daystring += "-" + newmonth;
+        if (newday < 10) daystring += "-0" + newday;
+        else daystring += "-" + newday;
+        return daystring;
+    }
+
+    util._chkdate=function(datestr) {
+        var lthdatestr
+        if (datestr != "") lthdatestr = datestr.length;
+        else lthdatestr = 0;
+
+        var tmpy = "";
+        var tmpm = "";
+        var tmpd = "";
+        var datestr;
+        var status;
+        status = 0;
+        if (lthdatestr == 0){
+            return false;   
+        }
+        
+        for (i = 0; i < lthdatestr; i++) {
+            if (datestr.charAt(i) == '-') {
+                status++;
+            }
+            if (status > 2) {
+                return false;
+            }
+            if ((status == 0) && (datestr.charAt(i) != '-')) {
+                tmpy = tmpy + datestr.charAt(i)
+            }
+            if ((status == 1) && (datestr.charAt(i) != '-')) {
+                tmpm = tmpm + datestr.charAt(i)
+            }
+            if ((status == 2) && (datestr.charAt(i) != '-')) {
+                tmpd = tmpd + datestr.charAt(i)
+            }
+
+        }
+        year = new String(tmpy);
+        month = new String(tmpm);
+        day = new String(tmpd);
+        tempdate = new String(year + month + day);
+        if ((tmpy.length != 4) || (tmpm.length > 2) || (tmpd.length > 2)) {
+            return false;
+        }
+        if (! ((1 <= month) && (12 >= month) && (31 >= day) && (1 <= day))) {
+            return false;
+        }
+        if (! ((year % 4) == 0) && (month == 2) && (day == 29)) {
+            return false;
+        }
+        if ((month <= 7) && ((month % 2) == 0) && (day >= 31)) {
+            return false;
+
+        }
+        if ((month >= 8) && ((month % 2) == 1) && (day >= 31)) {
+            return false;
+        }
+        if ((month == 2) && (day == 30)) {
+            return false;
+        }
+        return true;
+    }
 
 
 	/**
@@ -786,11 +946,45 @@
     }
 }());
 
-var util = {};
 
+/*
+ * Logging/debug routines
+ */
+util._log_level = 'warn'
+util.initLogging = function (level) {
+    typeof level === 'undefied' ?
+        (level = util._log_level) : (util._log_level = level);
+    if (typeof window.console === "undefined") {
+        if (typeof window.opera !== "undefined") {
+            window.console = {
+                'log'  : window.opera.postError,
+                'warn' : window.opera.postError,
+                'error': window.opera.postError };
+        } else {
+            window.console = {
+                'log'  : function(m) {},
+                'warn' : function(m) {},
+                'error': function(m) {}};
+        }
+    }
 
-
-
+    util.Debug = util.Info = util.Warn = util.Error = function (msg) {};
+    switch (level) {
+        case 'debug': util.Debug = function (msg) { console.log(msg); };
+        case 'info':  util.Info  = function (msg) { console.log(msg); };
+        case 'warn':  util.Warn  = function (msg) { console.warn(msg); };
+        case 'error': util.Error = function (msg) { console.error(msg); };
+        case 'none':
+            break;
+        default:
+            throw("invalid logging type '" + level + "'");
+    }
+};
+util.getLogging = function () {
+    return util._log_level;
+};
+// Initialize logging level
+util.initLogging();
 
 
 
@@ -1161,30 +1355,40 @@ util.iframe = {
 	}
 };
    
-util.form = {
-	create : function(id, url, method, target){
-		var form = document.createElement("form");
-	    form.id = id;
-	    form.action = url;
-	    form.method = method || "post";
-	    form.target = target || "_blank";
-	    document.body.appendChild(form);
-	    return form;
-	},
-	addHidItem: function(form, hidId, hidName, hidValue){
-		var hid = document.createElement("input");
-	    hid.type = "hidden";
-	    hid.id = hidId;
-	    hid.name = hidName;
-	    hid.value = hidValue;
-	    form.appendChild(hid);
-	    return hid;
-	},
-	remove: function(form){
-		 document.body.removeChild(form);
-	}
-}
+util.jsFormSender = function(path, params, method) {
+    method = method || "post"; 
+    var form = document.createElement("form");
+    form.setAttribute("method", method);
+    form.setAttribute("action", path);
+    form.setAttribute("target", "_self");
+    form.style.display="none";
 
+    for(var key in params) {
+        if(params.hasOwnProperty(key)) {
+           if (Object.prototype.toString.apply(params[key]) !== '[object Array]'){
+                var hiddenField = document.createElement("input");
+                hiddenField.setAttribute("type", "hidden");
+                hiddenField.setAttribute("name", key);
+                hiddenField.setAttribute("value", params[key]);
+                form.appendChild(hiddenField);
+            } else {
+                for (var index in params[key]){
+                     var hiddenField = document.createElement("input");
+                    hiddenField.setAttribute("type", "hidden");
+                    hiddenField.setAttribute("name", key);
+                    hiddenField.setAttribute("value", params[key][index]);
+                    form.appendChild(hiddenField);
+                }
+            }
+        }
+    }
+
+    document.body.appendChild(form);
+    form.submit();
+    setTimeout(function(){
+        document.body.removeChild(form);
+    },2000);
+};
 
 /**
  *  url
@@ -1345,3 +1549,1184 @@ function keyPressIsAllowed( which ){
         || which === 9 || which === 13    // tab閼搭偅鐦篹nter瑜版洜婀
         )return true;
 }
+
+
+var maxSafeInt = Number.MAX_SAFE_INTEGER || 9007199254740991;
+function intInc (number) {
+    return (number === maxSafeInt) ? 0 : number + 1
+}
+
+
+// Get DOM element position on page
+//  This solution is based based on http://www.greywyvern.com/?post=331
+//  Thanks to Brian Huisman AKA GreyWyvern!
+util.getPosition = (function() {
+    function getStyle(obj, styleProp) {
+        if (obj.currentStyle) {
+            var y = obj.currentStyle[styleProp];
+        } else if (window.getComputedStyle)
+            var y = window.getComputedStyle(obj, null)[styleProp];
+        return y;
+    };
+
+    function scrollDist() {
+        var myScrollTop = 0, myScrollLeft = 0;
+        var html = document.getElementsByTagName('html')[0];
+
+        // get the scrollTop part
+        if (html.scrollTop && document.documentElement.scrollTop) {
+            myScrollTop = html.scrollTop;
+        } else if (html.scrollTop || document.documentElement.scrollTop) {
+            myScrollTop = html.scrollTop + document.documentElement.scrollTop;
+        } else if (document.body.scrollTop) {
+            myScrollTop = document.body.scrollTop;
+        } else {
+            myScrollTop = 0;
+        }
+
+        // get the scrollLeft part
+        if (html.scrollLeft && document.documentElement.scrollLeft) {
+            myScrollLeft = html.scrollLeft;
+        } else if (html.scrollLeft || document.documentElement.scrollLeft) {
+            myScrollLeft = html.scrollLeft + document.documentElement.scrollLeft;
+        } else if (document.body.scrollLeft) {
+            myScrollLeft = document.body.scrollLeft;
+        } else {
+            myScrollLeft = 0;
+        }
+
+        return [myScrollLeft, myScrollTop];
+    };
+
+    return function (obj) {
+        var curleft = 0, curtop = 0, scr = obj, fixed = false;
+        while ((scr = scr.parentNode) && scr != document.body) {
+            curleft -= scr.scrollLeft || 0;
+            curtop -= scr.scrollTop || 0;
+            if (getStyle(scr, "position") == "fixed") {
+                fixed = true;
+            }
+        }
+        if (fixed && !window.opera) {
+            var scrDist = scrollDist();
+            curleft += scrDist[0];
+            curtop += scrDist[1];
+        }
+
+        do {
+            curleft += obj.offsetLeft;
+            curtop += obj.offsetTop;
+        } while (obj = obj.offsetParent);
+
+        return {'x': curleft, 'y': curtop};
+    };
+})();
+
+
+// Get mouse event position in DOM element
+util.getEventPosition = function (e, obj, scale) {
+    var evt, docX, docY, pos;
+    //if (!e) evt = window.event;
+    evt = (e ? e : window.event);
+    evt = (evt.changedTouches ? evt.changedTouches[0] : evt.touches ? evt.touches[0] : evt);
+    if (evt.pageX || evt.pageY) {
+        docX = evt.pageX;
+        docY = evt.pageY;
+    } else if (evt.clientX || evt.clientY) {
+        docX = evt.clientX + document.body.scrollLeft +
+            document.documentElement.scrollLeft;
+        docY = evt.clientY + document.body.scrollTop +
+            document.documentElement.scrollTop;
+    }
+    pos = util.getPosition(obj);
+    if (typeof scale === "undefined") {
+        scale = 1;
+    }
+    var realx = docX - pos.x;
+    var realy = docY - pos.y;
+    var x = Math.max(Math.min(realx, obj.width-1), 0);
+    var y = Math.max(Math.min(realy, obj.height-1), 0);
+    return {'x': x / scale, 'y': y / scale, 'realx': realx / scale, 'realy': realy / scale};
+};
+
+
+
+/*
+任意位置浮动固定层
+说明：可以让指定的层浮动到网页上的任何位置，当滚动条滚动时它会保持在当前位置不变，不会产生闪动
+修改：当自定义right位置时无效，这里加上一个判断 
+修改:支持关闭、确定回调函数，支持蒙层效果
+有值时就不设置，无值时要加18px已修正层位置在ie6下的问题 
+参数描述
+   $("selector").floatdiv({
+        location:"rightbottom/leftbottom/rightbottom/lefttop/righttop/middle"或者{left:"XXpx",top:"XXpx"},//浮动DIV位置
+        isShowCover:true/false,//是否显示覆盖层，默认是false
+        timeToLive:1000,//自动关闭时间，以毫秒为耽误。默认是0，不关闭floatDiv。
+        confirm_callback:funcntion(){},//确定的回调函数
+        close_callback:function(){}//取消或关闭的回调函数
+    })
+
+    使用说明：
+    1 空{}调用：默认 
+    $("#id").floatdiv({}); 
+    2 内置固定位置浮动 
+    右下角 
+    $("#id").floatdiv({location:"rightbottom"}); 
+    左下角 
+    $("#id").floatdiv({location:"leftbottom"}); 
+    右下角 
+    $("#id").floatdiv({location:"rightbottom"}); 
+    左上角 
+    $("#id").floatdiv({location:"lefttop"}); 
+    右上角 
+    $("#id").floatdiv({location:"righttop"}); 
+    居中 
+    $("#id").floatdiv({location:"middle"}); 
+    3 自定义位置浮动 
+    $("#id").floatdiv({location:{left:"10px",top:"10px"}}); 
+    以上参数，设置浮动层在left 10个像素,top 10个像素的位置 
+*/ 
+
+jQuery.fn.floatdiv=function(obj){
+    obj.location=obj.location || "middle";
+    obj.isShowCover=obj.isShowCover|| false;
+    obj.confirm_callback=obj.confirm_callback || function (){};
+    obj.close_callback=obj.close_callback || function (){};
+    obj.timeToLive=obj.timeToLive||0;
+    obj.isClickClose=obj.isClickClose||false;
+    // ie6要隐藏纵向滚动条
+    var isIE6=false; 
+    var timeoutId;
+    if($.browser.msie && $.browser.version=="6.0"){ 
+        $("html").css("overflow-x","auto").css("overflow-y","hidden");
+        isIE6=true; 
+    }; 
+    /*
+     * $("body").css({margin:"0px",padding:"0 10px 0 10px", border:"0px",
+     * height:"100%", overflow:"auto" });
+     */
+    var $xBtns=null,$okBtns=null,$closeBtns=null;
+
+    // 取得瀏覽器視窗高度
+    function getBrowserHeight() {
+        if ($.browser.msie) {
+            return document.compatMode == "CSS1Compat" ? document.documentElement.clientHeight :document.body.clientHeight;
+        } else {
+            return self.innerHeight;
+        }
+    }
+
+    // 取得瀏覽器視窗寬度
+    function getBrowserWidth() {
+        if ($.browser.msie) {
+            return document.compatMode == "CSS1Compat" ? document.documentElement.clientWidth :document.body.clientWidth;
+        } else {
+            return self.innerWidth;
+        }
+    } 
+
+    return this.each(function(){ 
+        var loc;// 层的绝对定位位置
+        if(obj.location==undefined || obj.location.constructor == String){ 
+
+            switch(obj.location){ 
+                case("rightbottom"):// 右下角
+                    loc={right:"0px",bottom:"0px"}; 
+                    break; 
+                case("leftbottom"):// 左下角
+                    loc={left:"0px",bottom:"0px"}; 
+                    break; 
+                case("lefttop"):// 左上角
+                    loc={left:"0px",top:"0px"}; 
+                    break; 
+                case("righttop"):// 右上角
+                        loc={right:"0px",top:"0px"}; 
+                        break; 
+                case("middle"):// 居中
+                    var l=0;// 居左
+                    var t=0;// 居上
+                    var windowWidth,windowHeight;// 窗口的高和宽
+                    
+                    windowWidth=getBrowserWidth();
+                    windowHeight=getBrowserHeight();
+                    l=Math.floor(windowWidth/2-$(this).width()/2+$(document).scrollLeft());
+                    t=Math.floor(windowHeight/2-$(this).height()/2+$(document).scrollTop()); 
+                    loc={left:l+"px",top:t+"px"}; 
+                    break; 
+                default:// 默认为右下角
+                    loc={right:"0px",bottom:"0px"}; 
+                    break; 
+            } 
+        }else{ 
+            loc=obj.location; 
+        }
+
+        $(this).css("z-index","8999").css(loc).css("position","fixed"); 
+        if(isIE6){ 
+            if(loc.right!=undefined){ 
+                // 2008-4-1修改：当自定义right位置时无效，这里加上一个判断
+                // 有值时就不设置，无值时要加18px已修正层位置
+                if($(this).css("right")==null || $(this).css("right")==""){ 
+                    $(this).css("right","18px"); 
+                } 
+            } 
+            $(this).css("position","absolute"); 
+        }
+
+        // 添加关闭事件
+        var _this=this;
+        $xBtns=$(this).find(".ico_x,.qz_dialog_btn_close").bind("click",function(){
+            $(_this).fadeOut("fast");
+            $(this).unbind("click");
+            $closeBtns.unbind("click");
+            $okBtns.unbind("click");
+            $("#mask_div").length>0 && $("#mask_div").remove();
+            (obj.close_callback)();
+            return false;
+        });
+        
+        $closeBtns=$(this).find(".btn_gray2,.bt_tip_normal.bt_tip").bind("click",function(){
+            $(_this).fadeOut("fast");
+            $(this).unbind("click");
+            $xBtns.unbind("click");
+            $okBtns.unbind("click");
+            $("#mask_div").length>0 && $("#mask_div").remove();
+            (obj.close_callback)();
+            return false;
+        })
+        // 添加确定事件回调函数
+        $okBtns=$(this).find(".btn_blue,.bt_tip_hit.bt_tip").unbind().bind("click",function(){
+            (obj.confirm_callback)();
+            if($(this).hasClass("not_close")){
+                return false;
+            }
+            $(_this).fadeOut("slow");
+            $("#mask_div").length>0 && $("#mask_div").remove();
+            return false;
+        })
+        
+        if(obj.isShowCover){
+            $("#mask_div").length>0 && $("#mask_div").remove();
+            $("body").append("<div id='mask_div' class='ui_mask'></div>");
+            $("body").find("#mask_div").width($(window).width()) .height(($(window).height()>$(document).height()?$(window).height():$(document).height()))
+                .css({opacity:"0.6",display:"block",top:"0px",left:"0px",position: "absolute",zIndex:999});
+        }
+
+        if(obj.isClickClose){
+            $("#mask_div").bind("click",function(evt){
+                var $msgbox=$("#mc_util_msgbox");
+                $msgbox.length>0 && $msgbox.closeFloatDiv();
+                timeoutId && clearTimeout(timeoutId);
+                evt.stopPropagation();
+            });
+        }
+        
+        $(_this).find("div.hd").draggit($(_this));
+        
+        if(obj.timeToLive>0){
+            timeoutId=setTimeout(function(){
+                $(_this).fadeOut("slow");
+                $("#mask_div").length>0 && $("#mask_div").remove();
+            },obj.timeToLive);
+        }
+
+        var oldWith=$(_this).width(),oldHeight=$(_this).height();
+        var  resizeFun=function(){
+            var l=0,t=0,
+                windowWidth=getBrowserWidth(),
+                windowHeight=getBrowserHeight();
+                l=Math.floor(windowWidth/2-oldWith/2+$(document).scrollLeft());
+                t=Math.floor(windowHeight/2-oldHeight/2+$(document).scrollTop()); 
+                loc={left:l+"px",top:t+"px"};
+                $(_this).css(loc).width(oldWith).height(oldHeight);
+
+                $("#mask_div").length>0 && $("#mask_div").width($(window).width()) .height(($(window).height()>$(document).height()?$(window).height():$(document).height()))
+                .css({opacity:"0.6",display:"block",top:"0px",left:"0px",position: "absolute",zIndex:999});
+        };
+        var resizer1,resizer2;
+        $(window).resize(function(){
+            if(obj.location=="middle"){
+                clearTimeout(resizer1);
+                resizer1=setTimeout(resizeFun,10);
+            }
+        });
+
+        $(window).scroll(function(){
+            if(obj.location=="middle"){
+                clearTimeout(resizer2);
+                resizer2=setTimeout(resizeFun,10);
+            }
+        });
+
+
+    }); 
+};
+
+jQuery.fn.closeFloatDiv=function(){
+    
+    $(this).each(function(index,el){
+        $(el).fadeOut("slow");
+        // $(el).css("display","none");
+        $(el).find(".ico_x").unbind("click");
+        $(el).find(".btn_normal").unbind("click");
+        $(el).find(".btn_blue").unbind("click");
+        $("#mask_div").length>0 && $("#mask_div").remove();
+    });
+    return this;
+};
+
+
+jQuery.fn.draggit = function (el) {
+    var thisdiv = this;
+    var thistarget = $(el?el:this);
+    var relX;
+    var relY;
+    var targetw = thistarget.width();
+    var targeth = thistarget.height();
+    var docw;
+    var doch;
+    var ismousedown=false;
+
+    thistarget.css('position','absolute');
+
+    // 取得瀏覽器視窗高度
+    function getBrowserHeight() {
+        if ($.browser.msie) {
+            return document.compatMode == "CSS1Compat" ? document.documentElement.clientHeight :document.body.clientHeight;
+        } else {
+            return self.innerHeight;
+        }
+    };
+
+    thisdiv.bind('mousedown', function(e){
+        
+        var pos = $(el).offset();
+        var srcX = pos.left;
+        var srcY = pos.top;
+
+        docw = $('body').width();
+        doch = $('body').height()>=viewh ? $('body').height() : viewh;
+
+        relX = e.pageX - srcX;
+        relY = e.pageY - srcY;
+        
+        if(this.setCapture){
+            this.setCapture();
+        }else if (window.captureEvents){
+            window.captureEvents(Event.MOUSEMOVE|Event.MOUSEUP);
+        }
+        
+        ismousedown = true;
+        e.preventDefault();
+    });
+
+    $(document).bind('mousemove',function(e){ 
+        if(ismousedown)
+        {
+            targetw = thistarget.width();
+            targeth = thistarget.height();
+
+            var maxX = docw - targetw - 10;
+            var maxY = doch - targeth - 10;
+
+            var mouseX = e.pageX;
+            var mouseY = e.pageY;
+
+            var diffX = mouseX - relX;
+            var diffY = mouseY - relY;
+
+            // check if we are beyond document bounds ...
+            if(diffX < 0)   diffX = 0;
+            if(diffY < 0)   diffY = 0;
+            if(diffX > maxX) diffX = maxX;
+            if(diffY > maxY) diffY = maxY;
+
+            $(el).css('top', (diffY)+'px');
+            $(el).css('left', (diffX)+'px');
+        }
+    });
+
+    thisdiv.bind('mouseup', function(e){
+        if(this.releaseCapture){
+            this.releaseCapture();
+        }else if(window.captureEvents){
+            window.captureEvents(Event.MOUSEMOVE|Event.MOUSEUP);
+        }
+        ismousedown = false;
+    });
+
+    return this;
+}
+
+
+
+// Dynamically load scripts without using document.write()
+// Reference: http://unixpapa.com/js/dyna.html
+//
+// Handles the case where load_scripts is invoked from a script that
+// itself is loaded via load_scripts. Once all scripts are loaded the
+// window.onscriptsloaded handler is called (if set).
+
+util._loading_scripts = [];
+util._pending_scripts = [];
+util.load_scripts = function(files, baseUri, version) {
+    var head = document.getElementsByTagName('head')[0], script,
+        ls = util._loading_scripts, ps = util._pending_scripts;
+    for (var f=0; f<files.length; f++) {
+        script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = baseUri + files[f] + (version ? '?'+ version : '');
+        //console.log("loading script: " + script.src);
+        script.onload = script.onreadystatechange = function (e) {
+            while (ls.length > 0 && (ls[0].readyState === 'loaded' ||
+                                     ls[0].readyState === 'complete')) {
+                // For IE, append the script to trigger execution
+                var s = ls.shift();
+                //console.log("loaded script: " + s.src);
+                head.appendChild(s);
+            }
+            if (!this.readyState ||
+                (util.Engine.presto && this.readyState === 'loaded') ||
+                this.readyState === 'complete') {
+                if (ps.indexOf(this) >= 0) {
+                    this.onload = this.onreadystatechange = null;
+                    //console.log("completed script: " + this.src);
+                    ps.splice(ps.indexOf(this), 1);
+
+                    // Call window.onscriptsload after last script loads
+                    if (ps.length === 0 && window.onscriptsload) {
+                        window.onscriptsload();
+                    }
+                }
+            }
+        };
+        // In-order script execution tricks
+        if (util.Engine.trident) {
+            // For IE wait until readyState is 'loaded' before
+            // appending it which will trigger execution
+            // http://wiki.whatwg.org/wiki/Dynamic_Script_Execution_Order
+            ls.push(script);
+        } else {
+            // For webkit and firefox set async=false and append now
+            // https://developer.mozilla.org/en-US/docs/HTML/Element/script
+            script.async = false;
+            head.appendChild(script);
+        }
+        ps.push(script);
+    }
+}
+
+// Set browser engine versions. Based on mootools.
+util.Features = {xpath: !!(document.evaluate), air: !!(window.runtime), query: !!(document.querySelector)};
+
+util.Engine = {
+    // Version detection break in Opera 11.60 (errors on arguments.callee.caller reference)
+    //'presto': (function() {
+    //         return (!window.opera) ? false : ((arguments.callee.caller) ? 960 : ((document.getElementsByClassName) ? 950 : 925)); }()),
+    'presto': (function() { return (!window.opera) ? false : true; }()),
+
+    'trident': (function() {
+            return (!window.ActiveXObject) ? false : ((window.XMLHttpRequest) ? ((document.querySelectorAll) ? 6 : 5) : 4); }()),
+    'webkit': (function() {
+            try { return (navigator.taintEnabled) ? false : ((util.Features.xpath) ? ((util.Features.query) ? 525 : 420) : 419); } catch (e) { return false; } }()),
+    //'webkit': (function() {
+    //        return ((typeof navigator.taintEnabled !== "unknown") && navigator.taintEnabled) ? false : ((util.Features.xpath) ? ((util.Features.query) ? 525 : 420) : 419); }()),
+    'gecko': (function() {
+            return (!document.getBoxObjectFor && window.mozInnerScreenX == null) ? false : ((document.getElementsByClassName) ? 19 : 18); }())
+};
+if (util.Engine.webkit) {
+    // Extract actual webkit version if available
+    util.Engine.webkit = (function(v) {
+            var re = new RegExp('WebKit/([0-9\.]*) ');
+            v = (navigator.userAgent.match(re) || ['', v])[1];
+            return parseFloat(v, 10);
+        })(util.Engine.webkit);
+}
+
+
+//QZ 测速
+//
+
+window.QZFL = window.QZFL || {};
+QZFL.pingSender = function(url, t, opts) {
+    var _s = QZFL.pingSender,
+        iid, img;
+    if (!url) {
+        return;
+    }
+    opts = opts || {};
+    iid = "sndImg_" + _s._sndCount++;
+    img = _s._sndPool[iid] = new Image();
+    img.iid = iid;
+    img.onload = img.onerror = img.ontimeout = (function(t) {
+        return function(evt) {
+            evt = evt || window.event || {
+                type: 'timeout'
+            };
+            void(typeof(opts[evt.type]) == 'function' ? setTimeout((function(et, ti) {
+                return function() {
+                    opts[et]({
+                        'type': et,
+                        'duration': ((new Date()).getTime() - ti)
+                    });
+                };
+            })(evt.type, t._s_), 0) : 0);
+            QZFL.pingSender._clearFn(evt, t);
+        };
+    })(img);
+    (typeof(opts.timeout) == 'function') && setTimeout(function() {
+        img.ontimeout && img.ontimeout({
+            type: 'timeout'
+        });
+    }, (typeof(opts.timeoutValue) == 'number' ? Math.max(100, opts.timeoutValue) : 5000));
+    void((typeof(t) == 'number') ? setTimeout(function() {
+        img._s_ = (new Date()).getTime();
+        img.src = url;
+    }, (t = Math.max(0, t))) : (img.src = url));
+};
+QZFL.pingSender._sndPool = {};
+QZFL.pingSender._sndCount = 0;
+QZFL.pingSender._clearFn = function(evt, ref) {
+    var _s = QZFL.pingSender;
+    if (ref) {
+        _s._sndPool[ref.iid] = ref.onload = ref.onerror = ref.ontimeout = ref._s_ = null;
+        delete _s._sndPool[ref.iid];
+        _s._sndCount--;
+        ref = null;
+    }
+};
+
+if (typeof(window.TCISD) == "undefined") {
+    window.TCISD = {};
+}
+TCISD.pv = function(sDomain, path, opts) {
+    setTimeout(function() {
+        TCISD.pv.send(sDomain, path, opts);
+    }, 0);
+};
+(function() {
+    var items = [],
+        timer = null,
+        unloadHandler, noDelay = false;
+    var pvSender = {
+        send: function(domain, url, rDomain, rUrl) {
+            items.push({
+                dm: domain,
+                url: url,
+                rdm: rDomain || "",
+                rurl: rUrl || ""
+            });
+            if (!timer) {
+                timer = setTimeout(pvSender.doSend, 5000);
+            }
+            if (!unloadHandler) {
+                unloadHandler = pvSender.onUnload;
+                if (window.attachEvent) {
+                    window.attachEvent("onbeforeunload", unloadHandler);
+                    window.attachEvent("onunload", unloadHandler);
+                } else if (window.addEventListener) {
+                    window.addEventListener("beforeunload", unloadHandler, false);
+                    window.addEventListener("unload", unloadHandler, false);
+                }
+            }
+        },
+        onUnload: function() {
+            noDelay = true;
+            pvSender.doSend();
+            setTimeout(function() {}, 1000);
+        },
+        doSend: function() {
+            timer = null;
+            if (items.length) {
+                var url;
+                for (var i = 0; i < items.length; i++) {
+                    url = pvSender.getUrl(items.slice(0, items.length - i));
+                    if (url.length < 2000) {
+                        break;
+                    }
+                }
+                items = items.slice(Math.max(items.length - i, 1));
+                QZFL.pingSender(url);
+                if (i > 0) {
+                    noDelay ? pvSender.doSend() : (timer = setTimeout(pvSender.doSend, 5000));
+                }
+            }
+        },
+        getUrl: function(list) {
+            var item = list[0];
+            var data = {
+                dm: escape(item.dm),
+                url: escape(item.url),
+                rdm: escape(item.rdm),
+                rurl: escape(item.rurl),
+                pgv_pvid: pvSender.getId(),
+                sds: Math.random()
+            };
+            var ext = [];
+            for (var i = 1; i < list.length; i++) {
+                var p = list[i];
+                ext.push([escape(p.dm), escape(p.url), escape(p.rdm), escape(p.rurl)].join(":"));
+            }
+            if (ext.length) {
+                data.ex_dm = ext.join(";")
+            }
+            var param = [];
+            for (var p in data) {
+                param.push(p + "=" + data[p]);
+            }
+            var url = [TCISD.pv.config.webServerInterfaceURL, "?cc=-&ct=-&java=1&lang=-&pf=-&scl=-&scr=-&tt=-&tz=-8&vs=3.3&flash=&", param.join("&")].join("");
+            return url;
+        },
+        getId: function() {
+            var t, d, h, f;
+            t = document.cookie.match(TCISD.pv._cookieP);
+            if (t && t.length && t.length > 1) {
+                d = t[1];
+            } else {
+                d = (Math.round(Math.random() * 2147483647) * (new Date().getUTCMilliseconds())) % 10000000000;
+                document.cookie = "pgv_pvid=" + d + "; path=/; domain=qq.com; expires=Sun, 18 Jan 2038 00:00:00 GMT;";
+            }
+            h = document.cookie.match(TCISD.pv._cookieSSID);
+            if (!h) {
+                f = (Math.round(Math.random() * 2147483647) * (new Date().getUTCMilliseconds())) % 10000000000;
+                document.cookie = "pgv_info=ssid=s" + f + "; path=/; domain=qq.com;";
+            }
+            return d;
+        }
+    };
+    TCISD.pv.send = function(sDomain, path, opts) {
+        sDomain = sDomain || location.hostname || "-";
+        path = path || location.pathname;
+        opts = opts || {};
+        opts.referURL = opts.referURL || document.referrer;
+        var t, d, r;
+        t = opts.referURL.split(TCISD.pv._urlSpliter);
+        t = t[0];
+        t = t.split("/");
+        d = t[2] || "-";
+        r = "/" + t.slice(3).join("/");
+        opts.referDomain = opts.referDomain || d;
+        opts.referPath = opts.referPath || r;
+        pvSender.send(sDomain, path, opts.referDomain, opts.referPath);
+    };
+})();
+TCISD.pv._urlSpliter = /[\?\#]/;
+TCISD.pv._cookieP = /(?:^|;+|\s+)pgv_pvid=([^;]*)/i;
+TCISD.pv._cookieSSID = /(?:^|;+|\s+)pgv_info=([^;]*)/i;
+TCISD.pv.config = {
+    webServerInterfaceURL: "http://pingfore.qq.com/pingd"
+};
+window.TCISD = window.TCISD || {};
+TCISD.createTimeStat = function(statName, flagArr, standardData) {
+    var _s = TCISD.TimeStat,
+        t, instance;
+    flagArr = flagArr || _s.config.defaultFlagArray;
+    t = flagArr.join("_");
+    statName = statName || t;
+    if (instance = _s._instances[statName]) {
+        return instance;
+    } else {
+        return (new _s(statName, t, standardData));
+    }
+};
+TCISD.markTime = function(timeStampSeq, statName, flagArr, timeObj) {
+    var ins = TCISD.createTimeStat(statName, flagArr);
+    ins.mark(timeStampSeq, timeObj);
+    return ins;
+};
+TCISD.TimeStat = function(statName, flags, standardData) {
+    var _s = TCISD.TimeStat;
+    this.sName = statName;
+    this.flagStr = flags;
+    this.timeStamps = [null];
+    this.zero = _s.config.zero;
+    if (standardData) {
+        this.standard = standardData;
+    }
+    _s._instances[statName] = this;
+    _s._count++;
+};
+TCISD.TimeStat.prototype.getData = function(seq) {
+    var r = {},
+        t, d;
+    if (seq && (t = this.timeStamps[seq])) {
+        d = new Date();
+        d.setTime(this.zero.getTime());
+        r.zero = d;
+        d = new Date();
+        d.setTime(t.getTime());
+        r.time = d;
+        r.duration = t - this.zero;
+        if (this.standard && (d = this.standard.timeStamps[seq])) {
+            r.delayRate = (r.duration - d) / d;
+        }
+    } else {
+        r.timeStamps = TCISD.TimeStat._cloneData(this.timeStamps);
+    }
+    return r;
+};
+TCISD.TimeStat._cloneData = function(obj) {
+    if ((typeof obj) == 'object') {
+        var res = obj.sort ? [] : {};
+        for (var i in obj) {
+            res[i] = TCISD.TimeStat._cloneData(obj[i]);
+        }
+        return res;
+    } else if ((typeof obj) == 'function') {
+        return Object;
+    }
+    return obj;
+};
+TCISD.TimeStat.prototype.mark = function(seq, timeObj) {
+    seq = seq || this.timeStamps.length;
+    this.timeStamps[Math.min(Math.abs(seq), 99)] = timeObj || (new Date());
+    return this;
+};
+TCISD.TimeStat.prototype.merge = function(baseTimeStat) {
+    var x, y;
+    if (baseTimeStat && (typeof(baseTimeStat.timeStamps) == "object") && baseTimeStat.timeStamps.length) {
+        this.timeStamps = baseTimeStat.timeStamps.concat(this.timeStamps.slice(1));
+    } else {
+        return this;
+    }
+    if (baseTimeStat.standard && (x = baseTimeStat.standard.timeStamps)) {
+        if (!this.standard) {
+            this.standard = {};
+        }
+        if (!(y = this.standard.timeStamps)) {
+            y = this.standard.timeStamps = {};
+        }
+        for (var key in x) {
+            if (!y[key]) {
+                y[key] = x[key];
+            }
+        }
+    }
+    return this;
+};
+TCISD.TimeStat.prototype.setZero = function(od) {
+    if (typeof(od) != "object" || typeof(od.getTime) != "function") {
+        od = new Date();
+    }
+    this.zero = od;
+    return this;
+};
+TCISD.TimeStat.prototype.report = function(baseURL) {
+    var _s = TCISD.TimeStat,
+        url = [],
+        t, z;
+    if ((t = this.timeStamps).length < 1) {
+        return this;
+    }
+    url.push((baseURL && baseURL.split("?")[0]) || _s.config.webServerInterfaceURL);
+    url.push("?");
+    z = this.zero;
+    for (var i = 1, len = t.length; i < len; ++i) {
+        if (t[i]) {
+            url.push(i, "=", t[i].getTime ? (t[i] - z) : t[i], "&");
+        }
+    }
+    t = this.flagStr.split("_");
+    for (var i = 0, len = _s.config.maxFlagArrayLength; i < len; ++i) {
+        if (t[i]) {
+            url.push("flag", i + 1, "=", t[i], "&");
+        }
+    }
+    if (_s.pluginList && _s.pluginList.length) {
+        for (var i = 0, len = _s.pluginList.length; i < len; ++i) {
+            (typeof(_s.pluginList[i]) == 'function') && _s.pluginList[i](url);
+        }
+    }
+    url.push("sds=", Math.random());
+    QZFL.pingSender && QZFL.pingSender(url.join(""));
+    return this;
+};
+TCISD.TimeStat._instances = {};
+TCISD.TimeStat._count = 0;
+TCISD.TimeStat.config = {
+    webServerInterfaceURL: "http://isdspeed.qq.com/cgi-bin/r.cgi",
+    defaultFlagArray: [175, 115, 1],
+    maxFlagArrayLength: 6,
+    zero: window._s_ || (new Date())
+};
+window.TCISD = window.TCISD || {};
+TCISD.valueStat = function(statId, resultType, returnValue, opts) {
+    setTimeout(function() {
+        TCISD.valueStat.send(statId, resultType, returnValue, opts);
+    }, 0);
+};
+TCISD.valueStat.send = function(statId, resultType, returnValue, opts) {
+    var _s = TCISD.valueStat,
+        _c = _s.config,
+        t = _c.defaultParams,
+        p, url = [];
+    statId = statId || t.statId;
+    resultType = resultType || t.resultType;
+    returnValue = returnValue || t.returnValue;
+    opts = opts || t;
+    if (typeof(opts.reportRate) != "number") {
+        opts.reportRate = 1;
+    }
+    opts.reportRate = Math.round(Math.max(opts.reportRate, 1));
+    if (!opts.fixReportRateOnly && !TCISD.valueStat.config.reportAll && (opts.reportRate > 1 && (Math.random() * opts.reportRate) > 1)) {
+        return;
+    }
+    url.push((opts.reportURL || _c.webServerInterfaceURL), "?");
+    url.push("flag1=", statId, "&", "flag2=", resultType, "&", "flag3=", returnValue, "&", "1=", (TCISD.valueStat.config.reportAll ? 1 : opts.reportRate), "&", "2=", opts.duration, "&");
+    if (typeof opts.extendField != 'undefined') {
+        url.push("4=", opts.extendField, "&");
+    }
+    if (_s.pluginList && _s.pluginList.length) {
+        for (var i = 0, len = _s.pluginList.length; i < len; ++i) {
+            (typeof(_s.pluginList[i]) == 'function') && _s.pluginList[i](url);
+        }
+    }
+    url.push("sds=", Math.random());
+    QZFL.pingSender(url.join(""));
+};
+TCISD.valueStat.config = {
+    webServerInterfaceURL: "http://isdspeed.qq.com/cgi-bin/v.cgi",
+    defaultParams: {
+        statId: 1,
+        resultType: 1,
+        returnValue: 11,
+        reportRate: 1,
+        duration: 1000
+    },
+    reportAll: false
+};
+if (typeof(window.TCISD) == "undefined") {
+    window.TCISD = {};
+};
+TCISD.hotClick = TCISD.hotClick ||
+function(tag, domain, url, opt) {
+    TCISD.hotClick.send(tag, domain, url, opt);
+};
+TCISD.hotClick.send = function(tag, domain, url, opt) {
+    opt = opt || {};
+    var _s = TCISD.hotClick,
+        x = opt.x || 9999,
+        y = opt.y || 9999,
+        doc = opt.doc || document,
+        w = doc.parentWindow || doc.defaultView,
+        p = w._hotClick_params || {};
+    url = url || p.url || w.location.pathname || "-";
+    domain = domain || p.domain || w.location.hostname || "-";
+    if (!_s.isReport()) {
+        return;
+    }
+    url = [_s.config.webServerInterfaceURL, "?dm=", domain + ".hot", "&url=", escape(url), "&tt=-", "&hottag=", tag, "&hotx=", x, "&hoty=", y, "&rand=", Math.random()];
+    QZFL.pingSender(url.join(""));
+};
+TCISD.hotClick._arrSend = function(arr, doc) {
+    for (var i = 0, len = arr.length; i < len; i++) {
+        TCISD.hotClick.send(arr[i].tag, arr[i].domain, arr[i].url, {
+            doc: doc
+        });
+    }
+};
+TCISD.hotClick.click = function(event, doc) {
+    var _s = TCISD.hotClick,
+        tags = _s.getTags(QZFL.event.getTarget(event), doc);
+    _s._arrSend(tags, doc);
+};
+TCISD.hotClick.getTags = function(dom, doc) {
+    var _s = TCISD.hotClick,
+        tags = [],
+        w = doc.parentWindow || doc.defaultView,
+        rules = w._hotClick_params.rules,
+        t;
+    for (var i = 0, len = rules.length; i < len; i++) {
+        if (t = rules[i](dom)) {
+            tags.push(t);
+        }
+    }
+    return tags;
+};
+TCISD.hotClick.defaultRule = function(dom) {
+    var tag, domain, t;
+    tag = dom.getAttribute("hottag");
+    if (tag && tag.indexOf("|") > -1) {
+        t = tag.split("|");
+        tag = t[0];
+        domain = t[1];
+    }
+    if (tag) {
+        return {
+            tag: tag,
+            domain: domain
+        };
+    }
+    return null;
+};
+TCISD.hotClick.config = TCISD.hotClick.config || {
+    webServerInterfaceURL: "http://pinghot.qq.com/pingd",
+    reportRate: 1,
+    domain: null,
+    url: null
+};
+TCISD.hotClick._reportRate = typeof TCISD.hotClick._reportRate == 'undefined' ? -1 : TCISD.hotClick._reportRate;
+TCISD.hotClick.isReport = function() {
+    var _s = TCISD.hotClick,
+        rate;
+    if (_s._reportRate != -1) {
+        return _s._reportRate;
+    }
+    rate = Math.round(_s.config.reportRate);
+    if (rate > 1 && (Math.random() * rate) > 1) {
+        return (_s._reportRate = 0);
+    }
+    return (_s._reportRate = 1);
+};
+TCISD.hotClick.setConfig = function(opt) {
+    opt = opt || {};
+    var _sc = TCISD.hotClick.config,
+        doc = opt.doc || document,
+        w = doc.parentWindow || doc.defaultView;
+    if (opt.domain) {
+        w._hotClick_params.domain = opt.domain;
+    }
+    if (opt.url) {
+        w._hotClick_params.url = opt.url;
+    }
+    if (opt.reportRate) {
+        w._hotClick_params.reportRate = opt.reportRate;
+    }
+};
+TCISD.hotAddRule = function(handler, opt) {
+    opt = opt || {};
+    var _s = TCISD.hotClick,
+        doc = opt.doc || document,
+        w = doc.parentWindow || doc.defaultView;
+    if (!w._hotClick_params) {
+        return;
+    }
+    w._hotClick_params.rules.push(handler);
+    return w._hotClick_params.rules;
+};
+TCISD.hotClickWatch = function(opt) {
+    opt = opt || {};
+    var _s = TCISD.hotClick,
+        w, l, doc;
+    doc = opt.doc = opt.doc || document;
+    w = doc.parentWindow || doc.defaultView;
+    if (l = doc._hotClick_init) {
+        return;
+    }
+    l = true;
+    if (!w._hotClick_params) {
+        w._hotClick_params = {};
+        w._hotClick_params.rules = [_s.defaultRule];
+    }
+    _s.setConfig(opt);
+    w.QZFL.event.addEvent(doc, "click", _s.click, [doc]);
+};
+if (typeof(window.TCISD) == 'undefined') {
+    window.TCISD = {};
+}
+TCISD.stringStat = function(dataId, hashValue, opts) {
+    setTimeout(function() {
+        TCISD.stringStat.send(dataId, hashValue, opts);
+    }, 0);
+};
+TCISD.stringStat.send = function(dataId, hashValue, opts) {
+    var _s = TCISD.stringStat,
+        _c = _s.config,
+        t = _c.defaultParams,
+        url = [],
+        isPost = false,
+        htmlParam, sd;
+    dataId = dataId || t.dataId;
+    opts = opts || t;
+    isPost = (opts.method && opts.method == 'post') ? true : false;
+    if (typeof(hashValue) != "object") {
+        return;
+    }
+    for (var i in hashValue) {
+        if (hashValue[i].length && hashValue[i].length > 1024) {
+            hashValue[i] = hashValue[i].substring(0, 1024);
+        }
+    }
+    if (typeof(opts.reportRate) != 'number') {
+        opts.reportRate = 1;
+    }
+    opts.reportRate = Math.round(Math.max(opts.reportRate, 1));
+    if (opts.reportRate > 1 && (Math.random() * opts.reportRate) > 1) {
+        return;
+    }
+    if (isPost && QZFL.FormSender) {
+        hashValue.dataId = dataId;
+        hashValue.sds = Math.random();
+        var sd = new QZFL.FormSender(_c.webServerInterfaceURL, 'post', hashValue, 'UTF-8');
+        sd.send();
+    } else {
+        htmlParam = TCISD.stringStat.genHttpParamString(hashValue);
+        url.push(_c.webServerInterfaceURL, '?');
+        url.push('dataId=', dataId);
+        url.push('&', htmlParam, '&');
+        url.push('ted=', Math.random());
+        QZFL.pingSender(url.join(''));
+    }
+};
+TCISD.stringStat.config = {
+    webServerInterfaceURL: 'http://s.isdspeed.qq.com/cgi-bin/s.fcg',
+    defaultParams: {
+        dataId: 1,
+        reportRate: 1,
+        method: 'get'
+    }
+};
+TCISD.stringStat.genHttpParamString = function(o) {
+    var res = [];
+    for (var k in o) {
+        res.push(k + '=' + window.encodeURIComponent(o[k]));
+    }
+    return res.join('&');
+};
+
+TCISD.performanceTimeStat = function (flags, delay) {
+  setTimeout(function () {
+    var performance = window.performance || window.webkitPerformance || window.msPerformance;
+    if (!performance || !window.TCISD) {
+      return;
+    }
+    var list = [performance.timing.navigationStart, performance.timing.unloadEventStart, performance.timing.unloadEventEnd, performance.timing.redirectStart, performance.timing.redirectEnd, performance.timing.fetchStart, performance.timing.domainLookupStart, performance.timing.domainLookupEnd, performance.timing.connectStart, performance.timing.connectEnd, performance.timing.requestStart, performance.timing.responseStart, performance.timing.responseEnd, performance.timing.domLoading, performance.timing.domInteractive, performance.timing.domContentLoadedEventStart, performance.timing.domContentLoadedEventEnd, performance.timing.domComplete, performance.timing.loadEventStart, performance.timing.loadEventEnd];
+    
+    var o = new TCISD.TimeStat(null, flags.join('_')),
+        length = list.length;
+    o.zero = new Date(list[0]);
+    for (var i = 1; i < length; i++){
+      o.mark(i, new Date(list[i] || list[0]));
+    }
+    o.report();
+    
+  }, delay || 0);
+};
+
+
+var qcloud_oz_stat_page_list={
+    "/app_manage.php":{ie:[7721,125,1],chrome:[7721,125,18],firefox:[7721,125,19]},
+    "/LoginServerInfo.php":{ie:[7721,125,2],chrome:[7721,125,20],firefox:[7721,125,21]},
+    "/cvm/CVMList.php":{ie:[7721,125,3],chrome:[7721,125,22],firefox:[7721,125,23]},
+    "/Domain/DomainList.php":{ie:[7721,125,4],chrome:[7721,125,24],firefox:[7721,125,25]},
+    "/webservice/viewMonitorData.php":{ie:[7721,125,5],chrome:[7721,125,5],firefox:[7721,125,5]},
+    "/Domain/DomainConfig.php":{ie:[7721,125,6],chrome:[7721,125,26],firefox:[7721,125,27]},
+    "/cdn_upload.php":{ie:[7721,125,7],chrome:[7721,125,28],firefox:[7721,125,29]},
+    "/app_monitor.php":{ie:[7721,125,8],chrome:[7721,125,30],firefox:[7721,125,31]},
+    "/Domain/CVMDomainBind.php":{ie:[7721,125,9],chrome:[7721,125,32],firefox:[7721,125,33]},
+    "/webservice/webserviceManage.php":{ie:[7721,125,10],chrome:[7721,125,34],firefox:[7721,125,35]},
+    "/cdb_list.php":{ie:[7721,125,11],chrome:[7721,125,36],firefox:[7721,125,37]},
+    "/Domain/IpDomainBind.php":{ie:[7721,125,12],chrome:[7721,125,38],firefox:[7721,125,39]},
+    "/app_access.php":{ie:[7721,125,13],chrome:[7721,125,40],firefox:[7721,125,41]},
+    "/ws_code_manage.php":{ie:[7721,125,14],chrome:[7721,125,42],firefox:[7721,125,43]},
+    "/shoppingcart.php":{ie:[7721,125,15],chrome:[7721,125,44],firefox:[7721,125,45]},
+    "/NameService/NameServiceIpList.php":{ie:[7721,125,16],chrome:[7721,125,46],firefox:[7721,125,47]},
+    "/cvm/ReturnCVMConfirm.php":{ie:[7721,125,17],chrome:[7721,125,48],firefox:[7721,125,49]}
+};
+
+$(window).load(function() {
+    var pathname=window.location.pathname,
+        bType= !!($.browser.msie) ?"ie":(!!($.browser.webkit) && window.navigator.userAgent.toLowerCase().indexOf('chrome')>-1)?"chrome":!!($.browser.mozilla)?"firefox":"";
+    if(pathname && !!bType && qcloud_oz_stat_page_list.hasOwnProperty(pathname)){
+        setTimeout(function() {
+            TCISD.performanceTimeStat(qcloud_oz_stat_page_list[pathname][bType]);
+        }, 10);
+    }
+});
+
+openCloudX._initStat=function(){
+    var pvf=function(){
+        try{
+            //TCISD.pv('yun.qq.com');
+        }catch(e){
+            setTimeout(pvf,1);
+        }
+    };
+    if(!!JS_ONLINE_FLAG){
+        pvf();
+    }
+};
+
+
+//业务
+//
+
+
+/**
+ * [getACSRFToken description]
+ * 
+ * @return {[type]} [description]
+ */
+openCloudX.util.getACSRFToken=function(){
+    var skey=$.cookie("skey");
+    if(!skey){
+        return ;
+    }
+    var hash = 5381;
+    for(var i = 0, len = skey.length; i < len; ++i){
+        hash += (hash << 5) + skey.charCodeAt(i);
+    }
+    return hash & 0x7fffffff;
+};
+
+/**
+ * 公用查询流程接口 opt:{taskId:"",taskType:"",moduleId:""}
+ */
+openCloudX.util.queryFlowResult=function(opt){
+    var taskId=opt.taskId,
+        taskType=opt.taskType,
+        moduleId=opt.moduleId,
+        fnSuc=opt.fnSuc,
+        cFnErr=opt.cFnErr,
+        fnErr=opt.fnErr;
+    if(!taskId || !taskType || !moduleId){
+        return;
+    }
+    $.getJSON('/ajax/GetFlowStatusByTaskId.php', {taskId:taskId,taskType:taskType,moduleId:moduleId}, function(ret, textStatus) {
+        if(ret.retcode==0){
+            if(ret.data.continuousFaile==1){
+                cFnErr && cFnErr();
+                openCloudX.util.showMsgBox({
+                    type : "info",
+                    text : '连续失败超过3次，请联系企业<a href="'+OPEN_DOMAIN+'/support" target="_blank">QQ(800013811)</a>'
+                });
+            }else{
+                if(ret.data.status==0){
+                    fnSuc && fnSuc(ret.data);
+                }else if(ret.data.status==2){
+                    setTimeout(function(){
+                        openCloudX.util.queryFlowResult(opt);
+                    },2000);
+                }else if(ret.data.status==1){
+                    fnErr && fnErr(ret.data);
+                }else{
+                    openCloudX.util.showMsgBox({type:"error",text:"系统繁忙，请稍后重试（status:"+ret.data.status+")"});
+                }
+            }
+        }else{
+            openCloudX.util.showMsgBox({type:"error",text:"系统繁忙，请稍后重试（code:"+ret.retcode+")"});
+        }
+    });
+};
+
+
+/*
+ * 判断页面是不是被嵌在iframe/frame中（白名单*.qq.com），对header footer进行处理
+ */
+openCloudX._changeHeaderFooter=function(){
+    try{
+        var isInFrame=( top!= window || ( self.frameElement!=undefined && self.frameElement.tagName=="IFRAME"));
+        if(isInFrame){
+            var dm=(document.referrer.match(/:\/\/([^:\/]+)/i)||['', ''])[1];
+            var rg=/(^|\.)qcloud\.com$/i;
+            if(rg.test(dm)){
+                $("#header_div").css("display","none");
+                $("#footer_div").css("display","none");
+            }else{
+                top.location.href=self.location.href;
+            }
+        }
+    }catch(e){
+
+    }
+};

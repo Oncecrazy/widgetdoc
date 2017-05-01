@@ -19,7 +19,23 @@
     <div class="row">
         <h2>编辑器配置</h2>
         <p>主要使用到了jscs，jshint，sass-lint，csslint 四个规范检查插件，
-            JsFormat（它其实用的是jsbeautifier），CSScomb两个格式化的插件。</p>
+            JsFormat，CSScomb两个格式化的插件。</p>
+        <p>JSHint 是检查 JavaScript 代码的好工具，支持很多编辑器和 IDE 。</p>
+        <p>Sublime 上要使用 JSHint 可以安装：SublimeLinter-JSHint 插件。注意安装这个插件前需要先安装 SublimeLinter 以及 jshint 命令本身，更多信息见 SublimeLinter-JSHint 安装说明。简单地说就是：</p>
+        <ul>
+            <li>1. 安装 jshint 命令：<code>npm install -g jshint</code></li>
+            <li>2. Package Control 安装：SublimeLinter ，重启 sublime</li>
+            <li>3. Package Control 安装：SublimeLinter-jshint</li>
+        </ul>
+        <p>注：JavaScript 有许多 linter 工具，如 <a href="http://www.jslint.com/">JSLint</a> 、<a href="http://jshint.com/">JSHint</a> 和 <a href="http://eslint.org/">ESLint</a> 。JSLint 是 JavaScript 大师 Douglas Crockford 创作和维护的。JSHint 是 JSLint 的 fork 版，由社区维护，更可扩展、更灵活，使用者也更多，Mozilla、jQuery 都在用 JSHint 。ESLint 是另一位 JavaScript 专家  Nicholas C. Zakas 主导的社区项目。</p>
+        <p>注：SublimeLinter 是 Sublime 上 linter 类插件的 framework，所以很多 linter 都依赖这个插件。Package Control: Install Package 中输入 SublimeLinter- 会列出大量 SublimeLinter- 开头的 linter 插件。</p>
+        <p>代码中没有错误还不够，好的代码需要遵循一致的代码风格（代码不仅仅给机器用，还是给人看不是吗？）。<a href="http://jscs.info/">JSCS</a> 是检查代码风格的工具，可以配置很多代码风格规则，例如空格的要求、括号的位置等，还可以直接使用  jQuery、Google 等代码风格方案。</p>
+        <p>Sublime 上需要安装 SublimeLinter-JSCS 。这个插件同样依赖 SublimeLinter 以及 jscs 命令本身。简单安装说明如下：</p>
+        <ul>
+            <li>1. 安装 jscs 命令：<code>npm install jscs -g</code></li>
+            <li>2. Package Control 安装：SublimeLinter ，重启 sublime</li>
+            <li>3. Package Control 安装：SublimeLinter-jscs</li>
+        </ul>
         <div class="row">
             <h3>sublime3插件</h3>
             <ol>
@@ -99,8 +115,7 @@
                             <p>点击右下角的Spaces->Convert Indentation to Spaces可以将文件中的所有tab转换成空格</p>
                         </li>
                         <li><code>JSFormat</code> 自身
-                            <p>Preferences->Package Settings->JSFormat->Setting-User，下载配置文件覆盖</p>
-                            <p>配置好后格式化的默认快捷键是 <code>ctrl+alt+f</code></p>
+                            <p>Preferences->Package Settings->JSFormat->Setting-User，下载<a href="http://alloyteam.github.io/CodeGuide/jsformat_setting_user.json">配置文件</a>覆盖，配置好后格式化的默认快捷键是 <code>Ctrl + Alt + F</code>。</p>
                         </li>
                         <li><code>SublimeLinter</code>
                             <p>右键->SublimeLinter->Lint Mode，有4种检查模式，建议选择 <code>Load/save</code></p>
@@ -112,8 +127,7 @@
                             <p>右键->SublimeLinter可以看到所有的快捷键，其中 ctrl+k, a 可以列出所有错误</p>
                         </li>
                         <li><code>CSScomb</code>
-                            <p>Preferences->Package Settings->CSScomb->Setting-User，下载配置文件覆盖</p>
-                            <p>配置好后格式化的默认快捷键是 <code>ctrl+shift+c</code></p>
+                            <p>Preferences->Package Settings->CSScomb->Setting-User，下载<a href="http://alloyteam.github.io/CodeGuide/csscomb_setting_user.json">配置文件</a>覆盖，配置好后格式化的默认快捷键是 <code>Ctrl + Shift + C</code>。</p>
                         </li>
                     </ul>
                </li>
